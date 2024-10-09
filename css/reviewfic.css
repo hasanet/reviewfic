@@ -1,0 +1,66 @@
+.reviewfic-columns {
+    display: grid;
+    gap: 20px;
+    margin: 20px auto;
+}
+
+.reviewfic-columns-4 {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.reviewfic-columns-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.reviewfic-columns-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.reviewfic-columns-1 {
+    grid-template-columns: 1fr;
+}
+
+.reviewfic-columns i.fa-star {
+    color: #FFC700;
+}
+
+.reviewfic-item {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 28px;
+    background: #fff;
+}
+
+.reviewfic-item h3 {
+    margin-top: 0;
+}
+
+.reviewfic-item p.client {
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.reviewfic-item p.client span.company {
+    display: block;
+    font-size: 80%;
+    font-weight: normal;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+    .reviewfic-columns-4,
+    .reviewfic-columns-3 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+
+    .reviewfic-columns-4,
+    .reviewfic-columns-3,
+    .reviewfic-columns-2,
+    .reviewfic-columns-1 {
+        grid-template-columns: 1fr;
+    }
+}
