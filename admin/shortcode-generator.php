@@ -1,8 +1,10 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 // Add a submenu for the shortcode generator under "Reviews"
 function reviewfic_add_shortcode_submenu() {
     add_submenu_page(
-        'edit.php?post_type=reviews', // Parent slug (Reviews menu)
+        'edit.php?post_type=reviewfic_reviews', // Parent slug (Reviews menu)
         'Shortcode Generator',        // Page title
         'Shortcode Generator',        // Menu title
         'manage_options',             // Capability
@@ -14,11 +16,6 @@ add_action('admin_menu', 'reviewfic_add_shortcode_submenu');
 
 // Display the shortcode generator page
 function reviewfic_shortcode_generator_page() {
-    // Fetch all review categories
-    $categories = get_terms(array(
-        'taxonomy' => 'review_category',
-        'hide_empty' => false,
-    ));
     ?>
     <div class="wrap">
         <h1>Reviewfic Shortcode Generator</h1>
@@ -29,6 +26,7 @@ function reviewfic_shortcode_generator_page() {
             <select id="reviewfic-category" name="reviewfic-category">
                 <option value="all">-Select category-</option>
                 <?php
+                $categories = get_terms(array('taxonomy' => 'reviewfic_category', 'hide_empty' => false));
                 foreach ($categories as $category) {
                     echo '<option value="' . esc_attr($category->slug) . '">' . esc_html($category->name) . '</option>';
                 }
@@ -52,17 +50,5 @@ function reviewfic_shortcode_generator_page() {
         <h3>Generated Shortcode:</h3>
         <input type="text" id="reviewfic-shortcode-result" readonly style="width: 100%;" />
     </div>
-
-    <script type="text/javascript">
-    document.getElementById('reviewfic-generate-shortcode').addEventListener('click', function() {
-        var category = document.getElementById('reviewfic-category').value;
-        var columns = document.getElementById('reviewfic-columns').value;
-        var maxItems = document.getElementById('reviewfic-max-items').value;
-
-        var shortcode = '[reviewfic category="' + category + '" columns="' + columns + '" max_items="' + (maxItems !== '' ? maxItems : 'Unlimited') + '"]';
-        
-        document.getElementById('reviewfic-shortcode-result').value = shortcode;
-    });
-    </script>
     <?php
 }

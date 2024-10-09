@@ -10,26 +10,53 @@ Tested up to: 6.6
 License: GPLv2 or later
 */
 
-// Add CSS for reviews
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+// Enqueue Frontend Scripts and Styles
 function reviewfic_enqueue_styles() {
-    // Enqueue Font Awesome with a specific version
-    wp_enqueue_style( 
-        'font-awesome', 
-        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', 
-        array(),  // Dependencies (none in this case)
-        '5.15.4'  // Version number
-    );
-    
-    // Enqueue custom stylesheet with dynamic version based on file modification time to avoid caching issues
-    $css_file = plugin_dir_path(__FILE__) . 'css/reviewfic.css';
+    $css_file = plugin_dir_path(__FILE__) . 'assets/css/reviewfic.css';
     wp_enqueue_style( 
         'reviewfic-style', 
-        plugin_dir_url(__FILE__) . 'css/reviewfic.css', 
-        array(),  // Dependencies (none in this case)
-        filemtime($css_file)  // Use file modification time as the version number
+        plugin_dir_url(__FILE__) . 'assets/css/reviewfic.css', 
+        array(),  
+        filemtime($css_file)  // Version based on file modification time
     );
 }
 add_action('wp_enqueue_scripts', 'reviewfic_enqueue_styles');
+
+
+// Enqueue Admin Scripts and Styles (if needed for admin pages)
+function reviewfic_admin_enqueue($hook) {
+    // Now checking for the correct hook value based on the var_dump result
+    if ('reviewfic_reviews_page_reviewfic_shortcode_generator' !== $hook) {
+        return;
+    }
+
+    // Enqueue custom JavaScript for shortcode generator in the admin
+    $js_file = plugin_dir_path(__FILE__) . 'assets/js/reviewfic.js';
+    if (file_exists($js_file)) {
+        wp_enqueue_script(
+            'reviewfic-js',
+            plugin_dir_url(__FILE__) . 'assets/js/reviewfic.js',
+            array(), 
+            filemtime($js_file), 
+            true 
+        );
+    }
+
+    // Enqueue custom admin CSS if needed
+    $admin_css_file = plugin_dir_path(__FILE__) . 'assets/css/reviewfic-admin.css';
+    if (file_exists($admin_css_file)) {
+        wp_enqueue_style( 
+            'reviewfic-admin-style', 
+            plugin_dir_url(__FILE__) . 'assets/css/reviewfic-admin.css', 
+            array(),  
+            filemtime($admin_css_file)  
+        );
+    }
+}
+add_action('admin_enqueue_scripts', 'reviewfic_admin_enqueue');
+
 
 // Include admin files
 require_once plugin_dir_path(__FILE__) . 'admin/post-types-taxonomy.php';
