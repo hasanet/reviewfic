@@ -47,6 +47,15 @@
     font-weight: normal;
 }
 
+.reviewfic-item svg {
+    width: 20px;
+    height: 20px;
+    fill: #FFD700;
+    /* Gold color for the stars */
+}
+
+
+/* RESPONSIVE */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
 
     .reviewfic-columns-4,

@@ -1,36 +1,27 @@
 <?php
-// Register Custom Post Type
-function reviewfic_custom_post_type() {
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+// Register custom post type for reviews
+function reviewfic_register_post_type() {
     $args = array(
-        'label' => 'Reviews',
         'public' => true,
-        'supports' => array('title', 'editor'),
-        'show_in_menu' => true,
+        'label'  => 'Reviews',
+        'supports' => array('title', 'editor', 'custom-fields'),
         'has_archive' => true,
-        'rewrite' => array('slug' => 'reviews'),
-        'menu_position' => 5,
-        'menu_icon' => 'dashicons-format-chat',
+        'rewrite' => array('slug' => 'reviewfic_reviews'),
     );
-    register_post_type('reviews', $args);
+    register_post_type('reviewfic_reviews', $args);
 }
+add_action('init', 'reviewfic_register_post_type');
 
-// Register Custom Taxonomy
+// Register custom taxonomy for reviews
 function reviewfic_register_taxonomy() {
-    register_taxonomy(
-        'review_category',
-        'reviews',
-        array(
-            'label' => 'Review Categories',
-            'hierarchical' => true,
-            'public' => true,
-            'rewrite' => array('slug' => 'review-category'),
-        )
+    $args = array(
+        'label' => 'Review Categories',
+        'hierarchical' => true,
+        'public' => true,
+        'rewrite' => array('slug' => 'reviewfic-category'),
     );
+    register_taxonomy('reviewfic_category', 'reviewfic_reviews', $args);
 }
-
-// Hook both custom post type and taxonomy into 'init'
-function reviewfic_init() {
-    reviewfic_custom_post_type();
-    reviewfic_register_taxonomy();
-}
-add_action('init', 'reviewfic_init');
+add_action('init', 'reviewfic_register_taxonomy');
