@@ -1,0 +1,34 @@
+name: Deploy to Live WordPress Site
+
+on:
+  push:
+    branches:
+      - new-updates   # fires every time Claude pushes an update
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy plugin via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server:   ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps                          # use 'ftp' if your host doesn't support FTPS
+          port:     21
+          local-dir:  ./                          # plugin root in the repo
+          server-dir: ${{ secrets.FTP_PLUGIN_PATH }}   # e.g. /public_html/wp-content/plugins/reviewfic/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            deploy.sh
+            watch.sh
+            setup.sh
+            README.md
+            *.zip
