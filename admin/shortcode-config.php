@@ -5,13 +5,13 @@ if (!defined('ABSPATH')) exit;
 function reviewfic_register_config_cpt() {
     register_post_type('reviewfic_config', array(
         'labels' => array(
-            'name'          => 'Shortcodes',
+            'name'          => 'Shortcode Generator',
             'singular_name' => 'Shortcode',
             'add_new'       => 'Create New',
             'add_new_item'  => 'Create New Shortcode',
             'edit_item'     => 'Edit Shortcode',
-            'all_items'     => 'All Shortcodes',
-            'menu_name'     => 'Shortcodes',
+            'all_items'     => 'Shortcode Generator',
+            'menu_name'     => 'Shortcode Generator',
         ),
         'public'          => false,
         'show_ui'         => true,
@@ -84,11 +84,75 @@ function rwf_config_options_cb($post) {
     $source_terms = get_terms(array('taxonomy' => 'reviewfic_source',   'hide_empty' => false));
 
     $templates = array(
-        '1' => array('label' => 'Classic',  'desc' => 'Stars → title → content → client row'),
-        '2' => array('label' => 'Quote',    'desc' => 'Client at top, large italic quote, orange border'),
-        '3' => array('label' => 'Minimal',  'desc' => 'Borderless, orange top line, clean typography'),
-        '4' => array('label' => 'Dark',     'desc' => 'Dark card, white text, gold stars'),
-        '5' => array('label' => 'Centered', 'desc' => 'Everything centered, large avatar at top'),
+        '1' => array(
+            'label' => 'Classic',
+            'desc'  => 'Stars → title → content → client row',
+            'cls'   => 'rwf-mp-1',
+            'html'  => '<div class="rwf-mp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <div class="rwf-mp-line"></div>
+                        <div class="rwf-mp-line short"></div>
+                        <div class="rwf-mp-avatar-row">
+                            <div class="rwf-mp-circle"></div>
+                            <div class="rwf-mp-lines">
+                                <div class="rwf-mp-line short"></div>
+                                <div class="rwf-mp-line xshort"></div>
+                            </div>
+                        </div>',
+        ),
+        '2' => array(
+            'label' => 'Quote',
+            'desc'  => 'Client at top, large italic quote, orange left border',
+            'cls'   => 'rwf-mp-2',
+            'html'  => '<div class="rwf-mp-avatar-row">
+                            <div class="rwf-mp-circle"></div>
+                            <div class="rwf-mp-lines">
+                                <div class="rwf-mp-line short"></div>
+                                <div class="rwf-mp-line xshort"></div>
+                            </div>
+                        </div>
+                        <div class="rwf-mp-quote">&ldquo;</div>
+                        <div class="rwf-mp-line"></div>
+                        <div class="rwf-mp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>',
+        ),
+        '3' => array(
+            'label' => 'Minimal',
+            'desc'  => 'Borderless card with orange top accent line',
+            'cls'   => 'rwf-mp-3',
+            'html'  => '<div class="rwf-mp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <div class="rwf-mp-line"></div>
+                        <div class="rwf-mp-line short"></div>
+                        <div class="rwf-mp-avatar-row">
+                            <div class="rwf-mp-circle"></div>
+                            <div class="rwf-mp-lines">
+                                <div class="rwf-mp-line short"></div>
+                            </div>
+                        </div>',
+        ),
+        '4' => array(
+            'label' => 'Dark',
+            'desc'  => 'Dark card, white text, gold stars',
+            'cls'   => 'rwf-mp-4',
+            'html'  => '<div class="rwf-mp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <div class="rwf-mp-line light"></div>
+                        <div class="rwf-mp-line light short"></div>
+                        <div class="rwf-mp-avatar-row">
+                            <div class="rwf-mp-circle orange-ring"></div>
+                            <div class="rwf-mp-lines">
+                                <div class="rwf-mp-line light short"></div>
+                                <div class="rwf-mp-line light xshort"></div>
+                            </div>
+                        </div>',
+        ),
+        '5' => array(
+            'label' => 'Centered',
+            'desc'  => 'Everything centered, large avatar at top',
+            'cls'   => 'rwf-mp-5',
+            'html'  => '<div class="rwf-mp-circle centered"></div>
+                        <div class="rwf-mp-line centered short"></div>
+                        <div class="rwf-mp-line centered xshort"></div>
+                        <div class="rwf-mp-stars centered">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <div class="rwf-mp-line centered"></div>',
+        ),
     );
     ?>
     <div class="rwf-config-wrap">
@@ -102,6 +166,9 @@ function rwf_config_options_cb($post) {
                 <?php foreach ($templates as $val => $tpl) : ?>
                 <div class="rwf-tpl-row <?php echo $template === $val ? 'active' : ''; ?>" data-value="<?php echo esc_attr($val); ?>">
                     <div class="rwf-tpl-num"><?php echo esc_html($val); ?></div>
+                    <div class="rwf-tpl-mini-preview <?php echo esc_attr($tpl['cls']); ?>">
+                        <?php echo $tpl['html']; ?>
+                    </div>
                     <div class="rwf-tpl-info">
                         <strong><?php echo esc_html($tpl['label']); ?></strong>
                         <span><?php echo esc_html($tpl['desc']); ?></span>

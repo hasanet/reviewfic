@@ -1078,3 +1078,107 @@
 
 /* Hidden utility */
 .rwf-hidden { display: none !important; }
+
+/* ── Template row mini previews ──────────────────────── */
+.rwf-tpl-mini-preview {
+    width: 72px;
+    height: 64px;
+    border-radius: 5px;
+    border: 1px solid #e5e7eb;
+    padding: 7px 6px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Template 2 — Quote */
+.rwf-mp-2 {
+    border-left: 3px solid var(--rwf-primary);
+    background: #fffbf7;
+}
+
+/* Template 3 — Minimal */
+.rwf-mp-3 {
+    border-top: 2px solid var(--rwf-primary);
+    border-radius: 0;
+}
+
+/* Template 4 — Dark */
+.rwf-mp-4 {
+    background: #111827;
+    border-color: #374151;
+}
+
+/* Template 5 — Centered */
+.rwf-mp-5 {
+    align-items: center;
+}
+
+/* Stars */
+.rwf-mp-stars {
+    font-size: 7px;
+    color: #f59e0b;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+.rwf-mp-stars.centered { text-align: center; }
+
+/* Lines */
+.rwf-mp-line {
+    height: 3px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    width: 100%;
+}
+.rwf-mp-line.short  { width: 65%; }
+.rwf-mp-line.xshort { width: 40%; }
+.rwf-mp-line.light  { background: #374151; }
+.rwf-mp-line.centered { margin-left: auto; margin-right: auto; }
+
+/* Quote mark */
+.rwf-mp-quote {
+    font-size: 16px;
+    color: rgba(249,115,22,.35);
+    font-family: Georgia, serif;
+    line-height: 1;
+    margin: -2px 0;
+}
+
+/* Avatar row */
+.rwf-mp-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.rwf-mp-circle {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #d1d5db;
+    flex-shrink: 0;
+}
+.rwf-mp-circle.centered {
+    margin: 0 auto 2px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--rwf-primary);
+    background: #e5e7eb;
+}
+.rwf-mp-circle.orange-ring {
+    border: 1px solid var(--rwf-primary);
+    background: #4b5563;
+}
+
+.rwf-mp-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
