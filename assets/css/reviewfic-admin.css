@@ -1218,3 +1218,244 @@
     align-items: center;
     gap: 6px;
 }
+
+/* ── Import / Export Page ───────────────────────────────────────────────── */
+
+.rwf-ie-wrap h1 {
+    margin-bottom: 20px;
+}
+
+.rwf-ie-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 1100px;
+    margin-top: 16px;
+}
+
+@media (max-width: 800px) {
+    .rwf-ie-grid { grid-template-columns: 1fr; }
+}
+
+.rwf-ie-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 28px 28px 24px;
+}
+
+.rwf-ie-card-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.rwf-ie-card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #111827;
+}
+
+.rwf-ie-card > p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0 0 20px;
+    line-height: 1.6;
+}
+
+/* Format picker */
+.rwf-ie-format-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.rwf-ie-format-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.rwf-ie-format-option:has(input:checked) {
+    border-color: #0E9F6E;
+    background: #f0fdf4;
+}
+
+.rwf-ie-format-option input[type="radio"] {
+    margin: 0;
+    accent-color: #0E9F6E;
+}
+
+.rwf-ie-format-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.rwf-ie-csv  { background: #dbeafe; color: #1e40af; }
+.rwf-ie-json { background: #fef3c7; color: #92400e; }
+
+.rwf-ie-format-label {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.4;
+}
+
+/* Import dropzone */
+.rwf-ie-dropzone {
+    position: relative;
+    border: 2px dashed #d1d5db;
+    border-radius: 10px;
+    padding: 24px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: #fafafa;
+    margin-bottom: 16px;
+}
+
+.rwf-ie-dropzone:hover,
+.rwf-ie-drag-over {
+    border-color: #0E9F6E !important;
+    background: #f0fdf4 !important;
+}
+
+.rwf-ie-has-file {
+    border-style: solid;
+    border-color: #0E9F6E;
+    background: #f0fdf4;
+}
+
+.rwf-ie-file-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 0;
+}
+
+.rwf-ie-dropzone-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.rwf-ie-dropzone-text {
+    margin: 0 0 4px;
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.6;
+}
+
+.rwf-ie-dropzone-text strong {
+    display: block;
+    font-size: 15px;
+    color: #111827;
+}
+
+.rwf-ie-browse {
+    background: none;
+    border: none;
+    color: #0E9F6E;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    position: relative;
+    z-index: 1;
+}
+
+.rwf-ie-browse:hover { color: #0b8a5e; }
+
+.rwf-ie-dropzone-hint {
+    margin: 0;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.rwf-ie-filename {
+    margin: 10px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0E9F6E;
+    position: relative;
+    z-index: 1;
+}
+
+/* Format guide */
+.rwf-ie-format-guide {
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.rwf-ie-format-guide summary {
+    cursor: pointer;
+    color: #6b7280;
+    font-weight: 500;
+    user-select: none;
+    margin-bottom: 8px;
+}
+
+.rwf-ie-format-guide summary:hover { color: #374151; }
+
+.rwf-ie-schema {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.rwf-ie-schema th,
+.rwf-ie-schema td {
+    border: 1px solid #e5e7eb;
+    padding: 5px 8px;
+    text-align: left;
+}
+
+.rwf-ie-schema th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+}
+
+.rwf-ie-schema code {
+    background: #f3f4f6;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.rwf-ie-schema-note {
+    color: #9ca3af;
+    font-size: 12px;
+    margin: 0;
+}
+
+/* Shared button */
+.rwf-ie-btn.button-primary {
+    background: #0E9F6E !important;
+    border-color: #0b8a5e !important;
+    color: #fff !important;
+    height: 38px;
+    padding: 0 20px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.rwf-ie-btn.button-primary:hover {
+    background: #0b8a5e !important;
+    border-color: #097a52 !important;
+}
