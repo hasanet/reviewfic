@@ -17,7 +17,7 @@ function reviewfic_register_post_type() {
             'not_found'          => 'No reviews found.',
             'not_found_in_trash' => 'No reviews found in trash.',
             'all_items'          => 'Reviews',
-            'menu_name'          => 'Reviews',
+            'menu_name'          => 'Reviewfic',
         ),
         'public'      => true,
         'supports'    => array('title', 'editor', 'custom-fields'),

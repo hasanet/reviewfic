@@ -30,10 +30,8 @@ function reviewfic_admin_brand_styles() {
         align-items: center;
         gap: 14px;
         box-shadow: 0 2px 10px rgba(14,159,110,.25);
-        /* Full-width: cancel #wpbody-content padding (20px each side) */
-        margin: -1px -20px 0;
-        width: calc(100% + 40px);
         box-sizing: border-box;
+        margin-left: -20px;
     }
 
     .rwf-admin-logo {
@@ -132,6 +130,23 @@ function reviewfic_admin_brand_styles() {
     .rwf-sc-display code {
         background: #1a2e2a !important;
         color: #6ee7b7 !important;
+    }
+
+    /* ── Save Draft + Preview buttons (light brand) ─── */
+    .post-type-reviewfic_reviews #save-action .button,
+    .post-type-reviewfic_reviews #preview-action .button {
+        background: #ECFDF5 !important;
+        border-color: #0E9F6E !important;
+        color: #057A55 !important;
+        font-weight: 600 !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+    }
+    .post-type-reviewfic_reviews #save-action .button:hover,
+    .post-type-reviewfic_reviews #preview-action .button:hover {
+        background: #D1FAE5 !important;
+        border-color: #057A55 !important;
+        color: #046648 !important;
     }
 
     </style>
