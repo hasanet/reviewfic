@@ -140,7 +140,7 @@ function reviewfic_shortcode($atts) {
     if ($use_slider) {
         $slider_id++;
         $output = sprintf(
-            '<div class="reviewfic-slider" id="reviewfic-slider-%d" data-nav="%s" data-dots="%s" data-auto="%s" data-speed="%d" data-loop="%s" data-pause="%s"%s>',
+            '<div class="reviewfic-slider" id="reviewfic-slider-%d" data-nav="%s" data-dots="%s" data-auto="%s" data-speed="%d" data-loop="%s" data-pause="%s" data-columns="%d"%s>',
             $slider_id,
             $atts['slider_nav']   === 'yes' ? 'yes' : 'no',
             $atts['slider_dots']  === 'yes' ? 'yes' : 'no',
@@ -148,6 +148,7 @@ function reviewfic_shortcode($atts) {
             intval($atts['slider_speed']),
             $atts['slider_loop']  === 'yes' ? 'yes' : 'no',
             $atts['slider_pause'] === 'yes' ? 'yes' : 'no',
+            max(1, intval($atts['columns'])),
             $design_style
         );
         $output .= '<div class="reviewfic-slider-track">';

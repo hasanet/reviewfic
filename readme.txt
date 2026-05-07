@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.22
+Stable tag: 1.2.23
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -216,6 +216,11 @@ No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as bef
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.23 =
+* Fix: Re-enabled column support in slider mode — columns control how many cards are visible per page.
+* Improvement: Slider now supports multi-column page-by-page navigation. 3 columns = 3 cards per slide, dots represent pages.
+* Fix: data-columns attribute now passed from shortcode to slider wrapper.
 
 = 1.2.22 =
 * Fix: Slider layout broken from slide 2 onwards — caused by a legacy CSS rule adding margin to track items, making each slide overflow its 100% width boundary.

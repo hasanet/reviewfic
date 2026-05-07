@@ -4,7 +4,7 @@
 
 ### Testimonial Slider, Testimonial Grid & Customer Reviews for WordPress
 
-[![Version](https://img.shields.io/badge/version-1.2.22-brightgreen.svg)](https://github.com/hasanet/reviewfic)
+[![Version](https://img.shields.io/badge/version-1.2.23-brightgreen.svg)](https://github.com/hasanet/reviewfic)
 [![WordPress](https://img.shields.io/badge/WordPress-5.4%2B-blue.svg)](https://wordpress.org)
 [![Tested up to](https://img.shields.io/badge/tested%20up%20to-WP%206.9-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
@@ -293,7 +293,11 @@ The deploy script syncs files to Local by Flywheel and pushes to the `new-update
 
 See [readme.txt](readme.txt) for the full changelog.
 
-**Latest — v1.2.22**
+**Latest — v1.2.23**
+- Fix: Columns work correctly in slider mode — N columns = N cards visible per page
+- Improvement: Slider JS rewritten to support page-by-page multi-column navigation
+
+**v1.2.22**
 - Fix: Slider layout broken from slide 2 onward (legacy CSS margin rule causing overflow)
 - Fix: Slider items now correctly constrained to 100% width with flex-shrink:0
 - Improvement: Slider/pagination are now mutually exclusive in the Shortcode Generator UI

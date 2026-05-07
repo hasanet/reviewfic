@@ -1,5 +1,6 @@
 /**
- * Reviewfic — Frontend Slider v1.2.6
+ * Reviewfic — Frontend Slider
+ * Supports single and multi-column (page-by-page) modes.
  * Reads options from data-* attributes on .reviewfic-slider
  */
 (function () {
@@ -13,41 +14,53 @@
         var nextEl = slider.querySelector('.reviewfic-slider-next');
         var dotsEl = slider.querySelector('.reviewfic-slider-dots');
         var total  = slides.length;
-        var current = 0;
+        var current = 0; // current page index
         var autoTimer = null;
 
         if (!track || total === 0) return;
 
         // Read options from data attributes
-        var showNav   = slider.dataset.nav   !== 'no';
-        var showDots  = slider.dataset.dots  !== 'no';
-        var autoPlay  = slider.dataset.auto  === 'yes';
-        var speed     = parseInt(slider.dataset.speed, 10) || 4000;
-        var loop      = slider.dataset.loop  !== 'no';
-        var pauseHover= slider.dataset.pause !== 'no';
+        var showNav    = slider.dataset.nav     !== 'no';
+        var showDots   = slider.dataset.dots    !== 'no';
+        var autoPlay   = slider.dataset.auto    === 'yes';
+        var speed      = parseInt(slider.dataset.speed, 10) || 4000;
+        var loop       = slider.dataset.loop    !== 'no';
+        var pauseHover = slider.dataset.pause   !== 'no';
+        var columns    = Math.max(1, parseInt(slider.dataset.columns, 10) || 1);
+
+        // Set item widths based on column count
+        var itemWidth = (100 / columns);
+        for (var s = 0; s < slides.length; s++) {
+            slides[s].style.minWidth = itemWidth + '%';
+            slides[s].style.maxWidth = itemWidth + '%';
+        }
+
+        // Pages: how many full advances fit
+        var pages = Math.ceil(total / columns);
+        // Last page may have fewer items — cap movement so we never go past the last item
+        var maxPage = pages - 1;
 
         // Apply nav/dots visibility
         if (navEl) {
             if (prevEl) prevEl.style.display = showNav ? '' : 'none';
             if (nextEl) nextEl.style.display = showNav ? '' : 'none';
             if (dotsEl) dotsEl.style.display = showDots ? '' : 'none';
-            // Hide entire nav bar if both are off
             if (!showNav && !showDots) navEl.style.display = 'none';
         }
 
-        // Only 1 slide — hide nav entirely
-        if (total === 1) {
+        // Hide nav if only one page
+        if (pages <= 1) {
             if (navEl) navEl.style.display = 'none';
             return;
         }
 
-        // Build dots
+        // Build dots (one per page)
         if (showDots && dotsEl) {
-            for (var i = 0; i < total; i++) {
+            for (var i = 0; i < pages; i++) {
                 (function (index) {
                     var dot = document.createElement('button');
                     dot.className = 'reviewfic-slider-dot' + (index === 0 ? ' active' : '');
-                    dot.setAttribute('aria-label', 'Go to review ' + (index + 1));
+                    dot.setAttribute('aria-label', 'Go to page ' + (index + 1));
                     dot.addEventListener('click', function () { goTo(index); resetAuto(); });
                     dotsEl.appendChild(dot);
                 })(i);
@@ -62,22 +75,23 @@
             }
         }
 
-        function goTo(index) {
+        function goTo(pageIndex) {
             if (loop) {
-                current = ((index % total) + total) % total;
+                current = ((pageIndex % pages) + pages) % pages;
             } else {
-                current = Math.max(0, Math.min(index, total - 1));
+                current = Math.max(0, Math.min(pageIndex, maxPage));
                 if (prevEl) prevEl.disabled = current === 0;
-                if (nextEl) nextEl.disabled = current === total - 1;
+                if (nextEl) nextEl.disabled = current === maxPage;
             }
-            track.style.transform = 'translateX(-' + (current * 100) + '%)';
+            // Move by full item-width increments per page
+            track.style.transform = 'translateX(-' + (current * columns * itemWidth) + '%)';
             updateDots();
         }
 
         function startAuto() {
             if (!autoPlay) return;
             autoTimer = setInterval(function () {
-                goTo(loop ? current + 1 : (current < total - 1 ? current + 1 : 0));
+                goTo(loop ? current + 1 : (current < maxPage ? current + 1 : 0));
             }, speed);
         }
 
