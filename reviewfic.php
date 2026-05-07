@@ -1,16 +1,16 @@
 <?php
 /*
-Plugin Name: Reviewfic  – The Ultimate Testimonial Slider, Carousel, Grid Plugin
+Plugin Name: Reviewfic – Testimonial Slider, Testimonial Grid & Customer Reviews
 Plugin URI: https://themefic.com/reviewfic/
 Description: A plugin to create and manage client reviews with custom post types and shortcodes.
-Version: 1.2.13
+Version: 1.2.15
 Author: Themefic
 Author URI: https://themefic.com
 Text Domain: reviewfic
 Domain Path: /languages
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Tested up to: 6.8
+Tested up to: 6.9
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
