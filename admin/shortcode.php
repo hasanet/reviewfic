@@ -14,7 +14,7 @@ function reviewfic_shortcode($atts) {
         'template'    => '1',
     ), $atts, 'reviewfic');
 
-    $template      = in_array($atts['template'], array('1','2'), true) ? $atts['template'] : '1';
+    $template      = in_array($atts['template'], array('1','2','3','4','5'), true) ? $atts['template'] : '1';
     $use_slider    = $atts['slider'] === 'yes';
     $known_sources = array('google','trustpilot','g2','capterra','facebook','yelp','amazon');
 
@@ -109,11 +109,34 @@ function reviewfic_shortcode($atts) {
             $output .= '<h3 class="reviewfic-title">' . get_the_title() . '</h3>';
             $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
             $output .= $client_markup;
-        } else {
-            // Quote: client → content (quote) → stars → badge
+
+        } elseif ($template === '2') {
+            // Quote: client → content → stars → badge
             $output .= $client_markup;
             $output .= '<div class="reviewfic-content reviewfic-quote">' . get_the_content() . '</div>';
             $output .= $stars_markup;
+            $output .= $badge_markup;
+
+        } elseif ($template === '3') {
+            // Minimal: stars → content → badge → client (no title, no border)
+            $output .= $stars_markup;
+            $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
+            $output .= $badge_markup;
+            $output .= $client_markup;
+
+        } elseif ($template === '4') {
+            // Dark: badge → stars → title → content → client (dark card)
+            $output .= $badge_markup;
+            $output .= $stars_markup;
+            $output .= '<h3 class="reviewfic-title">' . get_the_title() . '</h3>';
+            $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
+            $output .= $client_markup;
+
+        } elseif ($template === '5') {
+            // Centered: client (avatar centered) → stars → content → badge
+            $output .= $client_markup;
+            $output .= $stars_markup;
+            $output .= '<div class="reviewfic-content reviewfic-quote">' . get_the_content() . '</div>';
             $output .= $badge_markup;
         }
 

@@ -821,3 +821,60 @@
     background: var(--rwf-border);
     margin: 4px 0 20px;
 }
+
+/* ── Template picker: 5-column grid ──────────────────── */
+.rwf-template-picker {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+/* Template 3 — Minimal preview */
+.rwf-tp-3 {
+    background: #fff;
+    border-top: 3px solid var(--rwf-primary);
+    border-radius: 0;
+    padding-top: 8px;
+}
+
+.rwf-tp-top-bar {
+    height: 3px;
+    width: 100%;
+    background: var(--rwf-primary);
+    border-radius: 2px;
+    margin-bottom: 6px;
+    display: none; /* bar already on .rwf-tp-3 via border */
+}
+
+/* Template 4 — Dark preview */
+.rwf-tp-4 {
+    background: #111827;
+    border-radius: 6px;
+}
+
+.rwf-tp-4 .rwf-tp-stars { color: #f59e0b; }
+
+.rwf-tp-line.dark  { background: #374151; }
+.rwf-tp-avatar.dark { background: #374151; border: 1px solid #f97316; }
+
+/* Template 5 — Centered preview */
+.rwf-tp-5 {
+    background: #fff;
+    border-radius: 6px;
+    align-items: center;
+    text-align: center;
+}
+
+.rwf-tp-avatar.centered {
+    margin: 0 auto 4px;
+    border: 2px solid var(--rwf-primary);
+}
+
+.rwf-tp-line.centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rwf-tp-stars.centered {
+    text-align: center;
+}

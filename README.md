@@ -4,7 +4,7 @@
 
 ### The clean, focused testimonial & review plugin for WordPress
 
-[![Version](https://img.shields.io/badge/version-1.2.3-orange.svg)](https://github.com/hasanet/reviewfic)
+[![Version](https://img.shields.io/badge/version-1.2.5-orange.svg)](https://github.com/hasanet/reviewfic)
 [![WordPress](https://img.shields.io/badge/WordPress-5.4%2B-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
 [![License](https://img.shields.io/badge/license-GPLv2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
@@ -28,7 +28,9 @@ Collect, manage, and display customer reviews on any WordPress site — with sta
 | 📂 **Source Taxonomy** | Manage review platforms from **Reviews → Sources** — add or remove any time |
 | 🗂️ **Categories** | Organise reviews into categories and filter per shortcode |
 | 📐 **Responsive Grid** | 1–4 column layout that collapses automatically on mobile |
-| ⚙️ **Shortcode Generator** | Visual builder with live output and one-click copy |
+| 🎠 **Slider Mode** | Swipeable carousel with arrows, dots, touch and keyboard support |
+| 🎨 **5 Templates** | Classic, Quote, Minimal, Dark, and Centered — choose per shortcode |
+| ⚙️ **Shortcode Generator** | Visual builder with template picker, live output and one-click copy |
 | 🔌 **Zero dependencies** | No jQuery plugins, no FontAwesome, no external CDN calls on the frontend |
 
 ---
@@ -174,7 +176,7 @@ The deploy script syncs files to Local by Flywheel and pushes to the `new-update
 
 See [readme.txt](readme.txt) for the full changelog.
 
-**Latest — v1.2.3**
+**Latest — v1.2.5**
 - Brand color updated to review orange across all admin UI
 - Emoji icons replaced with native WordPress Dashicons
 - Meta box wrapper styled with branded accent

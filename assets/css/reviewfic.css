@@ -526,3 +526,163 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* =====================================================
+   TEMPLATE 3 — Minimal
+   ===================================================== */
+
+.reviewfic-template-3 {
+    background: transparent;
+    border: none;
+    border-top: 3px solid #f97316;
+    border-radius: 0;
+    padding: 22px 4px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reviewfic-template-3 .reviewfic-stars {
+    margin: 0;
+}
+
+.reviewfic-template-3 .reviewfic-content {
+    font-size: 1em;
+    color: #374151;
+    line-height: 1.7;
+    flex: 1;
+}
+
+.reviewfic-template-3 .reviewfic-source-badge {
+    align-self: flex-start;
+}
+
+.reviewfic-template-3 .reviewfic-client-row {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 12px;
+    margin-top: 4px;
+}
+
+/* =====================================================
+   TEMPLATE 4 — Dark
+   ===================================================== */
+
+.reviewfic-template-4 {
+    background: #111827;
+    border: none;
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle orange glow in corner */
+.reviewfic-template-4::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(249,115,22,.18) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.reviewfic-template-4 .reviewfic-title {
+    color: #f3f4f6;
+}
+
+.reviewfic-template-4 .reviewfic-content {
+    color: #9ca3af;
+    line-height: 1.75;
+    flex: 1;
+}
+
+.reviewfic-template-4 .reviewfic-stars {
+    margin: 0;
+}
+
+.reviewfic-template-4 .reviewfic-star-score {
+    color: #6b7280;
+}
+
+.reviewfic-template-4 .reviewfic-client-row {
+    border-top: 1px solid #1f2937;
+    padding-top: 14px;
+    margin-top: auto;
+}
+
+.reviewfic-template-4 .reviewfic-client-name {
+    color: #f9fafb;
+}
+
+.reviewfic-template-4 .reviewfic-client-company {
+    color: #6b7280;
+}
+
+.reviewfic-template-4 .reviewfic-avatar {
+    border: 2px solid #f97316;
+}
+
+.reviewfic-template-4 .reviewfic-source-badge {
+    opacity: .85;
+}
+
+/* =====================================================
+   TEMPLATE 5 — Centered
+   ===================================================== */
+
+.reviewfic-template-5 {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 36px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.06);
+}
+
+.reviewfic-template-5 .reviewfic-client-row {
+    flex-direction: column;
+    align-items: center;
+    border-top: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding-top: 0;
+    padding-bottom: 16px;
+    margin-top: 0;
+    width: 100%;
+}
+
+.reviewfic-template-5 .reviewfic-avatar {
+    width: 72px;
+    height: 72px;
+    border: 3px solid #f97316;
+    margin-bottom: 4px;
+}
+
+.reviewfic-template-5 .reviewfic-client-info {
+    align-items: center;
+}
+
+.reviewfic-template-5 .reviewfic-stars {
+    justify-content: center;
+    margin: 0;
+}
+
+.reviewfic-template-5 .reviewfic-content {
+    font-style: italic;
+    color: #374151;
+    line-height: 1.75;
+    flex: 1;
+    max-width: 480px;
+}
+
+.reviewfic-template-5 .reviewfic-source-badge {
+    margin-top: 4px;
+}

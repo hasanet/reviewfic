@@ -53,16 +53,33 @@ function reviewfic_shortcode_generator_page() {
                                         </div>
                                     </div>
                                 </div>
-                                <span class="rwf-template-label">Card</span>
+                                <span class="rwf-template-label">Classic</span>
                             </div>
 
                             <div class="rwf-template-option" data-value="2">
                                 <div class="rwf-template-preview rwf-tp-2">
                                     <div class="rwf-tp-accent-bar"></div>
+                                    <div class="rwf-tp-avatar-row">
+                                        <div class="rwf-tp-avatar"></div>
+                                        <div class="rwf-tp-meta">
+                                            <div class="rwf-tp-line short"></div>
+                                            <div class="rwf-tp-line xshort"></div>
+                                        </div>
+                                    </div>
                                     <div class="rwf-tp-quote">&ldquo;</div>
                                     <div class="rwf-tp-line"></div>
                                     <div class="rwf-tp-line short"></div>
                                     <div class="rwf-tp-stars small">★★★★★</div>
+                                </div>
+                                <span class="rwf-template-label">Quote</span>
+                            </div>
+
+                            <div class="rwf-template-option" data-value="3">
+                                <div class="rwf-template-preview rwf-tp-3">
+                                    <div class="rwf-tp-top-bar"></div>
+                                    <div class="rwf-tp-stars">★★★★★</div>
+                                    <div class="rwf-tp-line"></div>
+                                    <div class="rwf-tp-line short"></div>
                                     <div class="rwf-tp-avatar-row">
                                         <div class="rwf-tp-avatar"></div>
                                         <div class="rwf-tp-meta">
@@ -71,7 +88,34 @@ function reviewfic_shortcode_generator_page() {
                                         </div>
                                     </div>
                                 </div>
-                                <span class="rwf-template-label">Modern Quote</span>
+                                <span class="rwf-template-label">Minimal</span>
+                            </div>
+
+                            <div class="rwf-template-option" data-value="4">
+                                <div class="rwf-template-preview rwf-tp-4">
+                                    <div class="rwf-tp-stars" style="color:#f59e0b;">★★★★★</div>
+                                    <div class="rwf-tp-line dark"></div>
+                                    <div class="rwf-tp-line dark short"></div>
+                                    <div class="rwf-tp-avatar-row">
+                                        <div class="rwf-tp-avatar dark"></div>
+                                        <div class="rwf-tp-meta">
+                                            <div class="rwf-tp-line dark"></div>
+                                            <div class="rwf-tp-line dark xshort"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="rwf-template-label">Dark</span>
+                            </div>
+
+                            <div class="rwf-template-option" data-value="5">
+                                <div class="rwf-template-preview rwf-tp-5">
+                                    <div class="rwf-tp-avatar centered"></div>
+                                    <div class="rwf-tp-line centered"></div>
+                                    <div class="rwf-tp-line centered xshort"></div>
+                                    <div class="rwf-tp-stars centered">★★★★★</div>
+                                    <div class="rwf-tp-line centered short"></div>
+                                </div>
+                                <span class="rwf-template-label">Centered</span>
                             </div>
 
                         </div>
@@ -185,7 +229,7 @@ function reviewfic_shortcode_generator_page() {
                         <span class="dashicons dashicons-book"></span> Shortcode Parameters
                     </div>
                     <table class="rwf-usage-table">
-                        <tr><td><code>template</code></td><td><code>1</code> (Card) or <code>2</code> (Modern Quote)</td></tr>
+                        <tr><td><code>template</code></td><td><code>1</code> Classic · <code>2</code> Quote · <code>3</code> Minimal · <code>4</code> Dark · <code>5</code> Centered</td></tr>
                         <tr><td><code>slider</code></td><td><code>yes</code> or <code>no</code></td></tr>
                         <tr><td><code>category</code></td><td>Category slug or <code>all</code></td></tr>
                         <tr><td><code>source</code></td><td>Source slug or <code>all</code></td></tr>
