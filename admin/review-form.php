@@ -62,6 +62,23 @@ function reviewfic_form_shortcode( $atts ) {
                     wp_set_post_terms( $post_id, array( $source_slug ), 'reviewfic_source', false );
                 }
 
+                // ── Handle photo upload ───────────────────────
+                if ( ! empty( $_FILES['rwf_photo']['name'] ) && $_FILES['rwf_photo']['error'] === UPLOAD_ERR_OK ) {
+                    require_once ABSPATH . 'wp-admin/includes/image.php';
+                    require_once ABSPATH . 'wp-admin/includes/file.php';
+                    require_once ABSPATH . 'wp-admin/includes/media.php';
+
+                    $allowed_types = array( 'image/jpeg', 'image/png', 'image/gif', 'image/webp' );
+                    $file_type     = $_FILES['rwf_photo']['type'];
+
+                    if ( in_array( $file_type, $allowed_types, true ) && $_FILES['rwf_photo']['size'] <= 5 * 1024 * 1024 ) {
+                        $attachment_id = media_handle_upload( 'rwf_photo', $post_id );
+                        if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
+                            update_post_meta( $post_id, 'reviewfic_reviewer_photo', $attachment_id );
+                        }
+                    }
+                }
+
                 if ( ! empty( $atts['redirect'] ) ) {
                     wp_safe_redirect( esc_url( $atts['redirect'] ) );
                     exit;
@@ -89,7 +106,7 @@ function reviewfic_form_shortcode( $atts ) {
 
         $sources = get_terms( array( 'taxonomy' => 'reviewfic_source', 'hide_empty' => false ) );
         ?>
-        <form class="rwf-submission-form" method="post" novalidate>
+        <form class="rwf-submission-form" method="post" enctype="multipart/form-data" novalidate>
             <?php wp_nonce_field( 'reviewfic_submit_review', 'reviewfic_form_nonce' ); ?>
 
             <div class="rwf-form-row">
@@ -141,6 +158,23 @@ function reviewfic_form_shortcode( $atts ) {
                 </select>
             </div>
             <?php endif; ?>
+
+            <div class="rwf-form-row">
+                <label><?php esc_html_e( 'Your Photo', 'reviewfic' ); ?></label>
+                <div class="rwf-dropzone" id="rwf-dropzone">
+                    <div class="rwf-dropzone-avatar" id="rwf-dropzone-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                        </svg>
+                    </div>
+                    <p class="rwf-dropzone-text">
+                        <strong><?php esc_html_e( 'Drag & drop your photo here', 'reviewfic' ); ?></strong><br>
+                        <span><?php esc_html_e( 'or', 'reviewfic' ); ?> <button type="button" class="rwf-dropzone-browse"><?php esc_html_e( 'browse to upload', 'reviewfic' ); ?></button></span>
+                    </p>
+                    <p class="rwf-dropzone-hint"><?php esc_html_e( 'JPG, PNG, GIF or WebP — max 5 MB (optional)', 'reviewfic' ); ?></p>
+                    <input type="file" id="rwf_photo" name="rwf_photo" accept="image/jpeg,image/png,image/gif,image/webp" class="rwf-dropzone-input">
+                </div>
+            </div>
 
             <div class="rwf-form-row">
                 <button type="submit" class="rwf-submit-btn"><?php esc_html_e( 'Submit Review', 'reviewfic' ); ?></button>

@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.16
+Stable tag: 1.2.21
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -208,6 +208,29 @@ No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as bef
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.21 =
+* New: Reviewer Name Color option in Design panel.
+* New: Designation and Company Color option in Design panel.
+* New: Card Border Color option in Design panel.
+* New: Box Shadow option in Design panel (None / Subtle / Medium / Strong).
+* Improvement: Accent Color hint updated to clarify it controls Template 2 left border, Template 3 top bar, and source badges.
+
+= 1.2.20 =
+* Fix: Import/Export admin CSS was not loading due to incorrect hook name.
+* Fix: Import/Export page design overhauled — removed emoji icons, proper card layout with Dashicons, clean format picker.
+* Fix: Shortcode Generator template picker now reliably restores the selected template on edit via JS init.
+
+= 1.2.19 =
+* New: Import / Export page under Reviewfic admin menu.
+* New: Export all reviews as CSV (Excel/Sheets-compatible) or JSON.
+* New: Import reviews from a CSV or JSON file. New sources and categories are created automatically. Rows with empty title and content are skipped.
+
+= 1.2.18 =
+* Improvement: Photo upload on review form replaced with a modern drag-and-drop zone — circular avatar preview, drag-over highlight, and remove button.
+
+= 1.2.17 =
+* New: Photo upload field on the [reviewfic_form] submission form — reviewers can attach their own profile photo directly. Circular preview shown before submission.
 
 = 1.2.16 =
 * New: Review Collection Form — add `[reviewfic_form]` to any page to let customers submit reviews directly. Submissions are held as pending by default for approval.

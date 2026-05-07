@@ -70,12 +70,26 @@ function reviewfic_shortcode($atts) {
         $text_color   = get_post_meta($config_id, 'rwf_text_color', true);
         $star_color   = get_post_meta($config_id, 'rwf_star_color', true);
         $accent_color = get_post_meta($config_id, 'rwf_accent_color', true);
+        $meta_color   = get_post_meta($config_id, 'rwf_meta_color', true);
+        $name_color   = get_post_meta($config_id, 'rwf_name_color', true);
+        $card_border  = get_post_meta($config_id, 'rwf_card_border', true);
+        $card_shadow  = get_post_meta($config_id, 'rwf_card_shadow', true);
         $card_radius  = get_post_meta($config_id, 'rwf_card_radius', true);
 
-        if ($card_bg)            $vars[] = '--rwf-card-bg:'     . esc_attr($card_bg);
-        if ($text_color)         $vars[] = '--rwf-text-color:'  . esc_attr($text_color);
-        if ($star_color)         $vars[] = '--rwf-star-color:'  . esc_attr($star_color);
-        if ($accent_color)       $vars[] = '--rwf-accent-color:'. esc_attr($accent_color);
+        $shadow_map = array(
+            'sm' => '0 1px 4px rgba(0,0,0,.08)',
+            'md' => '0 4px 16px rgba(0,0,0,.12)',
+            'lg' => '0 8px 32px rgba(0,0,0,.18)',
+        );
+
+        if ($card_bg)            $vars[] = '--rwf-card-bg:'      . esc_attr($card_bg);
+        if ($text_color)         $vars[] = '--rwf-text-color:'   . esc_attr($text_color);
+        if ($star_color)         $vars[] = '--rwf-star-color:'   . esc_attr($star_color);
+        if ($accent_color)       $vars[] = '--rwf-accent-color:' . esc_attr($accent_color);
+        if ($meta_color)         $vars[] = '--rwf-meta-color:'   . esc_attr($meta_color);
+        if ($name_color)         $vars[] = '--rwf-name-color:'   . esc_attr($name_color);
+        if ($card_border)        $vars[] = '--rwf-card-border:'  . esc_attr($card_border);
+        if (!empty($shadow_map[$card_shadow])) $vars[] = '--rwf-card-shadow:' . $shadow_map[$card_shadow];
         if ($card_radius !== '') $vars[] = '--rwf-card-radius:'  . intval($card_radius) . 'px';
 
         if ($vars) $design_style = ' style="' . implode(';', $vars) . '"';

@@ -4,7 +4,7 @@
 
 ### Testimonial Slider, Testimonial Grid & Customer Reviews for WordPress
 
-[![Version](https://img.shields.io/badge/version-1.2.16-brightgreen.svg)](https://github.com/hasanet/reviewfic)
+[![Version](https://img.shields.io/badge/version-1.2.21-brightgreen.svg)](https://github.com/hasanet/reviewfic)
 [![WordPress](https://img.shields.io/badge/WordPress-5.4%2B-blue.svg)](https://wordpress.org)
 [![Tested up to](https://img.shields.io/badge/tested%20up%20to-WP%206.9-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
@@ -259,7 +259,24 @@ The deploy script syncs files to Local by Flywheel and pushes to the `new-update
 
 See [readme.txt](readme.txt) for the full changelog.
 
-**Latest — v1.2.16**
+**Latest — v1.2.21**
+- New: Reviewer Name Color, Designation & Company Color, Card Border Color, and Box Shadow options in the Design panel
+
+**v1.2.20**
+- Fix: Import/Export CSS not loading (wrong admin hook name)
+- Fix: Import/Export page redesigned — clean cards, Dashicons, proper format picker
+- Fix: Shortcode Generator template picker now correctly restores selection when editing
+
+**v1.2.19**
+- New: Import / Export page — export reviews as CSV or JSON, import from either format
+
+**v1.2.18**
+- Improvement: Modern drag-and-drop photo uploader on review form with circular preview and remove button
+
+**v1.2.17**
+- New: Photo upload field on `[reviewfic_form]` — reviewers upload their own profile photo with a live circular preview
+
+**v1.2.16**
 - New: `[reviewfic_form]` shortcode — built-in customer review submission form
 - New: Contact Form 7 Integration — map CF7 fields to Reviewfic via the CF7 editor
 - Improvement: Cleaned up readme; removed legacy shortcode documentation
