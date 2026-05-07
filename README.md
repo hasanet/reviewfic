@@ -12,6 +12,8 @@
 
 Collect, manage, and display customer reviews on any WordPress site — star ratings, reviewer avatars, source badges, sliders, pagination, 5 templates, and a visual shortcode builder. Zero coding required.
 
+👉 **[Official Demo](https://themefic.com/reviewfic/)** &nbsp;|&nbsp; 👉 **[Get Support](https://portal.themefic.com/support/)** &nbsp;|&nbsp; 👉 **[Documentation](https://themefic.com/reviewfic/docs)** &nbsp;|&nbsp; 👉 **[Facebook Group](https://www.facebook.com/groups/themefic)**
+
 [WordPress.org Plugin Page](https://wordpress.org/plugins/reviewfic) · [Support](https://portal.themefic.com/support/) · [Report a Bug](https://github.com/hasanet/reviewfic/issues)
 
 </div>
