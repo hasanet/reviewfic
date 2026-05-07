@@ -4,7 +4,7 @@
 
 ### Testimonial Slider, Testimonial Grid & Customer Reviews for WordPress
 
-[![Version](https://img.shields.io/badge/version-1.2.15-brightgreen.svg)](https://github.com/hasanet/reviewfic)
+[![Version](https://img.shields.io/badge/version-1.2.16-brightgreen.svg)](https://github.com/hasanet/reviewfic)
 [![WordPress](https://img.shields.io/badge/WordPress-5.4%2B-blue.svg)](https://wordpress.org)
 [![Tested up to](https://img.shields.io/badge/tested%20up%20to-WP%206.9-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
@@ -36,6 +36,8 @@ Collect, manage, and display customer reviews on any WordPress site — star rat
 | 🎨 **Design Options** | Per-shortcode color pickers (background, text, stars, accent) and border radius |
 | ⚙️ **Shortcode Generator** | Visual builder — create named configs, get a permanent `[reviewfic id="X"]` shortcode |
 | 📐 **Responsive Grid** | 1–4 column layout, collapses to single column on mobile automatically |
+| 📝 **Review Collection Form** | `[reviewfic_form]` — let customers submit reviews directly from any page. Pending approval by default. |
+| 🔗 **Contact Form 7 Integration** | Map CF7 fields to Reviewfic fields via a built-in tab in the CF7 editor. No coding needed. |
 | ♿ **Accessible Slider** | Touch swipe, keyboard arrow keys, and ARIA labels |
 | 🔌 **Zero Dependencies** | No jQuery plugins, no external CDN calls on the frontend |
 
@@ -132,64 +134,62 @@ Slider also supports **touch swipe** on mobile and **keyboard arrow keys** for a
 
 Create a config in the Shortcode Generator and use the ID. Edit options anytime without touching the shortcode.
 
-### Legacy — parameter-based (fully supported)
+### Collect reviews — submission form
 
 ```
-[reviewfic
-  template="1"
-  columns="3"
-  slider="no"
-  slider_nav="yes"
-  slider_dots="yes"
-  slider_auto="no"
-  slider_speed="4000"
-  slider_loop="yes"
-  slider_pause="yes"
-  source="all"
-  category="all"
-  max_items="-1"
-  show_avatar="yes"
-  pagination="no"
-  per_page="6"
-]
+[reviewfic_form]
 ```
 
-| Parameter | Values | Default | Description |
-|---|---|---|---|
-| `template` | `1` `2` `3` `4` `5` | `1` | Display template |
-| `columns` | `1` `2` `3` `4` | `1` | Grid columns (ignored in slider mode) |
-| `slider` | `yes` `no` | `no` | Enable slider mode |
-| `slider_nav` | `yes` `no` | `yes` | Show prev/next arrows |
-| `slider_dots` | `yes` `no` | `yes` | Show dot indicators |
-| `slider_auto` | `yes` `no` | `no` | Autoplay |
-| `slider_speed` | number (ms) | `4000` | Autoplay interval |
-| `slider_loop` | `yes` `no` | `yes` | Infinite loop |
-| `slider_pause` | `yes` `no` | `yes` | Pause autoplay on hover |
-| `source` | slug or `all` | `all` | Filter by Review Source |
-| `category` | slug or `all` | `all` | Filter by Review Category |
-| `max_items` | number or `-1` | `-1` | Max reviews (unlimited) |
-| `show_avatar` | `yes` `no` | `yes` | Show reviewer photo |
-| `pagination` | `yes` `no` | `no` | Enable pagination (grid only) |
-| `per_page` | number | `6` | Reviews per page |
+Renders a styled review submission form on any page. Customers fill in their name, rating, review, designation, company, and platform source. Submissions are saved as pending by default.
+
+| Attribute | Default | Description |
+|---|---|---|
+| `require_approval` | `yes` | Set to `no` to publish submissions immediately |
+| `success_message` | `"Thank you! …"` | Custom text shown after a successful submission |
+| `show_source` | `yes` | Show or hide the platform/source dropdown |
+| `redirect` | _(none)_ | URL to redirect to after a successful submission |
 
 ### Examples
 
-```bash
-# All reviews, 3 columns, Classic template
-[reviewfic columns="3" template="1"]
-
-# Google reviews only, autoplay slider, Quote template
-[reviewfic source="google" slider="yes" slider_auto="yes" template="2"]
-
-# Trustpilot reviews, paginated, 6 per page, Dark template
-[reviewfic source="trustpilot" pagination="yes" per_page="6" template="4"]
-
-# Single featured testimonial, Centered template
-[reviewfic template="5" columns="1" max_items="1"]
-
-# Minimal grid, no avatars, filtered by category
-[reviewfic template="3" columns="2" category="saas-tools" show_avatar="no"]
 ```
+[reviewfic id="21"]
+
+[reviewfic_form]
+
+[reviewfic_form require_approval="no" redirect="https://example.com/thank-you"]
+
+[reviewfic_form show_source="no" success_message="Thanks! We'll review your submission shortly."]
+```
+
+---
+
+## 📝 Collecting Reviews from Customers
+
+### Built-in Form
+
+Place `[reviewfic_form]` on any page or post. A styled form is rendered with fields for name, designation, company, star rating, review title, review content, and platform source. Submissions are saved as **pending** by default — approve them from **Reviewfic → All Reviews**.
+
+### Contact Form 7 Integration
+
+If you prefer to use an existing Contact Form 7 form:
+
+1. Install and activate Contact Form 7
+2. Open any CF7 form in the editor
+3. Click the **Reviewfic** tab
+4. Enable the integration and choose the review status (pending or published)
+5. Map your CF7 field names to Reviewfic fields:
+
+| Reviewfic Field | CF7 Field Name (example) |
+|---|---|
+| Reviewer Name | `your-name` |
+| Star Rating (1–5) | `your-rating` |
+| Review Content | `your-message` |
+| Designation | `your-job-title` |
+| Company | `your-company` |
+| Review Title | `your-review-title` |
+| Review Source (slug) | `your-platform` |
+
+Every submission of that CF7 form will automatically create a review in Reviewfic using the mapped values.
 
 ---
 
@@ -220,14 +220,15 @@ reviewfic/
 │   ├── meta-boxes.php       # Review Details meta box (stars, source, reviewer)
 │   ├── post-types-taxonomy.php  # CPT + taxonomies registration
 │   ├── shortcode-config.php     # Shortcode Generator CPT + meta box + save
+│   ├── review-form.php      # [reviewfic_form] shortcode + CF7 integration
 │   └── shortcode.php        # [reviewfic] shortcode handler
 ├── assets/
 │   ├── css/
-│   │   ├── reviewfic.css        # Frontend styles (templates, slider, pagination)
+│   │   ├── reviewfic.css        # Frontend styles (templates, slider, pagination, form)
 │   │   └── reviewfic-admin.css  # Admin styles (meta box, shortcode generator)
 │   └── js/
 │       ├── reviewfic.js         # Admin shortcode generator JS
-│       └── reviewfic-public.js  # Frontend slider JS (dependency-free)
+│       └── reviewfic-public.js  # Frontend slider + form star picker JS
 ├── reviewfic.php            # Plugin bootstrap + enqueue
 ├── README.md                # This file
 └── readme.txt               # WordPress.org readme
@@ -258,9 +259,10 @@ The deploy script syncs files to Local by Flywheel and pushes to the `new-update
 
 See [readme.txt](readme.txt) for the full changelog.
 
-**Latest — v1.2.15**
-- Plugin name updated to better reflect the full feature set
-- Tested up to WordPress 6.9
+**Latest — v1.2.16**
+- New: `[reviewfic_form]` shortcode — built-in customer review submission form
+- New: Contact Form 7 Integration — map CF7 fields to Reviewfic via the CF7 editor
+- Improvement: Cleaned up readme; removed legacy shortcode documentation
 
 ---
 

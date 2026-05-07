@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.15
+Stable tag: 1.2.16
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,10 +20,6 @@ Collect, manage, and display customer reviews on your WordPress site — with st
 **Reviewfic** is a lightweight yet powerful WordPress testimonial and review plugin. Whether you are collecting client feedback for a portfolio, showcasing product reviews on an eCommerce store, or aggregating ratings from Google, Trustpilot, G2, and Capterra onto one page — Reviewfic gives you everything you need with zero coding required.
 
 Reviews are managed as a native WordPress custom post type, making them easy to add, edit, organise, and display anywhere on your site using a simple shortcode.
-
-=== Why Choose Reviewfic? ===
-
-Most testimonial plugins are either too bloated or too basic. Reviewfic hits the sweet spot — a focused feature set covering what real WordPress sites actually need, without page-builder lock-in or premium paywalls.
 
 === Core Features ===
 
@@ -97,49 +93,43 @@ The Shortcode Generator includes:
 <li>One-click Copy Shortcode button</li>
 </ul>
 
+**Review Collection Form**
+Collect reviews directly from your customers using a built-in submission form. Place `[reviewfic_form]` on any page or post to render a styled form with all the fields your review post type supports: name, designation, company, star rating, review title, review body, and platform source. New submissions are held as pending by default so you can approve them before they go live — or set `require_approval="no"` to publish immediately.
+
+Form shortcode attributes:
+<ul>
+<li><strong>require_approval</strong> — <code>yes</code> (default) or <code>no</code>. Controls whether submissions are saved as pending or published immediately.</li>
+<li><strong>success_message</strong> — Custom thank-you message shown after a successful submission.</li>
+<li><strong>show_source</strong> — <code>yes</code> (default) or <code>no</code>. Show or hide the platform/source dropdown.</li>
+<li><strong>redirect</strong> — URL to redirect to after a successful submission (optional).</li>
+</ul>
+
+**Contact Form 7 Integration**
+Connect an existing Contact Form 7 form to Reviewfic. After installing CF7, a "Reviewfic" tab appears in the CF7 form editor. Enable the integration, set the review status (pending or published), and map your CF7 field names to Reviewfic fields — Reviewer Name, Designation, Company, Star Rating, Review Title, Review Content, and Review Source. Every time that form is submitted, a review is created automatically in Reviewfic using the mapped field values. No coding required.
+
 **Responsive Grid**
 Display reviews in a 1, 2, 3, or 4 column grid. Collapses to a single column on tablets and mobile automatically.
 
 === Shortcode Reference ===
 
-**Recommended — ID-based (use the Shortcode Generator):**
+**Display reviews — ID-based (recommended):**
 <pre>[reviewfic id="21"]</pre>
 Create a shortcode configuration in **Reviewfic → Shortcode Generator**, copy the ID shortcode, and paste it anywhere. All options are managed in the generator — no shortcode attributes needed.
 
-**Legacy — parameter-based (still fully supported):**
-<pre>[reviewfic template="1" columns="3" slider="yes" source="google" category="all" max_items="6" show_avatar="yes" pagination="no" per_page="6"]</pre>
-
-<ul>
-<li><strong>template</strong> — Card layout: <code>1</code> Classic, <code>2</code> Quote, <code>3</code> Minimal, <code>4</code> Dark, <code>5</code> Centered. Default: <code>1</code></li>
-<li><strong>columns</strong> — Grid columns: <code>1</code>, <code>2</code>, <code>3</code>, or <code>4</code>. Default: <code>1</code></li>
-<li><strong>slider</strong> — Enable slider mode: <code>yes</code> or <code>no</code>. Default: <code>no</code></li>
-<li><strong>slider_nav</strong> — Show navigation arrows: <code>yes</code> or <code>no</code>. Default: <code>yes</code></li>
-<li><strong>slider_dots</strong> — Show dot indicators: <code>yes</code> or <code>no</code>. Default: <code>yes</code></li>
-<li><strong>slider_auto</strong> — Autoplay: <code>yes</code> or <code>no</code>. Default: <code>no</code></li>
-<li><strong>slider_speed</strong> — Autoplay speed in milliseconds. Default: <code>4000</code></li>
-<li><strong>slider_loop</strong> — Infinite loop: <code>yes</code> or <code>no</code>. Default: <code>yes</code></li>
-<li><strong>slider_pause</strong> — Pause on hover: <code>yes</code> or <code>no</code>. Default: <code>yes</code></li>
-<li><strong>source</strong> — Filter by Review Source slug, or <code>all</code>. Default: <code>all</code></li>
-<li><strong>category</strong> — Filter by category slug, or <code>all</code>. Default: <code>all</code></li>
-<li><strong>max_items</strong> — Max reviews to display. Use <code>-1</code> for unlimited. Default: unlimited</li>
-<li><strong>show_avatar</strong> — Show reviewer photo: <code>yes</code> or <code>no</code>. Default: <code>yes</code></li>
-<li><strong>pagination</strong> — Enable pagination: <code>yes</code> or <code>no</code>. Default: <code>no</code></li>
-<li><strong>per_page</strong> — Reviews per page when pagination is on. Default: <code>6</code></li>
-</ul>
+**Collect reviews — submission form:**
+<pre>[reviewfic_form]</pre>
+Renders a styled review submission form. Customers fill in their name, star rating, review, and optionally their designation, company, and platform source. Submissions are held as pending until you approve them.
 
 === Example Shortcodes ===
 
-All reviews, 3 columns, Classic template:
-<pre>[reviewfic columns="3" template="1"]</pre>
+Display reviews from the Shortcode Generator:
+<pre>[reviewfic id="21"]</pre>
 
-Google reviews only, slider with autoplay, Quote template:
-<pre>[reviewfic source="google" slider="yes" slider_auto="yes" template="2"]</pre>
+Submission form with auto-approval and a redirect on success:
+<pre>[reviewfic_form require_approval="no" redirect="https://example.com/thank-you"]</pre>
 
-Trustpilot reviews, paginated, 6 per page, Dark template:
-<pre>[reviewfic source="trustpilot" pagination="yes" per_page="6" template="4"]</pre>
-
-Featured testimonial, centered layout, no pagination:
-<pre>[reviewfic template="5" columns="1" max_items="1"]</pre>
+Submission form without the platform dropdown:
+<pre>[reviewfic_form show_source="no"]</pre>
 
 === Who Is This For? ===
 
@@ -189,10 +179,6 @@ Template 1 (Classic): Standard card — stars, title, content, client row at bot
 
 No. Slider mode and pagination are mutually exclusive. When slider is enabled, pagination is automatically disabled. Use one or the other depending on whether you want a carousel or a paged grid.
 
-= Will my existing shortcodes break after upgrading? =
-
-No. The legacy parameter-based shortcode format (`[reviewfic template="1" columns="3"]`) is fully supported and will continue to work exactly as before.
-
 = What image size is recommended for reviewer avatars? =
 
 Any square image works. WordPress crops it to the thumbnail size automatically. For crisp results, upload a minimum of 150×150 pixels.
@@ -200,6 +186,18 @@ Any square image works. WordPress crops it to the thumbnail size automatically. 
 = Is Reviewfic compatible with Gutenberg and the block editor? =
 
 Yes. The shortcode works in any block that accepts shortcodes, including the core Shortcode block and any Classic Editor block. It also works in widget areas and page builders that support shortcodes.
+
+= How do I let customers submit reviews directly? =
+
+Place `[reviewfic_form]` on any page or post. A styled submission form will appear with all the necessary fields. By default, new submissions are saved as pending so you can review and approve them from **Reviewfic → All Reviews**. Set `require_approval="no"` to publish submissions immediately.
+
+= Can I use Contact Form 7 to collect reviews? =
+
+Yes. Install Contact Form 7, then open any CF7 form in the editor. You will see a "Reviewfic" tab. Enable the integration, choose whether submissions go to pending or published, and map your CF7 field names to Reviewfic fields (name, rating, content, etc.). From that point on, every submission of that form automatically creates a review in Reviewfic.
+
+= Will my existing shortcodes break after upgrading? =
+
+No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as before.
 
 == Screenshots ==
 1. Reviewfic admin — Reviews list with branded interface
@@ -210,6 +208,11 @@ Yes. The shortcode works in any block that accepts shortcodes, including the cor
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.16 =
+* New: Review Collection Form — add `[reviewfic_form]` to any page to let customers submit reviews directly. Submissions are held as pending by default for approval.
+* New: Contact Form 7 Integration — connect any CF7 form to Reviewfic via a new "Reviewfic" tab in the CF7 editor. Map CF7 field names to reviewer name, star rating, review content, and more.
+* Improvement: Removed "Why Choose Reviewfic?" section from readme for a cleaner plugin page.
 
 = 1.2.15 =
 * Improvement: Plugin name updated to better reflect the full feature set.

@@ -125,3 +125,54 @@
         initAll();
     }
 })();
+
+// ── Review Submission Form — Star Picker ────────────────────────────────────
+(function () {
+    'use strict';
+
+    function initStarPicker(form) {
+        var picker  = form.querySelector('.rwf-star-picker');
+        if (!picker) return;
+        var buttons = picker.querySelectorAll('.rwf-star-btn');
+        var input   = picker.querySelector('#rwf_rating');
+        if (!buttons.length || !input) return;
+
+        function setRating(value) {
+            input.value = value;
+            buttons.forEach(function (btn) {
+                btn.classList.toggle('selected', parseInt(btn.dataset.value, 10) <= value);
+            });
+        }
+
+        if (input.value) setRating(parseInt(input.value, 10));
+
+        buttons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                setRating(parseInt(btn.dataset.value, 10));
+            });
+            btn.addEventListener('mouseenter', function () {
+                var hoverVal = parseInt(btn.dataset.value, 10);
+                buttons.forEach(function (b) {
+                    b.classList.toggle('selected', parseInt(b.dataset.value, 10) <= hoverVal);
+                });
+            });
+        });
+
+        picker.addEventListener('mouseleave', function () {
+            var current = parseInt(input.value, 10) || 0;
+            buttons.forEach(function (b) {
+                b.classList.toggle('selected', parseInt(b.dataset.value, 10) <= current);
+            });
+        });
+    }
+
+    function initAll() {
+        document.querySelectorAll('.rwf-submission-form').forEach(initStarPicker);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+        initAll();
+    }
+})();
