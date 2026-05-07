@@ -11,6 +11,14 @@ function reviewfic_is_brand_screen() {
 // Inject scoped CSS — only what we want to change, nothing more
 function reviewfic_admin_brand_styles() {
     if (!reviewfic_is_brand_screen()) return;
+
+    $screen             = get_current_screen();
+    $is_add_new_review  = $screen->post_type === 'reviewfic_reviews' && $screen->action === 'add';
+
+    // Hide Screen Options on all Reviewfic screens EXCEPT Add New Review
+    if (!$is_add_new_review) {
+        echo '<style>#screen-options-link-wrap, #screen-meta { display: none !important; }</style>';
+    }
     ?>
     <style id="rwf-admin-brand-css">
 
@@ -132,12 +140,16 @@ function reviewfic_admin_brand_styles() {
 add_action('admin_head', 'reviewfic_admin_brand_styles');
 
 
-// Inject branded header bar — inserted before .wrap inside #wpbody-content
-// so it fills the full width of the content area naturally.
+// Inject branded header bar — skipped on Add New Review
 function reviewfic_admin_brand_header() {
     if (!reviewfic_is_brand_screen()) return;
 
     $screen = get_current_screen();
+
+    // No header bar on Add New Review
+    if ($screen->post_type === 'reviewfic_reviews' && $screen->action === 'add') {
+        return;
+    }
 
     $labels = array(
         'reviewfic_reviews' => array(

@@ -3,7 +3,7 @@
 Plugin Name: Reviewfic  – The Ultimate Testimonial Slider, Carousel, Grid Plugin
 Plugin URI: https://themefic.com/reviewfic/
 Description: A plugin to create and manage client reviews with custom post types and shortcodes.
-Version: 1.2.10
+Version: 1.2.11
 Author: Themefic
 Author URI: https://themefic.com
 Text Domain: reviewfic
