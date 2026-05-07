@@ -1,14 +1,14 @@
 === Reviewfic – Testimonial & Review Plugin for WordPress ===
 Contributors: hasanet, themefic
-Tags: testimonials, reviews, star rating, customer reviews, social proof, review widget, testimonial slider, review badges, Google reviews, Trustpilot
+Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.8
-Stable tag: 1.2.12
+Stable tag: 1.2.13
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The easiest way to collect, manage, and display customer reviews and testimonials on any WordPress site — with star ratings, reviewer avatars, and source badges.
+Collect, manage, and display customer reviews on your WordPress site — with star ratings, reviewer avatars, source badges, and a shortcode builder.
 
 == Description ==
 
