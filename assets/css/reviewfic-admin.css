@@ -1212,6 +1212,15 @@
     min-width: 36px;
 }
 
+.rwf-select-sm {
+    height: 30px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #d1d5db;
+    padding: 0 8px;
+    color: #374151;
+}
+
 /* Color picker override to fit our layout */
 .rwf-config-row .wp-picker-container {
     display: inline-flex;

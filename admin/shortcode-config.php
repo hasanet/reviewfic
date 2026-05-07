@@ -86,6 +86,10 @@ function rwf_config_options_cb($post) {
     $text_color   = $get('rwf_text_color',   '');
     $star_color   = $get('rwf_star_color',   '');
     $accent_color = $get('rwf_accent_color', '');
+    $meta_color   = $get('rwf_meta_color',   '');
+    $name_color   = $get('rwf_name_color',   '');
+    $card_border  = $get('rwf_card_border',  '');
+    $card_shadow  = $get('rwf_card_shadow',  'none');
     $card_radius  = $get('rwf_card_radius',  '10');
 
     $categories   = get_terms(array('taxonomy' => 'reviewfic_category', 'hide_empty' => false));
@@ -283,13 +287,34 @@ function rwf_config_options_cb($post) {
                 <input type="text" name="rwf_text_color" class="rwf-color-picker" value="<?php echo esc_attr($text_color); ?>" data-default-color="" />
             </div>
             <div class="rwf-config-row">
+                <label class="rwf-config-label">Reviewer Name Color</label>
+                <input type="text" name="rwf_name_color" class="rwf-color-picker" value="<?php echo esc_attr($name_color); ?>" data-default-color="" />
+            </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label">Designation &amp; Company Color</label>
+                <input type="text" name="rwf_meta_color" class="rwf-color-picker" value="<?php echo esc_attr($meta_color); ?>" data-default-color="" />
+            </div>
+            <div class="rwf-config-row">
                 <label class="rwf-config-label">Star Color</label>
                 <input type="text" name="rwf_star_color" class="rwf-color-picker" value="<?php echo esc_attr($star_color); ?>" data-default-color="" />
             </div>
             <div class="rwf-config-row">
                 <label class="rwf-config-label">Accent Color</label>
                 <input type="text" name="rwf_accent_color" class="rwf-color-picker" value="<?php echo esc_attr($accent_color); ?>" data-default-color="" />
-                <span style="font-size:12px;color:#6b7280;">Used for borders and badges on supported templates</span>
+                <span style="font-size:12px;color:#6b7280;">Template 2 left border · Template 3 top bar · Source badges</span>
+            </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label">Card Border Color</label>
+                <input type="text" name="rwf_card_border" class="rwf-color-picker" value="<?php echo esc_attr($card_border); ?>" data-default-color="" />
+            </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label" for="rwf_card_shadow">Box Shadow</label>
+                <select name="rwf_card_shadow" id="rwf_card_shadow" class="rwf-select-sm">
+                    <option value="none"   <?php selected($card_shadow, 'none');   ?>>None</option>
+                    <option value="sm"     <?php selected($card_shadow, 'sm');     ?>>Subtle</option>
+                    <option value="md"     <?php selected($card_shadow, 'md');     ?>>Medium</option>
+                    <option value="lg"     <?php selected($card_shadow, 'lg');     ?>>Strong</option>
+                </select>
             </div>
             <div class="rwf-config-row">
                 <label class="rwf-config-label" for="rwf_card_radius">Border Radius</label>
@@ -442,7 +467,7 @@ function rwf_save_config_meta($post_id) {
         update_post_meta($post_id, $key, isset($_POST[$key]) ? 'yes' : 'no');
     }
 
-    $text_fields = array('rwf_template', 'rwf_columns', 'rwf_category', 'rwf_source', 'rwf_card_bg', 'rwf_text_color', 'rwf_star_color', 'rwf_accent_color');
+    $text_fields = array('rwf_template', 'rwf_columns', 'rwf_category', 'rwf_source', 'rwf_card_bg', 'rwf_text_color', 'rwf_star_color', 'rwf_accent_color', 'rwf_meta_color', 'rwf_name_color', 'rwf_card_border', 'rwf_card_shadow');
     foreach ($text_fields as $key) {
         if (isset($_POST[$key])) {
             update_post_meta($post_id, $key, sanitize_hex_color(wp_unslash($_POST[$key])) ?: sanitize_text_field(wp_unslash($_POST[$key])));

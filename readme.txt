@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.20
+Stable tag: 1.2.21
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -208,6 +208,13 @@ No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as bef
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.21 =
+* New: Reviewer Name Color option in Design panel.
+* New: Designation and Company Color option in Design panel.
+* New: Card Border Color option in Design panel.
+* New: Box Shadow option in Design panel (None / Subtle / Medium / Strong).
+* Improvement: Accent Color hint updated to clarify it controls Template 2 left border, Template 3 top bar, and source badges.
 
 = 1.2.20 =
 * Fix: Import/Export admin CSS was not loading due to incorrect hook name.
