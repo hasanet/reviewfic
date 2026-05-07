@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof, review widget, testimonial slider, review badges, Google reviews, Trustpilot
 Requires at least: 5.4
 Tested up to: 6.8
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -125,6 +125,13 @@ Yes. The shortcode works in any block that accepts shortcodes, including the Sho
 4. Frontend — review cards with circular avatars and color-coded source badges
 
 == Changelog ==
+
+= 1.2.6 =
+* New: ID-based shortcode system — create named shortcode configs (Reviews → Shortcodes), get a permanent [reviewfic id="123"] shortcode. Edit options anytime and all pages update automatically without touching the shortcode.
+* New: reviewfic_config custom post type with full options UI: template, columns, max items, avatar, category, source filter, and all slider settings.
+* New: Slider — Navigation Arrows toggle (show/hide), Dot Indicators toggle, Autoplay (on/off), Autoplay Speed, Infinite Loop (on/off), Pause on Hover (on/off).
+* Improvement: Template picker redesigned as a single-column list with number badge, name, description, and checkmark — no more overflow on smaller screens.
+* Backward compatible: existing [reviewfic template="1" columns="3" ...] shortcodes continue to work unchanged.
 
 = 1.2.5 =
 * New: Template 3 — Minimal: no border, orange top accent line, clean editorial layout with no title field.

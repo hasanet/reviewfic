@@ -1,18 +1,53 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (!defined('ABSPATH')) exit;
 
 function reviewfic_shortcode($atts) {
     static $slider_id = 0;
 
     $atts = shortcode_atts(array(
-        'category'    => 'all',
-        'columns'     => 1,
-        'max_items'   => -1,
-        'show_avatar' => 'yes',
-        'source'      => 'all',
-        'slider'      => 'no',
-        'template'    => '1',
+        'id'           => 0,
+        // Display
+        'template'     => '1',
+        'columns'      => 1,
+        'max_items'    => -1,
+        'show_avatar'  => 'yes',
+        // Filter
+        'category'     => 'all',
+        'source'       => 'all',
+        // Slider
+        'slider'       => 'no',
+        'slider_nav'   => 'yes',
+        'slider_dots'  => 'yes',
+        'slider_auto'  => 'no',
+        'slider_speed' => '4000',
+        'slider_loop'  => 'yes',
+        'slider_pause' => 'yes',
     ), $atts, 'reviewfic');
+
+    // ── Load from saved config if ID provided ─────────────────
+    $config_id = intval($atts['id']);
+    if ($config_id > 0) {
+        $config = get_post($config_id);
+        if ($config && $config->post_type === 'reviewfic_config' && $config->post_status === 'publish') {
+            $get = function($key, $fallback) use ($config_id) {
+                $v = get_post_meta($config_id, $key, true);
+                return ($v !== '' && $v !== false) ? $v : $fallback;
+            };
+            $atts['template']     = $get('rwf_template',     '1');
+            $atts['columns']      = $get('rwf_columns',      1);
+            $atts['max_items']    = $get('rwf_max_items',    -1) ?: -1;
+            $atts['show_avatar']  = $get('rwf_show_avatar',  'yes');
+            $atts['category']     = $get('rwf_category',     'all');
+            $atts['source']       = $get('rwf_source',       'all');
+            $atts['slider']       = $get('rwf_slider',       'no');
+            $atts['slider_nav']   = $get('rwf_slider_nav',   'yes');
+            $atts['slider_dots']  = $get('rwf_slider_dots',  'yes');
+            $atts['slider_auto']  = $get('rwf_slider_auto',  'no');
+            $atts['slider_speed'] = $get('rwf_slider_speed', '4000');
+            $atts['slider_loop']  = $get('rwf_slider_loop',  'yes');
+            $atts['slider_pause'] = $get('rwf_slider_pause', 'yes');
+        }
+    }
 
     $template      = in_array($atts['template'], array('1','2','3','4','5'), true) ? $atts['template'] : '1';
     $use_slider    = $atts['slider'] === 'yes';
@@ -41,7 +76,16 @@ function reviewfic_shortcode($atts) {
     // ── Wrapper ───────────────────────────────────────────────
     if ($use_slider) {
         $slider_id++;
-        $output  = '<div class="reviewfic-slider" id="reviewfic-slider-' . $slider_id . '">';
+        $output = sprintf(
+            '<div class="reviewfic-slider" id="reviewfic-slider-%d" data-nav="%s" data-dots="%s" data-auto="%s" data-speed="%d" data-loop="%s" data-pause="%s">',
+            $slider_id,
+            $atts['slider_nav']   === 'yes' ? 'yes' : 'no',
+            $atts['slider_dots']  === 'yes' ? 'yes' : 'no',
+            $atts['slider_auto']  === 'yes' ? 'yes' : 'no',
+            intval($atts['slider_speed']),
+            $atts['slider_loop']  === 'yes' ? 'yes' : 'no',
+            $atts['slider_pause'] === 'yes' ? 'yes' : 'no'
+        );
         $output .= '<div class="reviewfic-slider-track">';
     } else {
         $output = '<div class="reviewfic-columns reviewfic-columns-' . esc_attr($atts['columns']) . '">';
@@ -58,26 +102,25 @@ function reviewfic_shortcode($atts) {
         $source_terms  = wp_get_post_terms($post_id, 'reviewfic_source');
         $review_source = (!empty($source_terms) && !is_wp_error($source_terms)) ? $source_terms[0] : null;
 
-        // Stars HTML
+        // Stars
         if (!function_exists('reviewfic_get_star_svg')) {
             function reviewfic_get_star_svg($type = 'full') {
-                $map = array('full' => 'star-solid.svg', 'half' => 'star-half-stroke-solid.svg', 'empty' => 'star-regular.svg');
+                $map  = array('full' => 'star-solid.svg', 'half' => 'star-half-stroke-solid.svg', 'empty' => 'star-regular.svg');
                 $file = plugin_dir_path(__FILE__) . 'assets/img/' . ($map[$type] ?? 'star-regular.svg');
                 return file_exists($file) ? file_get_contents($file) : '';
             }
         }
-
         $star_html    = '';
-        $whole_stars  = floor((float) $stars);
-        $decimal_part = (float) $stars - $whole_stars;
+        $whole        = floor((float) $stars);
+        $dec          = (float) $stars - $whole;
         for ($i = 1; $i <= 5; $i++) {
-            if ($i <= $whole_stars) $star_html .= reviewfic_get_star_svg('full');
-            elseif ($i == $whole_stars + 1 && $decimal_part >= 0.5) $star_html .= reviewfic_get_star_svg('half');
+            if ($i <= $whole) $star_html .= reviewfic_get_star_svg('full');
+            elseif ($i == $whole + 1 && $dec >= 0.5) $star_html .= reviewfic_get_star_svg('half');
             else $star_html .= reviewfic_get_star_svg('empty');
         }
-        $stars_markup = '<p class="reviewfic-stars">' . $star_html . ' <span class="reviewfic-star-score">(' . esc_html($stars) . ')</span></p>';
+        $stars_markup = '<p class="reviewfic-stars">' . $star_html . '<span class="reviewfic-star-score">(' . esc_html($stars) . ')</span></p>';
 
-        // Source badge HTML
+        // Source badge
         $badge_markup = '';
         if ($review_source) {
             $slug      = $review_source->slug;
@@ -85,7 +128,7 @@ function reviewfic_shortcode($atts) {
             $badge_markup = '<span class="reviewfic-source-badge ' . esc_attr($css_class) . '">' . esc_html($review_source->name) . '</span>';
         }
 
-        // Avatar + client row HTML
+        // Avatar + client
         $avatar_markup = '';
         if ($atts['show_avatar'] === 'yes' && !empty($reviewer_photo)) {
             $img = wp_get_attachment_image($reviewer_photo, 'thumbnail', false, array('class' => 'reviewfic-avatar-img', 'alt' => esc_attr($client_name)));
@@ -96,65 +139,58 @@ function reviewfic_shortcode($atts) {
             . '<div class="reviewfic-client-info">'
             . '<span class="reviewfic-client-name">' . esc_html($client_name) . '</span>'
             . '<span class="reviewfic-client-company">' . esc_html($client_company) . '</span>'
-            . '</div>'
-            . '</div>';
+            . '</div></div>';
 
-        // ── Render by template ────────────────────────────────
+        // Render by template
         $output .= '<div class="reviewfic-item reviewfic-template-' . $template . '">';
-
-        if ($template === '1') {
-            // Classic: badge → stars → title → content → client
-            $output .= $badge_markup;
-            $output .= $stars_markup;
-            $output .= '<h3 class="reviewfic-title">' . get_the_title() . '</h3>';
-            $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
-            $output .= $client_markup;
-
-        } elseif ($template === '2') {
-            // Quote: client → content → stars → badge
-            $output .= $client_markup;
-            $output .= '<div class="reviewfic-content reviewfic-quote">' . get_the_content() . '</div>';
-            $output .= $stars_markup;
-            $output .= $badge_markup;
-
-        } elseif ($template === '3') {
-            // Minimal: stars → content → badge → client (no title, no border)
-            $output .= $stars_markup;
-            $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
-            $output .= $badge_markup;
-            $output .= $client_markup;
-
-        } elseif ($template === '4') {
-            // Dark: badge → stars → title → content → client (dark card)
-            $output .= $badge_markup;
-            $output .= $stars_markup;
-            $output .= '<h3 class="reviewfic-title">' . get_the_title() . '</h3>';
-            $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
-            $output .= $client_markup;
-
-        } elseif ($template === '5') {
-            // Centered: client (avatar centered) → stars → content → badge
-            $output .= $client_markup;
-            $output .= $stars_markup;
-            $output .= '<div class="reviewfic-content reviewfic-quote">' . get_the_content() . '</div>';
-            $output .= $badge_markup;
+        switch ($template) {
+            case '2': // Quote
+                $output .= $client_markup;
+                $output .= '<div class="reviewfic-content reviewfic-quote">' . get_the_content() . '</div>';
+                $output .= $stars_markup;
+                $output .= $badge_markup;
+                break;
+            case '3': // Minimal
+                $output .= $stars_markup;
+                $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
+                $output .= $badge_markup;
+                $output .= $client_markup;
+                break;
+            case '4': // Dark
+                $output .= $badge_markup;
+                $output .= $stars_markup;
+                $output .= '<h3 class="reviewfic-title">' . get_the_title() . '</h3>';
+                $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
+                $output .= $client_markup;
+                break;
+            case '5': // Centered
+                $output .= $client_markup;
+                $output .= $stars_markup;
+                $output .= '<div class="reviewfic-content reviewfic-quote">' . get_the_content() . '</div>';
+                $output .= $badge_markup;
+                break;
+            default: // Classic
+                $output .= $badge_markup;
+                $output .= $stars_markup;
+                $output .= '<h3 class="reviewfic-title">' . get_the_title() . '</h3>';
+                $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
+                $output .= $client_markup;
         }
-
         $output .= '</div>';
     endwhile;
     wp_reset_postdata();
 
     // ── Close wrapper ─────────────────────────────────────────
     if ($use_slider) {
-        $output .= '</div>'; // .reviewfic-slider-track
-        $output .= '<div class="reviewfic-slider-nav">';
-        $output .= '<button class="reviewfic-slider-prev" aria-label="Previous review">&#8249;</button>';
-        $output .= '<div class="reviewfic-slider-dots"></div>';
-        $output .= '<button class="reviewfic-slider-next" aria-label="Next review">&#8250;</button>';
         $output .= '</div>';
-        $output .= '</div>'; // .reviewfic-slider
+        $output .= '<div class="reviewfic-slider-nav">';
+        $output .= '<button class="reviewfic-slider-prev" aria-label="Previous">&#8249;</button>';
+        $output .= '<div class="reviewfic-slider-dots"></div>';
+        $output .= '<button class="reviewfic-slider-next" aria-label="Next">&#8250;</button>';
+        $output .= '</div>';
+        $output .= '</div>';
     } else {
-        $output .= '</div>'; // .reviewfic-columns
+        $output .= '</div>';
     }
 
     return $output;

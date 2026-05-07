@@ -878,3 +878,203 @@
 .rwf-tp-stars.centered {
     text-align: center;
 }
+
+/* =====================================================
+   SHORTCODE CONFIG META BOX
+   ===================================================== */
+
+/* Fix template picker to single column in generator */
+.rwf-template-picker {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px;
+}
+
+/* Sidebar shortcode display */
+.rwf-sc-display {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rwf-sc-display code {
+    display: block;
+    background: #1e1e2e;
+    color: #a6e3a1;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    word-break: break-all;
+    font-family: 'SFMono-Regular', Consolas, monospace;
+}
+
+.rwf-sc-copy {
+    width: 100%;
+    text-align: center;
+}
+
+/* Config meta box wrap */
+.rwf-config-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 4px 0;
+}
+
+/* Config sections */
+.rwf-config-section {
+    border: 1px solid var(--rwf-border);
+    border-radius: var(--rwf-radius);
+    overflow: hidden;
+    background: #fff;
+}
+
+.rwf-config-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    background: var(--rwf-bg);
+    border-bottom: 1px solid var(--rwf-border);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--rwf-muted);
+}
+
+.rwf-config-section-title .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: var(--rwf-primary);
+}
+
+/* Two-column grid for display+filter */
+.rwf-config-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 782px) {
+    .rwf-config-grid { grid-template-columns: 1fr; }
+}
+
+/* Config row */
+.rwf-config-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rwf-border);
+    flex-wrap: wrap;
+}
+
+.rwf-config-row:last-child { border-bottom: none; }
+
+.rwf-config-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rwf-text);
+    min-width: 130px;
+    flex-shrink: 0;
+}
+
+/* Template list picker */
+.rwf-tpl-list {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rwf-tpl-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--rwf-border);
+    border-radius: var(--rwf-radius-sm);
+    cursor: pointer;
+    transition: all .15s;
+    background: #fff;
+}
+
+.rwf-tpl-row:hover {
+    border-color: var(--rwf-primary);
+    background: var(--rwf-primary-lt);
+}
+
+.rwf-tpl-row.active {
+    border-color: var(--rwf-primary);
+    background: var(--rwf-primary-lt);
+}
+
+.rwf-tpl-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--rwf-border);
+    color: var(--rwf-muted);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all .15s;
+}
+
+.rwf-tpl-row.active .rwf-tpl-num {
+    background: var(--rwf-primary);
+    color: #fff;
+}
+
+.rwf-tpl-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    font-size: 13px;
+}
+
+.rwf-tpl-info strong {
+    color: var(--rwf-text);
+}
+
+.rwf-tpl-info span {
+    font-size: 11px;
+    color: var(--rwf-muted);
+}
+
+.rwf-tpl-check {
+    color: var(--rwf-primary);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    opacity: 0;
+    transition: opacity .15s;
+}
+
+.rwf-tpl-row.active .rwf-tpl-check { opacity: 1; }
+
+/* Slider sub-options */
+.rwf-slider-subopts {
+    overflow: hidden;
+    transition: max-height .25s ease;
+    max-height: 600px;
+}
+
+.rwf-slider-subopts.rwf-collapsed {
+    max-height: 0;
+    border-top: none;
+}
+
+.rwf-subopts-grid {
+    border-top: 1px solid var(--rwf-border);
+    background: #fafafa;
+}
+
+/* Hidden utility */
+.rwf-hidden { display: none !important; }
