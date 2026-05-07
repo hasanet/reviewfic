@@ -3,7 +3,7 @@
 Plugin Name: Reviewfic  – The Ultimate Testimonial Slider, Carousel, Grid Plugin
 Plugin URI: https://themefic.com/reviewfic/
 Description: A plugin to create and manage client reviews with custom post types and shortcodes.
-Version: 1.2.6
+Version: 1.2.12
 Author: Themefic
 Author URI: https://themefic.com
 Text Domain: reviewfic
@@ -72,10 +72,9 @@ function reviewfic_admin_enqueue($hook) {
                       && isset($post) && $post->post_type === 'reviewfic_reviews';
     $on_config_edit = in_array($hook, array('post.php', 'post-new.php'), true)
                       && isset($post) && $post->post_type === 'reviewfic_config';
-    $on_generator   = $hook === 'reviewfic_reviews_page_reviewfic_shortcode_generator';
 
-    // Load admin CSS on review edits, config edits, and generator page
-    if (($on_review_edit || $on_config_edit || $on_generator) && file_exists($admin_css_file)) {
+    // Load admin CSS on review edits and config edits
+    if (($on_review_edit || $on_config_edit) && file_exists($admin_css_file)) {
         wp_enqueue_style(
             'reviewfic-admin-style',
             plugin_dir_url(__FILE__) . 'assets/css/reviewfic-admin.css',
@@ -89,8 +88,14 @@ function reviewfic_admin_enqueue($hook) {
         wp_enqueue_media();
     }
 
-    // Shortcode generator JS — generator page and config edit screen
-    if ($on_generator || $on_config_edit) {
+    // Color picker — config edit screen
+    if ($on_config_edit) {
+        wp_enqueue_style('wp-color-picker');
+        wp_enqueue_script('wp-color-picker');
+    }
+
+    // Shortcode generator JS — config edit screen only
+    if ($on_config_edit) {
         $js_file = plugin_dir_path(__FILE__) . 'assets/js/reviewfic.js';
         if (file_exists($js_file)) {
             wp_enqueue_script(
@@ -109,6 +114,6 @@ add_action('admin_enqueue_scripts', 'reviewfic_admin_enqueue');
 // Include admin files
 require_once plugin_dir_path(__FILE__) . 'admin/post-types-taxonomy.php';
 require_once plugin_dir_path(__FILE__) . 'admin/meta-boxes.php';
-require_once plugin_dir_path(__FILE__) . 'admin/shortcode-generator.php';
 require_once plugin_dir_path(__FILE__) . 'admin/shortcode-config.php';
+require_once plugin_dir_path(__FILE__) . 'admin/admin-brand.php';
 require_once plugin_dir_path(__FILE__) . 'admin/shortcode.php';

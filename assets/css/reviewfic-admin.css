@@ -1,14 +1,14 @@
 /* =====================================================
    Reviewfic — Admin Styles v1.2.3
    Meta Box + Shortcode Generator
-   Brand color: Review Orange #f97316
+   Brand color: Review Orange #0E9F6E
    ===================================================== */
 
 /* ── Design tokens ──────────────────────────────────── */
 :root {
-    --rwf-primary:      #f97316;
-    --rwf-primary-lt:   #fff7ed;
-    --rwf-primary-dk:   #ea580c;
+    --rwf-primary:      #0E9F6E;
+    --rwf-primary-lt:   #ECFDF5;
+    --rwf-primary-dk:   #057A55;
     --rwf-danger:       #ef4444;
     --rwf-danger-lt:    #fee2e2;
     --rwf-border:       #e5e7eb;
@@ -31,7 +31,7 @@
 /* Header bar — "Review Details" title area */
 #reviewfic_meta_box .postbox-header {
     background: var(--rwf-primary-lt);
-    border-bottom: 1px solid #fde8d0;
+    border-bottom: 1px solid #D1FAE5;
 }
 
 #reviewfic_meta_box .postbox-header h2,
@@ -131,7 +131,7 @@
 .rwf-text-input:focus {
     border-color: var(--rwf-primary);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(249,115,22,.15);
+    box-shadow: 0 0 0 3px rgba(14,159,110,.15);
 }
 
 .rwf-select {
@@ -149,7 +149,7 @@
 .rwf-select:focus {
     border-color: var(--rwf-primary);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(249,115,22,.15);
+    box-shadow: 0 0 0 3px rgba(14,159,110,.15);
 }
 
 .rwf-number-input {
@@ -166,7 +166,7 @@
 .rwf-number-input:focus {
     border-color: var(--rwf-primary);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(249,115,22,.15);
+    box-shadow: 0 0 0 3px rgba(14,159,110,.15);
 }
 
 .rwf-hint {
@@ -400,7 +400,7 @@
 .rwf-gen-select:focus {
     border-color: var(--rwf-primary);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(249,115,22,.15);
+    box-shadow: 0 0 0 3px rgba(14,159,110,.15);
 }
 
 .rwf-gen-number {
@@ -417,7 +417,7 @@
 .rwf-gen-number:focus {
     border-color: var(--rwf-primary);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(249,115,22,.15);
+    box-shadow: 0 0 0 3px rgba(14,159,110,.15);
 }
 
 .rwf-gen-hint {
@@ -745,7 +745,7 @@
 /* Template 2 preview has orange left border */
 .rwf-tp-2 {
     border-left: 3px solid var(--rwf-primary);
-    background: #fffbf7;
+    background: #F0FDF4;
 }
 
 .rwf-tp-stars {
@@ -799,7 +799,7 @@
 
 .rwf-tp-quote {
     font-size: 22px;
-    color: rgba(249,115,22,.3);
+    color: rgba(14,159,110,.3);
     font-family: Georgia, serif;
     line-height: 1;
     margin-bottom: 2px;
@@ -855,7 +855,7 @@
 .rwf-tp-4 .rwf-tp-stars { color: #f59e0b; }
 
 .rwf-tp-line.dark  { background: #374151; }
-.rwf-tp-avatar.dark { background: #374151; border: 1px solid #f97316; }
+.rwf-tp-avatar.dark { background: #374151; border: 1px solid #0E9F6E; }
 
 /* Template 5 — Centered preview */
 .rwf-tp-5 {
@@ -1078,3 +1078,143 @@
 
 /* Hidden utility */
 .rwf-hidden { display: none !important; }
+
+/* ── Template row mini previews ──────────────────────── */
+.rwf-tpl-mini-preview {
+    width: 72px;
+    height: 64px;
+    border-radius: 5px;
+    border: 1px solid #e5e7eb;
+    padding: 7px 6px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Template 2 — Quote */
+.rwf-mp-2 {
+    border-left: 3px solid var(--rwf-primary);
+    background: #F0FDF4;
+}
+
+/* Template 3 — Minimal */
+.rwf-mp-3 {
+    border-top: 2px solid var(--rwf-primary);
+    border-radius: 0;
+}
+
+/* Template 4 — Dark */
+.rwf-mp-4 {
+    background: #111827;
+    border-color: #374151;
+}
+
+/* Template 5 — Centered */
+.rwf-mp-5 {
+    align-items: center;
+}
+
+/* Stars */
+.rwf-mp-stars {
+    font-size: 7px;
+    color: #f59e0b;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+.rwf-mp-stars.centered { text-align: center; }
+
+/* Lines */
+.rwf-mp-line {
+    height: 3px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    width: 100%;
+}
+.rwf-mp-line.short  { width: 65%; }
+.rwf-mp-line.xshort { width: 40%; }
+.rwf-mp-line.light  { background: #374151; }
+.rwf-mp-line.centered { margin-left: auto; margin-right: auto; }
+
+/* Quote mark */
+.rwf-mp-quote {
+    font-size: 16px;
+    color: rgba(14,159,110,.35);
+    font-family: Georgia, serif;
+    line-height: 1;
+    margin: -2px 0;
+}
+
+/* Avatar row */
+.rwf-mp-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.rwf-mp-circle {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #d1d5db;
+    flex-shrink: 0;
+}
+.rwf-mp-circle.centered {
+    margin: 0 auto 2px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--rwf-primary);
+    background: #e5e7eb;
+}
+.rwf-mp-circle.orange-ring {
+    border: 1px solid var(--rwf-primary);
+    background: #4b5563;
+}
+
+.rwf-mp-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+/* ── Design section ───────────────────────────────────── */
+.rwf-section-hint {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--rwf-muted);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.rwf-range-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rwf-range {
+    width: 160px;
+    accent-color: var(--rwf-primary);
+    cursor: pointer;
+}
+
+.rwf-range-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rwf-primary);
+    min-width: 36px;
+}
+
+/* Color picker override to fit our layout */
+.rwf-config-row .wp-picker-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
