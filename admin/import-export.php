@@ -225,7 +225,8 @@ function reviewfic_import_export_page() {
     $count = array_sum( (array) $total );
     ?>
     <div class="wrap rwf-ie-wrap">
-        <h1><?php esc_html_e( 'Import / Export', 'reviewfic' ); ?></h1>
+        <h1 class="wp-heading-inline"><?php esc_html_e( 'Import / Export', 'reviewfic' ); ?></h1>
+        <hr class="wp-header-end">
 
         <?php reviewfic_ie_notices(); ?>
 
@@ -233,30 +234,45 @@ function reviewfic_import_export_page() {
 
             <!-- ── Export ───────────────────────────────── -->
             <div class="rwf-ie-card">
-                <div class="rwf-ie-card-icon">⬇️</div>
-                <h2><?php esc_html_e( 'Export Reviews', 'reviewfic' ); ?></h2>
-                <p><?php printf(
-                    esc_html__( 'Download all %d reviews as a file. Import it into another site or keep it as a backup.', 'reviewfic' ),
-                    intval( $count )
-                ); ?></p>
+                <div class="rwf-ie-card-header">
+                    <span class="dashicons dashicons-download rwf-ie-card-icon"></span>
+                    <div>
+                        <h2><?php esc_html_e( 'Export Reviews', 'reviewfic' ); ?></h2>
+                        <p><?php printf(
+                            esc_html__( 'Download all %d reviews as a file. Use it as a backup or to import into another site.', 'reviewfic' ),
+                            intval( $count )
+                        ); ?></p>
+                    </div>
+                </div>
 
-                <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="rwf-ie-export-form">
+                <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
                     <?php wp_nonce_field( 'reviewfic_export' ); ?>
 
                     <div class="rwf-ie-format-picker">
                         <label class="rwf-ie-format-option">
                             <input type="radio" name="action" value="reviewfic_export_csv" checked>
-                            <span class="rwf-ie-format-badge rwf-ie-csv">CSV</span>
-                            <span class="rwf-ie-format-label"><?php esc_html_e( 'Spreadsheet-compatible, opens in Excel / Google Sheets', 'reviewfic' ); ?></span>
+                            <div class="rwf-ie-format-body">
+                                <span class="rwf-ie-format-badge rwf-ie-csv">CSV</span>
+                                <div>
+                                    <strong><?php esc_html_e( 'Spreadsheet', 'reviewfic' ); ?></strong>
+                                    <span><?php esc_html_e( 'Opens in Excel or Google Sheets', 'reviewfic' ); ?></span>
+                                </div>
+                            </div>
                         </label>
                         <label class="rwf-ie-format-option">
                             <input type="radio" name="action" value="reviewfic_export_json">
-                            <span class="rwf-ie-format-badge rwf-ie-json">JSON</span>
-                            <span class="rwf-ie-format-label"><?php esc_html_e( 'Structured data, ideal for developer use or re-importing', 'reviewfic' ); ?></span>
+                            <div class="rwf-ie-format-body">
+                                <span class="rwf-ie-format-badge rwf-ie-json">JSON</span>
+                                <div>
+                                    <strong><?php esc_html_e( 'Structured Data', 'reviewfic' ); ?></strong>
+                                    <span><?php esc_html_e( 'Ideal for developers or re-importing', 'reviewfic' ); ?></span>
+                                </div>
+                            </div>
                         </label>
                     </div>
 
                     <button type="submit" class="button button-primary rwf-ie-btn">
+                        <span class="dashicons dashicons-download"></span>
                         <?php esc_html_e( 'Download Export', 'reviewfic' ); ?>
                     </button>
                 </form>
@@ -264,18 +280,22 @@ function reviewfic_import_export_page() {
 
             <!-- ── Import ───────────────────────────────── -->
             <div class="rwf-ie-card">
-                <div class="rwf-ie-card-icon">⬆️</div>
-                <h2><?php esc_html_e( 'Import Reviews', 'reviewfic' ); ?></h2>
-                <p><?php esc_html_e( 'Upload a CSV or JSON file to bulk-create reviews. The file must match the export format.', 'reviewfic' ); ?></p>
+                <div class="rwf-ie-card-header">
+                    <span class="dashicons dashicons-upload rwf-ie-card-icon"></span>
+                    <div>
+                        <h2><?php esc_html_e( 'Import Reviews', 'reviewfic' ); ?></h2>
+                        <p><?php esc_html_e( 'Upload a CSV or JSON file to bulk-create reviews. Must match the export format.', 'reviewfic' ); ?></p>
+                    </div>
+                </div>
 
                 <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
                     <?php wp_nonce_field( 'reviewfic_import' ); ?>
                     <input type="hidden" name="action" value="reviewfic_import">
 
                     <div class="rwf-ie-dropzone" id="rwf-ie-dropzone">
-                        <div class="rwf-ie-dropzone-icon">📄</div>
+                        <span class="dashicons dashicons-media-spreadsheet rwf-ie-drop-icon"></span>
                         <p class="rwf-ie-dropzone-text">
-                            <strong><?php esc_html_e( 'Drag & drop your file here', 'reviewfic' ); ?></strong><br>
+                            <strong><?php esc_html_e( 'Drag & drop your file here', 'reviewfic' ); ?></strong>
                             <span><?php esc_html_e( 'or', 'reviewfic' ); ?> <button type="button" class="rwf-ie-browse"><?php esc_html_e( 'browse to upload', 'reviewfic' ); ?></button></span>
                         </p>
                         <p class="rwf-ie-dropzone-hint"><?php esc_html_e( '.csv or .json — exported from Reviewfic', 'reviewfic' ); ?></p>
@@ -284,9 +304,13 @@ function reviewfic_import_export_page() {
                     </div>
 
                     <details class="rwf-ie-format-guide">
-                        <summary><?php esc_html_e( 'Required columns / fields', 'reviewfic' ); ?></summary>
+                        <summary><?php esc_html_e( 'View required columns / fields', 'reviewfic' ); ?></summary>
                         <table class="rwf-ie-schema">
-                            <thead><tr><th><?php esc_html_e( 'Field', 'reviewfic' ); ?></th><th><?php esc_html_e( 'Required', 'reviewfic' ); ?></th><th><?php esc_html_e( 'Notes', 'reviewfic' ); ?></th></tr></thead>
+                            <thead><tr>
+                                <th><?php esc_html_e( 'Field', 'reviewfic' ); ?></th>
+                                <th><?php esc_html_e( 'Required', 'reviewfic' ); ?></th>
+                                <th><?php esc_html_e( 'Notes', 'reviewfic' ); ?></th>
+                            </tr></thead>
                             <tbody>
                                 <tr><td><code>title</code></td><td><?php esc_html_e( 'No', 'reviewfic' ); ?></td><td><?php esc_html_e( 'Review headline', 'reviewfic' ); ?></td></tr>
                                 <tr><td><code>content</code></td><td><?php esc_html_e( 'Yes*', 'reviewfic' ); ?></td><td><?php esc_html_e( 'Review body text', 'reviewfic' ); ?></td></tr>
@@ -300,10 +324,11 @@ function reviewfic_import_export_page() {
                                 <tr><td><code>date</code></td><td><?php esc_html_e( 'No', 'reviewfic' ); ?></td><td><?php esc_html_e( 'Y-m-d H:i:s', 'reviewfic' ); ?></td></tr>
                             </tbody>
                         </table>
-                        <p class="rwf-ie-schema-note"><?php esc_html_e( '* Rows with both title and content empty are skipped.', 'reviewfic' ); ?></p>
+                        <p class="rwf-ie-schema-note"><?php esc_html_e( '* Rows where both title and content are empty are skipped.', 'reviewfic' ); ?></p>
                     </details>
 
                     <button type="submit" class="button button-primary rwf-ie-btn">
+                        <span class="dashicons dashicons-upload"></span>
                         <?php esc_html_e( 'Import File', 'reviewfic' ); ?>
                     </button>
                 </form>
@@ -321,7 +346,7 @@ function reviewfic_import_export_page() {
         if (!dropzone || !fileInput) return;
 
         function setFile(name) {
-            fileLabel.textContent = name ? '📎 ' + name : '';
+            fileLabel.textContent = name ? name : '';
             dropzone.classList.toggle('rwf-ie-has-file', !!name);
         }
 

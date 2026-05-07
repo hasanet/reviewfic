@@ -367,11 +367,16 @@ function rwf_config_options_cb($post) {
 
     <script>
     jQuery(document).ready(function($) {
-        // Template row picker
-        $('.rwf-tpl-row').on('click', function() {
+        // Template row picker — restore active state on load, then handle clicks
+        function setActiveTpl(val) {
             $('.rwf-tpl-row').removeClass('active');
-            $(this).addClass('active');
-            $('#rwf_template').val($(this).data('value'));
+            $('.rwf-tpl-row[data-value="' + val + '"]').addClass('active');
+            $('#rwf_template').val(val);
+        }
+        setActiveTpl($('#rwf_template').val() || '1');
+
+        $('.rwf-tpl-row').on('click', function() {
+            setActiveTpl($(this).data('value'));
         });
 
         // Column toggle
