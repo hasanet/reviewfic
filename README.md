@@ -4,7 +4,7 @@
 
 ### Testimonial Slider, Testimonial Grid & Customer Reviews for WordPress
 
-[![Version](https://img.shields.io/badge/version-1.2.16-brightgreen.svg)](https://github.com/hasanet/reviewfic)
+[![Version](https://img.shields.io/badge/version-1.2.17-brightgreen.svg)](https://github.com/hasanet/reviewfic)
 [![WordPress](https://img.shields.io/badge/WordPress-5.4%2B-blue.svg)](https://wordpress.org)
 [![Tested up to](https://img.shields.io/badge/tested%20up%20to-WP%206.9-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
@@ -259,7 +259,10 @@ The deploy script syncs files to Local by Flywheel and pushes to the `new-update
 
 See [readme.txt](readme.txt) for the full changelog.
 
-**Latest — v1.2.16**
+**Latest — v1.2.17**
+- New: Photo upload field on `[reviewfic_form]` — reviewers upload their own profile photo with a live circular preview
+
+**v1.2.16**
 - New: `[reviewfic_form]` shortcode — built-in customer review submission form
 - New: Contact Form 7 Integration — map CF7 fields to Reviewfic via the CF7 editor
 - Improvement: Cleaned up readme; removed legacy shortcode documentation

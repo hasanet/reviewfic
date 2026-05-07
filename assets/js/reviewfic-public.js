@@ -176,3 +176,39 @@
         initAll();
     }
 })();
+
+// ── Review Form — Photo Preview ─────────────────────────────────────────────
+(function () {
+    'use strict';
+
+    function initPhotoPreview(form) {
+        var input   = form.querySelector('#rwf_photo');
+        var preview = form.querySelector('#rwf-photo-preview');
+        if (!input || !preview) return;
+
+        input.addEventListener('change', function () {
+            var file = input.files[0];
+            if (!file || !file.type.startsWith('image/')) {
+                preview.style.display = 'none';
+                preview.innerHTML = '';
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                preview.innerHTML = '<img src="' + e.target.result + '" alt="Preview">';
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function initAll() {
+        document.querySelectorAll('.rwf-submission-form').forEach(initPhotoPreview);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+        initAll();
+    }
+})();

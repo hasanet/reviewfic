@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.16
+Stable tag: 1.2.17
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -208,6 +208,9 @@ No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as bef
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.17 =
+* New: Photo upload field on the [reviewfic_form] submission form — reviewers can attach their own profile photo directly. Circular preview shown before submission.
 
 = 1.2.16 =
 * New: Review Collection Form — add `[reviewfic_form]` to any page to let customers submit reviews directly. Submissions are held as pending by default for approval.
