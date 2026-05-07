@@ -12,6 +12,11 @@ Collect, manage, and display customer reviews on your WordPress site — with st
 
 == Description ==
 
+👉 Official Demo Link: [Click Here](https://themefic.com/reviewfic/)
+👉 Get Support: [Click Here](https://portal.themefic.com/support/)
+👉 Our [Documentation](https://themefic.com/reviewfic/docs)
+👉 Join Our [Facebook Group](https://www.facebook.com/groups/themefic)
+
 **Reviewfic** is a lightweight yet powerful WordPress testimonial and review plugin. Whether you are collecting client feedback for a portfolio, showcasing product reviews on an eCommerce store, or aggregating ratings from Google, Trustpilot, G2, and Capterra onto one page — Reviewfic gives you everything you need with zero coding required.
 
 Reviews are managed as a native WordPress custom post type, making them easy to add, edit, organise, and display anywhere on your site using a simple shortcode.
