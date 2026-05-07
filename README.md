@@ -38,6 +38,7 @@ Collect, manage, and display customer reviews on any WordPress site — star rat
 | 📐 **Responsive Grid** | 1–4 column layout, collapses to single column on mobile automatically |
 | 📝 **Review Collection Form** | `[reviewfic_form]` — let customers submit reviews directly from any page. Pending approval by default. |
 | 🔗 **Contact Form 7 Integration** | Map CF7 fields to Reviewfic fields via a built-in tab in the CF7 editor. No coding needed. |
+| 📤 **Import / Export** | Export all reviews as CSV or JSON. Import from either format — new sources/categories created automatically. |
 | ♿ **Accessible Slider** | Touch swipe, keyboard arrow keys, and ARIA labels |
 | 🔌 **Zero Dependencies** | No jQuery plugins, no external CDN calls on the frontend |
 
@@ -163,11 +164,43 @@ Renders a styled review submission form on any page. Customers fill in their nam
 
 ---
 
+## 🎨 Design Options
+
+Each shortcode configuration supports independent visual overrides — no CSS required:
+
+| Option | Description |
+|---|---|
+| **Card Background** | Fill color for each review card |
+| **Text Color** | Body/content text color |
+| **Reviewer Name Color** | Color of the reviewer's name |
+| **Designation & Company Color** | Color of the "CEO · Acme Corp" sub-line |
+| **Star Color** | Color of the star rating icons |
+| **Accent Color** | Template 2 left border · Template 3 top bar · Source badge borders |
+| **Card Border Color** | Color of the card's outer border |
+| **Box Shadow** | None / Subtle / Medium / Strong |
+| **Border Radius** | 0–24px slider |
+
+All values are applied as CSS custom properties on the shortcode wrapper, so multiple shortcodes on the same page are fully independent.
+
+---
+
+## 📤 Import / Export
+
+Go to **Reviewfic → Import / Export** to bulk-manage reviews.
+
+**Export** — Download all reviews as:
+- **CSV** — opens in Excel or Google Sheets
+- **JSON** — structured data for developers or cross-site migration
+
+**Import** — Upload a `.csv` or `.json` file to bulk-create reviews. New sources and categories are created automatically if they don't exist. Rows with both title and content empty are skipped. New reviews default to **pending** unless the file specifies otherwise.
+
+---
+
 ## 📝 Collecting Reviews from Customers
 
 ### Built-in Form
 
-Place `[reviewfic_form]` on any page or post. A styled form is rendered with fields for name, designation, company, star rating, review title, review content, and platform source. Submissions are saved as **pending** by default — approve them from **Reviewfic → All Reviews**.
+Place `[reviewfic_form]` on any page or post. A styled form is rendered with fields for name, designation, company, star rating, review title, review content, platform source, and a **drag-and-drop photo upload** with live circular preview. Submissions are saved as **pending** by default — approve them from **Reviewfic → All Reviews**.
 
 ### Contact Form 7 Integration
 
@@ -221,6 +254,7 @@ reviewfic/
 │   ├── post-types-taxonomy.php  # CPT + taxonomies registration
 │   ├── shortcode-config.php     # Shortcode Generator CPT + meta box + save
 │   ├── review-form.php      # [reviewfic_form] shortcode + CF7 integration
+│   ├── import-export.php    # Import / Export admin page
 │   └── shortcode.php        # [reviewfic] shortcode handler
 ├── assets/
 │   ├── css/

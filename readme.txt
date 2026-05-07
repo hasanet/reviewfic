@@ -72,8 +72,12 @@ Customise the visual style of each shortcode independently — no CSS required:
 <ul>
 <li>Card background color</li>
 <li>Content text color</li>
+<li>Reviewer name color</li>
+<li>Designation and company color</li>
 <li>Star color</li>
-<li>Accent/border color (used on Templates 2 and 3)</li>
+<li>Accent color — controls Template 2 left border, Template 3 top bar, and source badge borders</li>
+<li>Card border color</li>
+<li>Box shadow (None / Subtle / Medium / Strong)</li>
 <li>Border radius (0–24px slider)</li>
 </ul>
 
@@ -89,12 +93,13 @@ The Shortcode Generator includes:
 <li>Category and Review Source filters</li>
 <li>All slider options with toggle switches</li>
 <li>Pagination toggle and per-page count</li>
-<li>Color pickers and border radius for design options</li>
+<li>Color pickers for card background, text, name, designation/company, stars, accent, and border</li>
+<li>Box shadow selector and border radius slider</li>
 <li>One-click Copy Shortcode button</li>
 </ul>
 
 **Review Collection Form**
-Collect reviews directly from your customers using a built-in submission form. Place `[reviewfic_form]` on any page or post to render a styled form with all the fields your review post type supports: name, designation, company, star rating, review title, review body, and platform source. New submissions are held as pending by default so you can approve them before they go live — or set `require_approval="no"` to publish immediately.
+Collect reviews directly from your customers using a built-in submission form. Place `[reviewfic_form]` on any page or post to render a styled form with all the fields your review post type supports: name, designation, company, star rating, review title, review body, platform source, and a drag-and-drop photo upload with live circular preview. New submissions are held as pending by default so you can approve them before they go live — or set `require_approval="no"` to publish immediately.
 
 Form shortcode attributes:
 <ul>
@@ -106,6 +111,9 @@ Form shortcode attributes:
 
 **Contact Form 7 Integration**
 Connect an existing Contact Form 7 form to Reviewfic. After installing CF7, a "Reviewfic" tab appears in the CF7 form editor. Enable the integration, set the review status (pending or published), and map your CF7 field names to Reviewfic fields — Reviewer Name, Designation, Company, Star Rating, Review Title, Review Content, and Review Source. Every time that form is submitted, a review is created automatically in Reviewfic using the mapped field values. No coding required.
+
+**Import / Export**
+Bulk-manage your reviews without touching the database. Export all reviews as a CSV file (opens in Excel or Google Sheets) or as a JSON file for developer use or re-importing. Import a CSV or JSON file to bulk-create reviews on any site — new sources and categories are created automatically if they don't already exist. Access via **Reviewfic → Import / Export**.
 
 **Responsive Grid**
 Display reviews in a 1, 2, 3, or 4 column grid. Collapses to a single column on tablets and mobile automatically.
