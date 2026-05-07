@@ -702,3 +702,122 @@
 .rwf-source-yelp,      .reviewfic-source-yelp       { background: #FF1A1A; color: #fff; }
 .rwf-source-amazon,    .reviewfic-source-amazon     { background: #FF9900; color: #111; }
 .rwf-source-custom,    .reviewfic-source-custom     { background: #444;    color: #fff; }
+
+/* ── Template picker ──────────────────────────────────── */
+.rwf-template-picker {
+    display: flex;
+    gap: 12px;
+}
+
+.rwf-template-option {
+    flex: 1;
+    border: 2px solid var(--rwf-border);
+    border-radius: var(--rwf-radius);
+    padding: 10px;
+    cursor: pointer;
+    transition: all .18s;
+    background: #fff;
+    text-align: center;
+    user-select: none;
+}
+
+.rwf-template-option:hover {
+    border-color: var(--rwf-primary);
+}
+
+.rwf-template-option.active {
+    border-color: var(--rwf-primary);
+    background: var(--rwf-primary-lt);
+}
+
+.rwf-template-preview {
+    border-radius: 6px;
+    padding: 10px;
+    background: #f9fafb;
+    margin-bottom: 8px;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+}
+
+/* Template 2 preview has orange left border */
+.rwf-tp-2 {
+    border-left: 3px solid var(--rwf-primary);
+    background: #fffbf7;
+}
+
+.rwf-tp-stars {
+    font-size: 10px;
+    color: #f59e0b;
+    letter-spacing: 1px;
+}
+
+.rwf-tp-stars.small {
+    font-size: 8px;
+}
+
+.rwf-tp-line {
+    height: 5px;
+    background: #e5e7eb;
+    border-radius: 3px;
+}
+
+.rwf-tp-line.short  { width: 65%; }
+.rwf-tp-line.xshort { width: 40%; }
+
+.rwf-tp-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.rwf-tp-avatar {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #d1d5db;
+    flex-shrink: 0;
+}
+
+.rwf-tp-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+}
+
+.rwf-tp-accent-bar {
+    height: 3px;
+    width: 30px;
+    background: var(--rwf-primary);
+    border-radius: 2px;
+    margin-bottom: 2px;
+}
+
+.rwf-tp-quote {
+    font-size: 22px;
+    color: rgba(249,115,22,.3);
+    font-family: Georgia, serif;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.rwf-template-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--rwf-text);
+}
+
+.rwf-template-option.active .rwf-template-label {
+    color: var(--rwf-primary-dk);
+}
+
+/* Divider */
+.rwf-gen-divider {
+    height: 1px;
+    background: var(--rwf-border);
+    margin: 4px 0 20px;
+}

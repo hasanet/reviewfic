@@ -2,7 +2,19 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // ── Column toggle buttons ─────────────────────────────────
+    // ── Template picker ───────────────────────────────────────
+    var templateInput   = document.getElementById('reviewfic-template');
+    var templateOptions = document.querySelectorAll('.rwf-template-option');
+
+    templateOptions.forEach(function (opt) {
+        opt.addEventListener('click', function () {
+            templateOptions.forEach(function (o) { o.classList.remove('active'); });
+            opt.classList.add('active');
+            if (templateInput) templateInput.value = opt.dataset.value;
+        });
+    });
+
+    // ── Column toggle ─────────────────────────────────────────
     var colBtns = document.querySelectorAll('.rwf-col-btn');
     colBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -21,21 +33,34 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // ── Slider toggle label ───────────────────────────────────
+    var sliderToggle = document.getElementById('reviewfic-slider');
+    var sliderLabel  = document.getElementById('rwf-slider-label');
+    if (sliderToggle && sliderLabel) {
+        sliderToggle.addEventListener('change', function () {
+            sliderLabel.textContent = this.checked ? 'Yes — show as slider' : 'No — show as grid';
+        });
+    }
+
     // ── Generate shortcode ────────────────────────────────────
     var generateBtn = document.getElementById('reviewfic-generate-shortcode');
     if (generateBtn) {
         generateBtn.addEventListener('click', function () {
+            var template   = templateInput ? templateInput.value : '1';
             var category   = document.getElementById('reviewfic-category').value;
             var source     = document.getElementById('reviewfic-source').value;
             var columns    = document.getElementById('reviewfic-columns').value;
             var maxItems   = document.getElementById('reviewfic-max-items').value;
             var showAvatar = document.getElementById('reviewfic-show-avatar').checked ? 'yes' : 'no';
+            var slider     = document.getElementById('reviewfic-slider').checked ? 'yes' : 'no';
 
             var shortcode = '[reviewfic'
-                + ' category="' + category + '"'
-                + ' source="'   + source   + '"'
-                + ' columns="'  + columns  + '"'
-                + ' max_items="' + (maxItems !== '' ? maxItems : '-1') + '"'
+                + ' template="'    + template   + '"'
+                + ' slider="'      + slider     + '"'
+                + ' category="'    + category   + '"'
+                + ' source="'      + source     + '"'
+                + ' columns="'     + columns    + '"'
+                + ' max_items="'   + (maxItems !== '' ? maxItems : '-1') + '"'
                 + ' show_avatar="' + showAvatar + '"'
                 + ']';
 

@@ -140,3 +140,389 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* =====================================================
+   SLIDER
+   ===================================================== */
+
+.reviewfic-slider-wrap {
+    position: relative;
+    overflow: hidden;
+    margin: 20px auto;
+}
+
+.reviewfic-slider-track {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    align-items: stretch;
+}
+
+.reviewfic-slider-track .reviewfic-item {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 24px 16px;
+    margin: 0 10px;
+}
+
+.reviewfic-slider-wrap .reviewfic-item:first-child { margin-left: 0; }
+.reviewfic-slider-wrap .reviewfic-item:last-child  { margin-right: 0; }
+
+/* Nav row */
+.rwf-slider-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+/* Prev / Next buttons */
+.rwf-slider-prev,
+.rwf-slider-next {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    background: #fff;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.rwf-slider-prev:hover:not(:disabled),
+.rwf-slider-next:hover:not(:disabled) {
+    border-color: #f97316;
+    color: #f97316;
+    background: #fff7ed;
+}
+
+.rwf-slider-prev:disabled,
+.rwf-slider-next:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Dots */
+.rwf-slider-dots {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.rwf-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d1d5db;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rwf-dot.active {
+    background: #f97316;
+    width: 22px;
+    border-radius: 4px;
+}
+
+/* =====================================================
+   TEMPLATE 2 — Modern Quote
+   ===================================================== */
+
+.reviewfic-template-2 .reviewfic-item {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Accent top bar */
+.rwf-t2-accent {
+    height: 4px;
+    background: linear-gradient(90deg, #f97316, #fb923c);
+    flex-shrink: 0;
+}
+
+.rwf-t2-body {
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+}
+
+/* Large decorative quote mark */
+.rwf-t2-quote-mark {
+    font-size: 72px;
+    line-height: 0.6;
+    color: #f97316;
+    opacity: 0.12;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    margin-bottom: 16px;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Source badge in template 2 */
+.reviewfic-template-2 .reviewfic-source-badge {
+    margin-bottom: 14px;
+    align-self: flex-start;
+}
+
+/* Review text — italic and prominent */
+.reviewfic-template-2 .reviewfic-content {
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.75;
+    color: #374151;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+/* Stars row */
+.reviewfic-template-2 .reviewfic-stars {
+    margin-bottom: 18px;
+}
+
+/* Client row — avatar left, info right */
+.reviewfic-template-2 .reviewfic-client-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 16px;
+    margin-top: auto;
+}
+
+.reviewfic-template-2 .reviewfic-avatar {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #fed7aa;
+}
+
+.rwf-t2-client-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rwf-t2-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #111827;
+}
+
+.rwf-t2-company {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* =====================================================
+   TEMPLATE 1 — Classic (default, existing styles apply)
+   ===================================================== */
+
+.reviewfic-template-1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewfic-client-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.reviewfic-client-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.reviewfic-client-name {
+    font-weight: 700;
+    font-size: 0.9em;
+    color: #111827;
+}
+
+.reviewfic-client-company {
+    font-size: 0.8em;
+    color: #6b7280;
+}
+
+/* =====================================================
+   TEMPLATE 2 — Quote style
+   ===================================================== */
+
+.reviewfic-template-2 {
+    background: #fffbf7;
+    border: 1px solid #fde8d0;
+    border-left: 4px solid #f97316;
+    border-radius: 10px;
+    padding: 24px 28px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative quote mark */
+.reviewfic-template-2::before {
+    content: '\201C';
+    position: absolute;
+    top: -10px;
+    right: 18px;
+    font-size: 100px;
+    color: rgba(249, 115, 22, 0.1);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Client row at top in template 2 */
+.reviewfic-template-2 .reviewfic-client-row {
+    border-top: none;
+    border-bottom: 1px solid #fde8d0;
+    padding-top: 0;
+    padding-bottom: 14px;
+    margin-top: 0;
+}
+
+/* Large italic quote content */
+.reviewfic-template-2 .reviewfic-content.reviewfic-quote {
+    font-size: 1.02em;
+    font-style: italic;
+    line-height: 1.75;
+    color: #374151;
+    flex: 1;
+}
+
+/* Stars bottom-left in template 2 */
+.reviewfic-template-2 .reviewfic-stars {
+    margin: 0;
+}
+
+/* Source badge bottom-right aligned in template 2 */
+.reviewfic-template-2 .reviewfic-source-badge {
+    align-self: flex-start;
+}
+
+/* =====================================================
+   SLIDER
+   ===================================================== */
+
+.reviewfic-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.reviewfic-slider-track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.reviewfic-slider .reviewfic-item {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Nav row: prev · dots · next */
+.reviewfic-slider-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.reviewfic-slider-prev,
+.reviewfic-slider-next {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    background: #fff;
+    color: #374151;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.reviewfic-slider-prev:hover,
+.reviewfic-slider-next:hover {
+    border-color: #f97316;
+    color: #f97316;
+    background: #fff7ed;
+}
+
+.reviewfic-slider-dots {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.reviewfic-slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: #d1d5db;
+    cursor: pointer;
+    padding: 0;
+    transition: all .2s;
+    flex-shrink: 0;
+}
+
+.reviewfic-slider-dot.active {
+    background: #f97316;
+    width: 22px;
+    border-radius: 4px;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .reviewfic-columns-4,
+    .reviewfic-columns-3 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .reviewfic-columns-4,
+    .reviewfic-columns-3,
+    .reviewfic-columns-2,
+    .reviewfic-columns-1 {
+        grid-template-columns: 1fr;
+    }
+}

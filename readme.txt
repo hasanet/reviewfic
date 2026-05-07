@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof, review widget, testimonial slider, review badges, Google reviews, Trustpilot
 Requires at least: 5.4
 Tested up to: 6.8
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -125,6 +125,11 @@ Yes. The shortcode works in any block that accepts shortcodes, including the Sho
 4. Frontend — review cards with circular avatars and color-coded source badges
 
 == Changelog ==
+
+= 1.2.4 =
+* New Feature: Testimonials Slider — toggle slider mode on any shortcode with slider="yes". Includes prev/next arrows, animated dot indicators, touch swipe, and keyboard navigation. Works with both templates.
+* New Feature: Two display templates — Template 1 (Classic card: stars, title, content, client row) and Template 2 (Quote style: avatar at top, large italic quote, decorative quotation mark, orange left border). Chosen via template="1" or template="2".
+* Improvement: Shortcode Generator updated with visual template picker cards and a slider toggle switch.
 
 = 1.2.3 =
 * Improvement: Brand color updated to review orange across all admin UI elements.

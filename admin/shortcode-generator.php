@@ -23,7 +23,7 @@ function reviewfic_shortcode_generator_page() {
             <span class="rwf-generator-header-icon"><span class="dashicons dashicons-megaphone"></span></span>
             <div>
                 <h1 class="rwf-generator-title">Shortcode Generator</h1>
-                <p class="rwf-generator-subtitle">Configure your options below and copy the generated shortcode into any page or post.</p>
+                <p class="rwf-generator-subtitle">Configure your options and copy the shortcode into any page or post.</p>
             </div>
         </div>
 
@@ -32,6 +32,53 @@ function reviewfic_shortcode_generator_page() {
             <!-- Left: Controls -->
             <div class="rwf-generator-form-card">
                 <form id="reviewfic-shortcode-form">
+
+                    <!-- Template picker -->
+                    <div class="rwf-gen-field">
+                        <label class="rwf-gen-label">
+                            <span class="dashicons dashicons-layout"></span> Template
+                        </label>
+                        <div class="rwf-template-picker" id="rwf-template-picker">
+
+                            <div class="rwf-template-option active" data-value="1">
+                                <div class="rwf-template-preview rwf-tp-1">
+                                    <div class="rwf-tp-stars">★★★★★</div>
+                                    <div class="rwf-tp-line"></div>
+                                    <div class="rwf-tp-line short"></div>
+                                    <div class="rwf-tp-avatar-row">
+                                        <div class="rwf-tp-avatar"></div>
+                                        <div class="rwf-tp-meta">
+                                            <div class="rwf-tp-line short"></div>
+                                            <div class="rwf-tp-line xshort"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="rwf-template-label">Card</span>
+                            </div>
+
+                            <div class="rwf-template-option" data-value="2">
+                                <div class="rwf-template-preview rwf-tp-2">
+                                    <div class="rwf-tp-accent-bar"></div>
+                                    <div class="rwf-tp-quote">&ldquo;</div>
+                                    <div class="rwf-tp-line"></div>
+                                    <div class="rwf-tp-line short"></div>
+                                    <div class="rwf-tp-stars small">★★★★★</div>
+                                    <div class="rwf-tp-avatar-row">
+                                        <div class="rwf-tp-avatar"></div>
+                                        <div class="rwf-tp-meta">
+                                            <div class="rwf-tp-line short"></div>
+                                            <div class="rwf-tp-line xshort"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="rwf-template-label">Modern Quote</span>
+                            </div>
+
+                        </div>
+                        <input type="hidden" id="reviewfic-template" value="1" />
+                    </div>
+
+                    <div class="rwf-gen-divider"></div>
 
                     <div class="rwf-gen-field">
                         <label class="rwf-gen-label" for="reviewfic-category">
@@ -88,12 +135,24 @@ function reviewfic_shortcode_generator_page() {
                         </label>
                         <label class="rwf-toggle">
                             <input type="checkbox" id="reviewfic-show-avatar" checked />
-                            <span class="rwf-toggle-track">
-                                <span class="rwf-toggle-thumb"></span>
-                            </span>
+                            <span class="rwf-toggle-track"><span class="rwf-toggle-thumb"></span></span>
                             <span class="rwf-toggle-label" id="rwf-avatar-label">Yes — show reviewer photo</span>
                         </label>
                     </div>
+
+                    <div class="rwf-gen-field">
+                        <label class="rwf-gen-label">
+                            <span class="dashicons dashicons-slides"></span> Slider
+                        </label>
+                        <label class="rwf-toggle">
+                            <input type="checkbox" id="reviewfic-slider" />
+                            <span class="rwf-toggle-track"><span class="rwf-toggle-thumb"></span></span>
+                            <span class="rwf-toggle-label" id="rwf-slider-label">No — show as grid</span>
+                        </label>
+                        <span class="rwf-gen-hint">When enabled, reviews slide horizontally. Columns controls how many are visible at once.</span>
+                    </div>
+
+                    <div class="rwf-gen-divider"></div>
 
                     <button type="button" id="reviewfic-generate-shortcode" class="rwf-gen-btn">
                         <span class="dashicons dashicons-shortcode"></span>
@@ -126,6 +185,8 @@ function reviewfic_shortcode_generator_page() {
                         <span class="dashicons dashicons-book"></span> Shortcode Parameters
                     </div>
                     <table class="rwf-usage-table">
+                        <tr><td><code>template</code></td><td><code>1</code> (Card) or <code>2</code> (Modern Quote)</td></tr>
+                        <tr><td><code>slider</code></td><td><code>yes</code> or <code>no</code></td></tr>
                         <tr><td><code>category</code></td><td>Category slug or <code>all</code></td></tr>
                         <tr><td><code>source</code></td><td>Source slug or <code>all</code></td></tr>
                         <tr><td><code>columns</code></td><td>1, 2, 3, or 4</td></tr>
