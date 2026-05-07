@@ -177,33 +177,79 @@
     }
 })();
 
-// ── Review Form — Photo Preview ─────────────────────────────────────────────
+// ── Review Form — Drag & Drop Photo Uploader ───────────────────────────────
 (function () {
     'use strict';
 
-    function initPhotoPreview(form) {
-        var input   = form.querySelector('#rwf_photo');
-        var preview = form.querySelector('#rwf-photo-preview');
-        if (!input || !preview) return;
+    function initDropzone(form) {
+        var zone   = form.querySelector('#rwf-dropzone');
+        var input  = form.querySelector('#rwf_photo');
+        var avatar = form.querySelector('#rwf-dropzone-avatar');
+        var browse = form.querySelector('.rwf-dropzone-browse');
+        if (!zone || !input || !avatar) return;
 
-        input.addEventListener('change', function () {
-            var file = input.files[0];
-            if (!file || !file.type.startsWith('image/')) {
-                preview.style.display = 'none';
-                preview.innerHTML = '';
-                return;
-            }
+        // Add remove button dynamically
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'rwf-dropzone-remove';
+        removeBtn.textContent = '✕ Remove photo';
+        zone.appendChild(removeBtn);
+
+        function previewFile(file) {
+            if (!file || !file.type.startsWith('image/')) return;
             var reader = new FileReader();
             reader.onload = function (e) {
-                preview.innerHTML = '<img src="' + e.target.result + '" alt="Preview">';
-                preview.style.display = 'block';
+                avatar.innerHTML = '<img src="' + e.target.result + '" alt="Preview">';
+                zone.classList.add('rwf-has-file');
             };
             reader.readAsDataURL(file);
+        }
+
+        function reset() {
+            input.value = '';
+            avatar.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>';
+            zone.classList.remove('rwf-has-file');
+        }
+
+        input.addEventListener('change', function () {
+            if (input.files[0]) previewFile(input.files[0]);
+        });
+
+        // Browse button click — relay to hidden input, stay above the input overlay
+        browse.addEventListener('click', function (e) {
+            e.stopPropagation();
+            input.click();
+        });
+
+        removeBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            reset();
+        });
+
+        // Drag events
+        zone.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            zone.classList.add('rwf-drag-over');
+        });
+        zone.addEventListener('dragleave', function () {
+            zone.classList.remove('rwf-drag-over');
+        });
+        zone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            zone.classList.remove('rwf-drag-over');
+            var file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                // Transfer to the real input via DataTransfer
+                var dt = new DataTransfer();
+                dt.items.add(file);
+                input.files = dt.files;
+                previewFile(file);
+            }
         });
     }
 
     function initAll() {
-        document.querySelectorAll('.rwf-submission-form').forEach(initPhotoPreview);
+        document.querySelectorAll('.rwf-submission-form').forEach(initDropzone);
     }
 
     if (document.readyState === 'loading') {

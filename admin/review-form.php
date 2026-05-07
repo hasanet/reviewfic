@@ -160,11 +160,19 @@ function reviewfic_form_shortcode( $atts ) {
             <?php endif; ?>
 
             <div class="rwf-form-row">
-                <label for="rwf_photo"><?php esc_html_e( 'Your Photo', 'reviewfic' ); ?></label>
-                <div class="rwf-file-upload">
-                    <input type="file" id="rwf_photo" name="rwf_photo" accept="image/jpeg,image/png,image/gif,image/webp">
-                    <p class="rwf-file-hint"><?php esc_html_e( 'JPG, PNG, GIF or WebP — max 5 MB (optional)', 'reviewfic' ); ?></p>
-                    <div class="rwf-photo-preview" id="rwf-photo-preview"></div>
+                <label><?php esc_html_e( 'Your Photo', 'reviewfic' ); ?></label>
+                <div class="rwf-dropzone" id="rwf-dropzone">
+                    <div class="rwf-dropzone-avatar" id="rwf-dropzone-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                        </svg>
+                    </div>
+                    <p class="rwf-dropzone-text">
+                        <strong><?php esc_html_e( 'Drag & drop your photo here', 'reviewfic' ); ?></strong><br>
+                        <span><?php esc_html_e( 'or', 'reviewfic' ); ?> <button type="button" class="rwf-dropzone-browse"><?php esc_html_e( 'browse to upload', 'reviewfic' ); ?></button></span>
+                    </p>
+                    <p class="rwf-dropzone-hint"><?php esc_html_e( 'JPG, PNG, GIF or WebP — max 5 MB (optional)', 'reviewfic' ); ?></p>
+                    <input type="file" id="rwf_photo" name="rwf_photo" accept="image/jpeg,image/png,image/gif,image/webp" class="rwf-dropzone-input">
                 </div>
             </div>
 

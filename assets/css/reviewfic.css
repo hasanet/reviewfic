@@ -927,31 +927,120 @@
     margin: 4px 0;
 }
 
-/* Photo upload */
-.rwf-file-upload input[type="file"] {
-    display: block;
-    width: 100%;
-    padding: 8px 0;
-    font-size: 14px;
-    color: #374151;
+/* Drag-and-drop photo uploader */
+.rwf-dropzone {
+    position: relative;
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
     cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: #fafafa;
 }
 
-.rwf-file-hint {
-    margin: 4px 0 8px;
+.rwf-dropzone:hover,
+.rwf-dropzone.rwf-drag-over {
+    border-color: #0E9F6E;
+    background: #f0fdf4;
+}
+
+.rwf-dropzone.rwf-has-file {
+    border-style: solid;
+    border-color: #0E9F6E;
+    background: #f0fdf4;
+}
+
+.rwf-dropzone-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 0;
+}
+
+.rwf-dropzone-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    overflow: hidden;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.rwf-dropzone-avatar svg {
+    width: 36px;
+    height: 36px;
+    color: #9ca3af;
+}
+
+.rwf-dropzone-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rwf-dropzone-text {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.6;
+}
+
+.rwf-dropzone-text strong {
+    display: block;
+    font-size: 15px;
+    color: #111827;
+    margin-bottom: 2px;
+}
+
+.rwf-dropzone-browse {
+    background: none;
+    border: none;
+    color: #0E9F6E;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    position: relative;
+    z-index: 1;
+}
+
+.rwf-dropzone-browse:hover {
+    color: #0b8a5e;
+}
+
+.rwf-dropzone-hint {
+    margin: 0;
     font-size: 12px;
     color: #9ca3af;
 }
 
-.rwf-photo-preview {
+.rwf-dropzone-remove {
     display: none;
     margin-top: 10px;
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 13px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
 }
 
-.rwf-photo-preview img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid #0E9F6E;
+.rwf-dropzone-remove:hover {
+    text-decoration: underline;
+}
+
+.rwf-has-file .rwf-dropzone-remove {
+    display: inline-block;
 }
