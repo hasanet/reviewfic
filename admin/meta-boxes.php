@@ -16,9 +16,10 @@ add_action('add_meta_boxes', 'reviewfic_add_meta_boxes');
 function reviewfic_meta_box_callback($post) {
     wp_nonce_field('reviewfic_save_meta_box_data', 'reviewfic_meta_box_nonce');
 
-    $stars          = get_post_meta($post->ID, 'reviewfic_review_stars', true);
-    $client_name    = get_post_meta($post->ID, 'reviewfic_client_name', true);
-    $client_company = get_post_meta($post->ID, 'reviewfic_client_company', true);
+    $stars               = get_post_meta($post->ID, 'reviewfic_review_stars', true);
+    $client_name         = get_post_meta($post->ID, 'reviewfic_client_name', true);
+    $client_designation  = get_post_meta($post->ID, 'reviewfic_client_designation', true);
+    $client_company      = get_post_meta($post->ID, 'reviewfic_client_company', true);
     $reviewer_photo = get_post_meta($post->ID, 'reviewfic_reviewer_photo', true);
     $photo_url      = $reviewer_photo ? wp_get_attachment_image_url($reviewer_photo, 'thumbnail') : '';
 
@@ -106,6 +107,16 @@ function reviewfic_meta_box_callback($post) {
                         <input type="text" name="reviewfic_client_name" id="reviewfic_client_name"
                                value="<?php echo esc_attr($client_name); ?>"
                                class="rwf-text-input" placeholder="e.g. Jane Smith" />
+                    </div>
+                </div>
+
+                <div class="rwf-field">
+                    <label class="rwf-label" for="reviewfic_client_designation">Designation</label>
+                    <div class="rwf-control">
+                        <input type="text" name="reviewfic_client_designation" id="reviewfic_client_designation"
+                               value="<?php echo esc_attr($client_designation); ?>"
+                               class="rwf-text-input" placeholder="e.g. CEO, Marketing Manager" />
+                        <p class="rwf-hint">Job title or role shown below the reviewer's name.</p>
                     </div>
                 </div>
 
@@ -239,6 +250,10 @@ function reviewfic_save_meta_boxes($post_id) {
     if (isset($_POST['reviewfic_client_name'])) {
         update_post_meta($post_id, 'reviewfic_client_name',
             sanitize_text_field(wp_unslash($_POST['reviewfic_client_name'])));
+    }
+    if (isset($_POST['reviewfic_client_designation'])) {
+        update_post_meta($post_id, 'reviewfic_client_designation',
+            sanitize_text_field(wp_unslash($_POST['reviewfic_client_designation'])));
     }
     if (isset($_POST['reviewfic_client_company'])) {
         update_post_meta($post_id, 'reviewfic_client_company',

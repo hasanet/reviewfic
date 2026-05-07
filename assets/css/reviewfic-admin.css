@@ -1182,3 +1182,39 @@
     gap: 2px;
     flex: 1;
 }
+
+/* ── Design section ───────────────────────────────────── */
+.rwf-section-hint {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--rwf-muted);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.rwf-range-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rwf-range {
+    width: 160px;
+    accent-color: var(--rwf-primary);
+    cursor: pointer;
+}
+
+.rwf-range-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rwf-primary);
+    min-width: 36px;
+}
+
+/* Color picker override to fit our layout */
+.rwf-config-row .wp-picker-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}

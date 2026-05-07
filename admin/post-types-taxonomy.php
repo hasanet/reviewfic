@@ -29,15 +29,15 @@ add_action('init', 'reviewfic_register_taxonomy');
 // Register custom taxonomy for review sources
 function reviewfic_register_source_taxonomy() {
     $labels = array(
-        'name'              => 'Review Sources',
-        'singular_name'     => 'Review Source',
-        'search_items'      => 'Search Sources',
-        'all_items'         => 'All Sources',
-        'edit_item'         => 'Edit Source',
-        'update_item'       => 'Update Source',
-        'add_new_item'      => 'Add New Source',
-        'new_item_name'     => 'New Source Name',
-        'menu_name'         => 'Sources',
+        'name'          => 'Review Sources',
+        'singular_name' => 'Review Source',
+        'search_items'  => 'Search Review Sources',
+        'all_items'     => 'All Review Sources',
+        'edit_item'     => 'Edit Review Source',
+        'update_item'   => 'Update Review Source',
+        'add_new_item'  => 'Add New Review Source',
+        'new_item_name' => 'New Review Source Name',
+        'menu_name'     => 'Review Sources',
     );
     $args = array(
         'labels'            => $labels,

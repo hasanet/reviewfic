@@ -79,6 +79,14 @@ function rwf_config_options_cb($post) {
     $slider_auto = $get('rwf_slider_auto',  'no');
     $slider_speed= $get('rwf_slider_speed', '4000');
     $slider_loop = $get('rwf_slider_loop',  'yes');
+    $pagination  = $get('rwf_pagination',   'no');
+    $per_page    = $get('rwf_per_page',     '6');
+    // Design
+    $card_bg      = $get('rwf_card_bg',      '');
+    $text_color   = $get('rwf_text_color',   '');
+    $star_color   = $get('rwf_star_color',   '');
+    $accent_color = $get('rwf_accent_color', '');
+    $card_radius  = $get('rwf_card_radius',  '10');
 
     $categories   = get_terms(array('taxonomy' => 'reviewfic_category', 'hide_empty' => false));
     $source_terms = get_terms(array('taxonomy' => 'reviewfic_source',   'hide_empty' => false));
@@ -225,7 +233,7 @@ function rwf_config_options_cb($post) {
                     </select>
                 </div>
                 <div class="rwf-config-row">
-                    <label class="rwf-config-label" for="rwf_source">Source</label>
+                    <label class="rwf-config-label" for="rwf_source">Review Source</label>
                     <select name="rwf_source" id="rwf_source" class="rwf-select">
                         <option value="all">All Sources</option>
                         <?php if (!is_wp_error($source_terms)) foreach ($source_terms as $t) : ?>
@@ -235,6 +243,61 @@ function rwf_config_options_cb($post) {
                 </div>
             </div>
 
+        </div>
+
+        <!-- Pagination -->
+        <div class="rwf-config-section">
+            <div class="rwf-config-section-title">
+                <span class="dashicons dashicons-controls-forward"></span> Pagination
+            </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label">Enable Pagination</label>
+                <label class="rwf-toggle">
+                    <input type="checkbox" name="rwf_pagination" id="rwf_pagination" <?php checked($pagination, 'yes'); ?> />
+                    <span class="rwf-toggle-track"><span class="rwf-toggle-thumb"></span></span>
+                    <span class="rwf-toggle-label"><?php echo $pagination === 'yes' ? 'Yes' : 'No'; ?></span>
+                </label>
+            </div>
+            <div class="rwf-slider-subopts <?php echo $pagination !== 'yes' ? 'rwf-collapsed' : ''; ?>" id="rwf-pagination-subopts">
+                <div class="rwf-subopts-grid">
+                    <div class="rwf-config-row">
+                        <label class="rwf-config-label" for="rwf_per_page">Reviews Per Page</label>
+                        <input type="number" name="rwf_per_page" id="rwf_per_page" value="<?php echo esc_attr($per_page); ?>" min="1" max="100" class="small-text" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design -->
+        <div class="rwf-config-section">
+            <div class="rwf-config-section-title">
+                <span class="dashicons dashicons-art"></span> Design
+                <span class="rwf-section-hint">Leave blank to use template defaults</span>
+            </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label">Card Background</label>
+                <input type="text" name="rwf_card_bg" class="rwf-color-picker" value="<?php echo esc_attr($card_bg); ?>" data-default-color="" />
+            </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label">Text Color</label>
+                <input type="text" name="rwf_text_color" class="rwf-color-picker" value="<?php echo esc_attr($text_color); ?>" data-default-color="" />
+            </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label">Star Color</label>
+                <input type="text" name="rwf_star_color" class="rwf-color-picker" value="<?php echo esc_attr($star_color); ?>" data-default-color="" />
+            </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label">Accent Color</label>
+                <input type="text" name="rwf_accent_color" class="rwf-color-picker" value="<?php echo esc_attr($accent_color); ?>" data-default-color="" />
+                <span style="font-size:12px;color:#6b7280;">Used for borders and badges on supported templates</span>
+            </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label" for="rwf_card_radius">Border Radius</label>
+                <div class="rwf-range-wrap">
+                    <input type="range" name="rwf_card_radius" id="rwf_card_radius" min="0" max="24" value="<?php echo esc_attr($card_radius); ?>" class="rwf-range" />
+                    <span class="rwf-range-val" id="rwf-radius-val"><?php echo esc_attr($card_radius); ?>px</span>
+                </div>
+            </div>
         </div>
 
         <!-- Slider -->
@@ -340,6 +403,23 @@ function rwf_config_options_cb($post) {
             if ($(this).is(':checked')) $('#rwf-slider-subopts').removeClass('rwf-collapsed');
             else $('#rwf-slider-subopts').addClass('rwf-collapsed');
         });
+
+        // Pagination toggle
+        $('#rwf_pagination').on('change', function() {
+            syncLabel($(this), 'Yes', 'No');
+            if ($(this).is(':checked')) $('#rwf-pagination-subopts').removeClass('rwf-collapsed');
+            else $('#rwf-pagination-subopts').addClass('rwf-collapsed');
+        });
+
+        // Border radius range slider
+        $('#rwf_card_radius').on('input', function() {
+            $('#rwf-radius-val').text($(this).val() + 'px');
+        });
+
+        // Color pickers
+        if ($.fn.wpColorPicker) {
+            $('.rwf-color-picker').wpColorPicker();
+        }
     });
     </script>
     <?php
@@ -352,19 +432,19 @@ function rwf_save_config_meta($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!current_user_can('edit_post', $post_id)) return;
 
-    $checkboxes = array('rwf_slider','rwf_slider_nav','rwf_slider_dots','rwf_slider_auto','rwf_slider_loop','rwf_slider_pause','rwf_show_avatar');
+    $checkboxes = array('rwf_slider','rwf_slider_nav','rwf_slider_dots','rwf_slider_auto','rwf_slider_loop','rwf_slider_pause','rwf_show_avatar','rwf_pagination');
     foreach ($checkboxes as $key) {
         update_post_meta($post_id, $key, isset($_POST[$key]) ? 'yes' : 'no');
     }
 
-    $text_fields = array('rwf_template', 'rwf_columns', 'rwf_category', 'rwf_source');
+    $text_fields = array('rwf_template', 'rwf_columns', 'rwf_category', 'rwf_source', 'rwf_card_bg', 'rwf_text_color', 'rwf_star_color', 'rwf_accent_color');
     foreach ($text_fields as $key) {
         if (isset($_POST[$key])) {
-            update_post_meta($post_id, $key, sanitize_text_field(wp_unslash($_POST[$key])));
+            update_post_meta($post_id, $key, sanitize_hex_color(wp_unslash($_POST[$key])) ?: sanitize_text_field(wp_unslash($_POST[$key])));
         }
     }
 
-    $number_fields = array('rwf_slider_speed', 'rwf_max_items');
+    $number_fields = array('rwf_slider_speed', 'rwf_max_items', 'rwf_per_page', 'rwf_card_radius');
     foreach ($number_fields as $key) {
         if (isset($_POST[$key]) && $_POST[$key] !== '') {
             update_post_meta($post_id, $key, absint($_POST[$key]));

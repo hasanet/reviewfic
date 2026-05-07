@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof, review widget, testimonial slider, review badges, Google reviews, Trustpilot
 Requires at least: 5.4
 Tested up to: 6.8
-Stable tag: 1.2.7
+Stable tag: 1.2.8
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -125,6 +125,12 @@ Yes. The shortcode works in any block that accepts shortcodes, including the Sho
 4. Frontend — review cards with circular avatars and color-coded source badges
 
 == Changelog ==
+
+= 1.2.8 =
+* New: Design Options — per-shortcode color controls (card background, text color, star color, accent color) and border radius slider. Set via the Shortcode Generator config. Applied as CSS custom properties so each shortcode instance can have its own visual style.
+* New: Pagination — enable numbered pagination on any grid shortcode with a configurable "Reviews Per Page" count. Prev/next arrows, numbered pages, ellipsis for long ranges. Slider mode is automatically excluded from pagination.
+* New: Designation field — add a job title or role (e.g. "CEO", "Marketing Manager") to each reviewer. Displayed as "Designation · Company" below the name, or just one if the other is empty.
+* Improvement: "Sources" taxonomy renamed to "Review Sources" throughout the admin for clarity.
 
 = 1.2.7 =
 * Improvement: Template picker in Shortcode Generator now shows visual mini card previews for all 5 templates — same layout-accurate thumbnails as the legacy generator had.
