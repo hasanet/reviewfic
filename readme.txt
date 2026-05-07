@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof, review widget, testimonial slider, review badges, Google reviews, Trustpilot
 Requires at least: 5.4
 Tested up to: 6.8
-Stable tag: 1.2.8
+Stable tag: 1.2.9
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -125,6 +125,14 @@ Yes. The shortcode works in any block that accepts shortcodes, including the Sho
 4. Frontend — review cards with circular avatars and color-coded source badges
 
 == Changelog ==
+
+= 1.2.9 =
+* Improvement: Brand color changed from orange to a professional green (#0E9F6E). Distinct from Trustpilot green, applied across all admin UI and frontend elements.
+* Improvement: Admin screens rebranded with a green gradient header bar showing the Reviewfic logo, current page context, and plugin version on all Reviews and Shortcode Generator screens.
+* Improvement: "Add Post" renamed to "Add New Review" on the review edit screen via proper CPT labels.
+* Improvement: List table buttons, row title links, sortable column headers, hover states, subsubsub filters, and row actions all updated to Reviewfic green.
+* Improvement: "Your Shortcode" sidebar box styled with green accent border, green header, and dark code block with green monospace text.
+* Improvement: Publish button, title input focus ring, and postbox corners all branded consistently.
 
 = 1.2.8 =
 * New: Design Options — per-shortcode color controls (card background, text color, star color, accent color) and border radius slider. Set via the Shortcode Generator config. Applied as CSS custom properties so each shortcode instance can have its own visual style.

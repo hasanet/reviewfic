@@ -4,11 +4,26 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // Register custom post type for reviews
 function reviewfic_register_post_type() {
     $args = array(
-        'public' => true,
-        'label'  => 'Reviews',
-        'supports' => array('title', 'editor', 'custom-fields'),
+        'labels' => array(
+            'name'               => 'Reviews',
+            'singular_name'      => 'Review',
+            'add_new'            => 'Add New Review',
+            'add_new_item'       => 'Add New Review',
+            'edit_item'          => 'Edit Review',
+            'new_item'           => 'New Review',
+            'view_item'          => 'View Review',
+            'view_items'         => 'View Reviews',
+            'search_items'       => 'Search Reviews',
+            'not_found'          => 'No reviews found.',
+            'not_found_in_trash' => 'No reviews found in trash.',
+            'all_items'          => 'Reviews',
+            'menu_name'          => 'Reviews',
+        ),
+        'public'      => true,
+        'supports'    => array('title', 'editor', 'custom-fields'),
         'has_archive' => true,
-        'rewrite' => array('slug' => 'reviewfic_reviews'),
+        'rewrite'     => array('slug' => 'reviewfic_reviews'),
+        'menu_icon'   => 'dashicons-star-filled',
     );
     register_post_type('reviewfic_reviews', $args);
 }

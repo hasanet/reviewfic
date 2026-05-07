@@ -197,9 +197,9 @@
 
 .rwf-slider-prev:hover:not(:disabled),
 .rwf-slider-next:hover:not(:disabled) {
-    border-color: #f97316;
-    color: #f97316;
-    background: #fff7ed;
+    border-color: #0E9F6E;
+    color: #0E9F6E;
+    background: #ECFDF5;
 }
 
 .rwf-slider-prev:disabled,
@@ -227,7 +227,7 @@
 }
 
 .rwf-dot.active {
-    background: #f97316;
+    background: #0E9F6E;
     width: 22px;
     border-radius: 4px;
 }
@@ -250,7 +250,7 @@
 /* Accent top bar */
 .rwf-t2-accent {
     height: 4px;
-    background: linear-gradient(90deg, #f97316, #fb923c);
+    background: linear-gradient(90deg, #0E9F6E, #fb923c);
     flex-shrink: 0;
 }
 
@@ -266,7 +266,7 @@
 .rwf-t2-quote-mark {
     font-size: 72px;
     line-height: 0.6;
-    color: #f97316;
+    color: #0E9F6E;
     opacity: 0.12;
     font-family: Georgia, 'Times New Roman', serif;
     font-weight: 700;
@@ -372,9 +372,9 @@
    ===================================================== */
 
 .reviewfic-template-2 {
-    background: #fffbf7;
-    border: 1px solid #fde8d0;
-    border-left: 4px solid #f97316;
+    background: #F0FDF4;
+    border: 1px solid #D1FAE5;
+    border-left: 4px solid #0E9F6E;
     border-radius: 10px;
     padding: 24px 28px 22px;
     display: flex;
@@ -391,7 +391,7 @@
     top: -10px;
     right: 18px;
     font-size: 100px;
-    color: rgba(249, 115, 22, 0.1);
+    color: rgba(14, 159, 110, 0.1);
     font-family: Georgia, 'Times New Roman', serif;
     line-height: 1;
     pointer-events: none;
@@ -401,7 +401,7 @@
 /* Client row at top in template 2 */
 .reviewfic-template-2 .reviewfic-client-row {
     border-top: none;
-    border-bottom: 1px solid #fde8d0;
+    border-bottom: 1px solid #D1FAE5;
     padding-top: 0;
     padding-bottom: 14px;
     margin-top: 0;
@@ -478,9 +478,9 @@
 
 .reviewfic-slider-prev:hover,
 .reviewfic-slider-next:hover {
-    border-color: #f97316;
-    color: #f97316;
-    background: #fff7ed;
+    border-color: #0E9F6E;
+    color: #0E9F6E;
+    background: #ECFDF5;
 }
 
 .reviewfic-slider-dots {
@@ -502,7 +502,7 @@
 }
 
 .reviewfic-slider-dot.active {
-    background: #f97316;
+    background: #0E9F6E;
     width: 22px;
     border-radius: 4px;
 }
@@ -534,7 +534,7 @@
 .reviewfic-template-3 {
     background: transparent;
     border: none;
-    border-top: 3px solid #f97316;
+    border-top: 3px solid #0E9F6E;
     border-radius: 0;
     padding: 22px 4px 18px;
     display: flex;
@@ -587,7 +587,7 @@
     right: -40px;
     width: 120px;
     height: 120px;
-    background: radial-gradient(circle, rgba(249,115,22,.18) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(14,159,110,.18) 0%, transparent 70%);
     pointer-events: none;
 }
 
@@ -624,7 +624,7 @@
 }
 
 .reviewfic-template-4 .reviewfic-avatar {
-    border: 2px solid #f97316;
+    border: 2px solid #0E9F6E;
 }
 
 .reviewfic-template-4 .reviewfic-source-badge {
@@ -662,7 +662,7 @@
 .reviewfic-template-5 .reviewfic-avatar {
     width: 72px;
     height: 72px;
-    border: 3px solid #f97316;
+    border: 3px solid #0E9F6E;
     margin-bottom: 4px;
 }
 
@@ -706,12 +706,12 @@
 
 /* Template 2 accent overrideable */
 .reviewfic-template-2 {
-    border-left-color: var(--rwf-accent-color, #f97316);
+    border-left-color: var(--rwf-accent-color, #0E9F6E);
 }
 
 /* Template 3 top bar overrideable */
 .reviewfic-template-3 {
-    border-top-color: var(--rwf-accent-color, #f97316);
+    border-top-color: var(--rwf-accent-color, #0E9F6E);
 }
 
 /* =====================================================
@@ -766,15 +766,15 @@
 }
 
 .rwf-page-btn:hover {
-    border-color: #f97316;
-    color: #f97316;
-    background: #fff7ed;
+    border-color: #0E9F6E;
+    color: #0E9F6E;
+    background: #ECFDF5;
     text-decoration: none;
 }
 
 .rwf-page-btn.active {
-    background: #f97316;
-    border-color: #f97316;
+    background: #0E9F6E;
+    border-color: #0E9F6E;
     color: #fff;
     font-weight: 700;
 }
