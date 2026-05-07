@@ -430,15 +430,44 @@ function rwf_config_options_cb($post) {
 
         $('#rwf_slider').on('change', function() {
             syncLabel($(this), 'Yes', 'No');
-            if ($(this).is(':checked')) $('#rwf-slider-subopts').removeClass('rwf-collapsed');
-            else $('#rwf-slider-subopts').addClass('rwf-collapsed');
+            var sliderOn = $(this).is(':checked');
+            if (sliderOn) {
+                $('#rwf-slider-subopts').removeClass('rwf-collapsed');
+                // Disable pagination when slider is on
+                if ($('#rwf_pagination').is(':checked')) {
+                    $('#rwf_pagination').prop('checked', false);
+                    syncLabel($('#rwf_pagination'), 'Yes', 'No');
+                    $('#rwf-pagination-subopts').addClass('rwf-collapsed');
+                }
+                // Grey out columns — irrelevant in slider mode
+                $('.rwf-col-btn').prop('disabled', true).css('opacity', '0.4');
+            } else {
+                $('#rwf-slider-subopts').addClass('rwf-collapsed');
+                $('.rwf-col-btn').prop('disabled', false).css('opacity', '1');
+            }
         });
+
+        // Init column state on load
+        if ($('#rwf_slider').is(':checked')) {
+            $('.rwf-col-btn').prop('disabled', true).css('opacity', '0.4');
+        }
 
         // Pagination toggle
         $('#rwf_pagination').on('change', function() {
             syncLabel($(this), 'Yes', 'No');
-            if ($(this).is(':checked')) $('#rwf-pagination-subopts').removeClass('rwf-collapsed');
-            else $('#rwf-pagination-subopts').addClass('rwf-collapsed');
+            var paginationOn = $(this).is(':checked');
+            if (paginationOn) {
+                $('#rwf-pagination-subopts').removeClass('rwf-collapsed');
+                // Disable slider when pagination is on
+                if ($('#rwf_slider').is(':checked')) {
+                    $('#rwf_slider').prop('checked', false);
+                    syncLabel($('#rwf_slider'), 'Yes', 'No');
+                    $('#rwf-slider-subopts').addClass('rwf-collapsed');
+                    $('.rwf-col-btn').prop('disabled', false).css('opacity', '1');
+                }
+            } else {
+                $('#rwf-pagination-subopts').addClass('rwf-collapsed');
+            }
         });
 
         // Border radius range slider
