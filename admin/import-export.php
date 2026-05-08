@@ -296,7 +296,7 @@ function reviewfic_import_export_page() {
                         <span class="dashicons dashicons-media-spreadsheet rwf-ie-drop-icon"></span>
                         <p class="rwf-ie-dropzone-text">
                             <strong><?php esc_html_e( 'Drag & drop your file here', 'reviewfic' ); ?></strong>
-                            <span><?php esc_html_e( 'or', 'reviewfic' ); ?> <button type="button" class="rwf-ie-browse"><?php esc_html_e( 'browse to upload', 'reviewfic' ); ?></button></span>
+                            <span><?php esc_html_e( 'or', 'reviewfic' ); ?> <button type="button" class="rwf-ie-browse"><?php esc_html_e( 'Browse to Upload', 'reviewfic' ); ?></button></span>
                         </p>
                         <p class="rwf-ie-dropzone-hint"><?php esc_html_e( '.csv or .json — exported from Reviewfic', 'reviewfic' ); ?></p>
                         <input type="file" id="rwf_import_file" name="rwf_import_file" accept=".csv,.json" class="rwf-ie-file-input">

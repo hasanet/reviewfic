@@ -109,46 +109,52 @@ function reviewfic_get_help_page() {
 function reviewfic_our_plugins_page() {
     $plugins = array(
         array(
-            'slug'  => 'hydra-booking',
-            'name'  => 'Hydra Booking',
-            'desc'  => 'All-in-one appointment scheduling and booking calendar. Reduce waiting times and manage appointments effortlessly for any business type.',
-            'color' => '#7c3aed',
-            'init'  => 'HB',
+            'slug'     => 'hydra-booking',
+            'name'     => 'Hydra Booking',
+            'desc'     => 'All-in-one appointment scheduling and booking calendar. Reduce waiting times and manage appointments effortlessly for any business type.',
+            'color'    => '#7c3aed',
+            'init'     => 'HB',
+            'icon_url' => 'https://ps.w.org/hydra-booking/assets/icon-128x128.jpg',
         ),
         array(
-            'slug'  => 'instantio',
-            'name'  => 'Instantio',
-            'desc'  => 'Convert WooCommerce\'s multi-step checkout into a single-page instant checkout with a floating cart, side cart, and popup cart. Customers check out in seconds.',
-            'color' => '#0ea5e9',
-            'init'  => 'IN',
+            'slug'     => 'instantio',
+            'name'     => 'Instantio',
+            'desc'     => 'Convert WooCommerce\'s multi-step checkout into a single-page instant checkout with a floating cart, side cart, and popup cart. Customers check out in seconds.',
+            'color'    => '#0ea5e9',
+            'init'     => 'IN',
+            'icon_url' => 'https://ps.w.org/instantio/assets/icon-128x128.png',
         ),
         array(
-            'slug'  => 'tourfic',
-            'name'  => 'Tourfic',
-            'desc'  => 'Build a complete travel booking website for hotels, tours, apartments, and car rentals — similar to Booking.com or Airbnb — with full WooCommerce integration.',
-            'color' => '#059669',
-            'init'  => 'TF',
+            'slug'     => 'tourfic',
+            'name'     => 'Tourfic',
+            'desc'     => 'Build a complete travel booking website for hotels, tours, apartments, and car rentals — similar to Booking.com or Airbnb — with full WooCommerce integration.',
+            'color'    => '#059669',
+            'init'     => 'TF',
+            'icon_url' => 'https://ps.w.org/tourfic/assets/icon-128x128.gif',
         ),
         array(
-            'slug'  => 'beaf-before-and-after-gallery',
-            'name'  => 'BEAF – Before & After Gallery',
-            'desc'  => 'Showcase stunning visual transformations with responsive before-and-after image sliders and clean gallery layouts. Perfect for beauty, fitness, and renovation sites.',
-            'color' => '#e11d48',
-            'init'  => 'BF',
+            'slug'     => 'beaf-before-and-after-gallery',
+            'name'     => 'BEAF – Before & After Gallery',
+            'desc'     => 'Showcase stunning visual transformations with responsive before-and-after image sliders and clean gallery layouts. Perfect for beauty, fitness, and renovation sites.',
+            'color'    => '#e11d48',
+            'init'     => 'BF',
+            'icon_url' => 'https://ps.w.org/beaf-before-and-after-gallery/assets/icon-128x128.png',
         ),
         array(
-            'slug'  => 'ultimate-addons-for-contact-form-7',
-            'name'  => 'Ultimate Addons for Contact Form 7',
-            'desc'  => 'Extend Contact Form 7 with 50+ powerful addons — advanced fields, dynamic dropdowns, conditional logic, multi-step forms, and much more.',
-            'color' => '#d97706',
-            'init'  => 'UA',
+            'slug'     => 'ultimate-addons-for-contact-form-7',
+            'name'     => 'Ultimate Addons for Contact Form 7',
+            'desc'     => 'Extend Contact Form 7 with 50+ powerful addons — advanced fields, dynamic dropdowns, conditional logic, multi-step forms, and much more.',
+            'color'    => '#d97706',
+            'init'     => 'UA',
+            'icon_url' => 'https://ps.w.org/ultimate-addons-for-contact-form-7/assets/icon-128x128.png',
         ),
         array(
-            'slug'  => 'ultra-addons-for-wpforms',
-            'name'  => 'Ultra Addons for WPForms',
-            'desc'  => 'Supercharge WPForms with advanced addons that give you more control, customization options, and smart form features beyond the defaults.',
-            'color' => '#0284c7',
-            'init'  => 'UW',
+            'slug'     => 'ultra-addons-for-wpforms',
+            'name'     => 'Ultra Addons for WPForms',
+            'desc'     => 'Supercharge WPForms with advanced addons that give you more control, customization options, and smart form features beyond the defaults.',
+            'color'    => '#0284c7',
+            'init'     => 'UW',
+            'icon_url' => 'https://ps.w.org/ultra-addons-for-wpforms/assets/icon-128x128.png',
         ),
     );
 
@@ -188,7 +194,7 @@ function reviewfic_our_plugins_page() {
                 <div class="rwf-plugin-header">
                     <div class="rwf-plugin-icon-wrap">
                         <img
-                            src="<?php echo esc_url( 'https://ps.w.org/' . $plugin['slug'] . '/assets/icon-256x256.png' ); ?>"
+                            src="<?php echo esc_url( $plugin['icon_url'] ); ?>"
                             alt="<?php echo esc_attr( $plugin['name'] ); ?>"
                             class="rwf-plugin-icon-img"
                             onerror="this.closest('.rwf-plugin-icon-wrap').classList.add('rwf-icon-fallback');"
@@ -230,5 +236,6 @@ function reviewfic_our_plugins_page() {
             <?php endforeach; ?>
         </div>
     </div>
+
     <?php
 }

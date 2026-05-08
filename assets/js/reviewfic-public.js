@@ -1,7 +1,7 @@
 /**
  * Reviewfic — Frontend Slider
  * Supports single and multi-column (page-by-page) modes.
- * Reads options from data-* attributes on .reviewfic-slider
+ * Uses pixel-based widths and translateX so column gap is fully supported.
  */
 (function () {
     'use strict';
@@ -14,12 +14,11 @@
         var nextEl = slider.querySelector('.reviewfic-slider-next');
         var dotsEl = slider.querySelector('.reviewfic-slider-dots');
         var total  = slides.length;
-        var current = 0; // current page index
+        var current = 0;
         var autoTimer = null;
 
         if (!track || total === 0) return;
 
-        // Read options from data attributes
         var showNav    = slider.dataset.nav     !== 'no';
         var showDots   = slider.dataset.dots    !== 'no';
         var autoPlay   = slider.dataset.auto    === 'yes';
@@ -28,19 +27,34 @@
         var pauseHover = slider.dataset.pause   !== 'no';
         var columns    = Math.max(1, parseInt(slider.dataset.columns, 10) || 1);
 
-        // Set item widths based on column count
-        var itemWidth = (100 / columns);
-        for (var s = 0; s < slides.length; s++) {
-            slides[s].style.minWidth = itemWidth + '%';
-            slides[s].style.maxWidth = itemWidth + '%';
+        // Read the gap from the track's computed style (set via --rwf-col-gap CSS var)
+        function getGap() {
+            var cs = window.getComputedStyle(track);
+            return parseFloat(cs.columnGap || cs.gap) || 0;
         }
 
-        // Pages: how many full advances fit
-        var pages = Math.ceil(total / columns);
-        // Last page may have fewer items — cap movement so we never go past the last item
+        // Item width in pixels accounting for the gap between columns
+        function calcItemWidth() {
+            var g = getGap();
+            return (slider.offsetWidth - g * (columns - 1)) / columns;
+        }
+
+        // Apply pixel widths to all slides
+        function applyWidths() {
+            var w = calcItemWidth();
+            for (var s = 0; s < slides.length; s++) {
+                slides[s].style.minWidth = w + 'px';
+                slides[s].style.maxWidth = w + 'px';
+            }
+            return w;
+        }
+
+        applyWidths();
+
+        var pages   = Math.ceil(total / columns);
         var maxPage = pages - 1;
 
-        // Apply nav/dots visibility
+        // Nav/dots visibility
         if (navEl) {
             if (prevEl) prevEl.style.display = showNav ? '' : 'none';
             if (nextEl) nextEl.style.display = showNav ? '' : 'none';
@@ -48,13 +62,12 @@
             if (!showNav && !showDots) navEl.style.display = 'none';
         }
 
-        // Hide nav if only one page
         if (pages <= 1) {
             if (navEl) navEl.style.display = 'none';
             return;
         }
 
-        // Build dots (one per page)
+        // Build dots
         if (showDots && dotsEl) {
             for (var i = 0; i < pages; i++) {
                 (function (index) {
@@ -75,6 +88,15 @@
             }
         }
 
+        // Pixel offset for a given page:
+        // Each item occupies (itemWidth + gap) px; a page advances columns items.
+        // offset = page * columns * (itemWidth + gap)
+        function pageOffset(pageIndex) {
+            var g = getGap();
+            var w = calcItemWidth();
+            return pageIndex * columns * (w + g);
+        }
+
         function goTo(pageIndex) {
             if (loop) {
                 current = ((pageIndex % pages) + pages) % pages;
@@ -83,8 +105,7 @@
                 if (prevEl) prevEl.disabled = current === 0;
                 if (nextEl) nextEl.disabled = current === maxPage;
             }
-            // Move by full item-width increments per page
-            track.style.transform = 'translateX(-' + (current * columns * itemWidth) + '%)';
+            track.style.transform = 'translateX(-' + pageOffset(current) + 'px)';
             updateDots();
         }
 
@@ -98,11 +119,21 @@
         function stopAuto()  { if (autoTimer) clearInterval(autoTimer); }
         function resetAuto() { stopAuto(); startAuto(); }
 
-        // Prev / Next
+        // Recalculate on resize so pixel widths and offsets stay accurate
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                applyWidths();
+                track.style.transition = 'none';
+                track.style.transform  = 'translateX(-' + pageOffset(current) + 'px)';
+                setTimeout(function () { track.style.transition = ''; }, 50);
+            }, 100);
+        });
+
         if (prevEl) prevEl.addEventListener('click', function () { goTo(current - 1); resetAuto(); });
         if (nextEl) nextEl.addEventListener('click', function () { goTo(current + 1); resetAuto(); });
 
-        // Touch / swipe
         var touchStartX = 0;
         track.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
         track.addEventListener('touchend', function (e) {
@@ -110,20 +141,17 @@
             if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); resetAuto(); }
         }, { passive: true });
 
-        // Keyboard
         slider.setAttribute('tabindex', '0');
         slider.addEventListener('keydown', function (e) {
             if (e.key === 'ArrowLeft')  { goTo(current - 1); resetAuto(); }
             if (e.key === 'ArrowRight') { goTo(current + 1); resetAuto(); }
         });
 
-        // Pause on hover
         if (autoPlay && pauseHover) {
             slider.addEventListener('mouseenter', stopAuto);
             slider.addEventListener('mouseleave', startAuto);
         }
 
-        // Init
         goTo(0);
         startAuto();
     }
@@ -290,8 +318,8 @@
 
         var dropText = document.createElement('p');
         dropText.className = 'rwf-cf7-drop-text';
-        dropText.innerHTML = '<strong>Drag &amp; drop your photo here</strong>' +
-            '<span>or <button type="button" class="rwf-cf7-browse">browse to upload</button></span>';
+        dropText.innerHTML = 'Drag &amp; drop your photo here ' +
+            '<span>or <button type="button" class="rwf-cf7-browse">Browse to Upload</button></span>';
 
         var hint = document.createElement('p');
         hint.className = 'rwf-cf7-drop-hint';

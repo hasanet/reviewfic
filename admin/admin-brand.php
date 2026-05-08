@@ -179,9 +179,23 @@ function reviewfic_admin_brand_header() {
         ),
     );
 
-    $map   = $labels[$screen->post_type] ?? $labels['reviewfic_reviews'];
-    $label = $screen->action === 'add'    ? $map['add']
-           : ($screen->base === 'post'   ? $map['edit'] : $map['list']);
+    // Custom submenu pages get their own label
+    $page_slug = sanitize_key( $_GET['page'] ?? '' );
+    $page_labels = array(
+        'reviewfic-import-export' => 'Import / Export',
+        'reviewfic-integrations'  => 'Integrations',
+        'reviewfic-live-reviews'  => 'Live Reviews',
+        'reviewfic-woocommerce'   => 'WooCommerce',
+        'reviewfic-get-help'      => 'Get Help',
+        'reviewfic-our-plugins'   => 'Our Plugins',
+    );
+    if ( isset( $page_labels[ $page_slug ] ) ) {
+        $label = $page_labels[ $page_slug ];
+    } else {
+        $map   = $labels[$screen->post_type] ?? $labels['reviewfic_reviews'];
+        $label = $screen->action === 'add'    ? $map['add']
+               : ($screen->base === 'post'   ? $map['edit'] : $map['list']);
+    }
 
     $plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/reviewfic/reviewfic.php');
     $version     = $plugin_data['Version'] ?? '';
@@ -220,3 +234,7 @@ function reviewfic_admin_brand_header() {
     <?php
 }
 add_action('admin_footer', 'reviewfic_admin_brand_header');
+
+
+
+// Editor uses WordPress default height.

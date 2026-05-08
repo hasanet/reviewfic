@@ -3,7 +3,7 @@
 Plugin Name: Reviewfic – Testimonial Slider, Testimonial Grid & Customer Reviews
 Plugin URI: https://themefic.com/reviewfic/
 Description: A plugin to create and manage client reviews with custom post types and shortcodes.
-Version: 1.2.28
+Version: 1.2.35
 Author: Themefic
 Author URI: https://themefic.com
 Text Domain: reviewfic
@@ -130,3 +130,58 @@ require_once plugin_dir_path(__FILE__) . 'admin/extra-pages.php';
 require_once plugin_dir_path(__FILE__) . 'admin/live-reviews.php';
 require_once plugin_dir_path(__FILE__) . 'admin/woocommerce.php';
 require_once plugin_dir_path(__FILE__) . 'admin/form-integrations.php';
+// ── Submenu reorder ────────────────────────────────────────────────────────
+// Runs last so all submenus are registered before we sort.
+// "Get Help" and "Our Plugins" are always pinned to the end.
+add_action( 'admin_menu', function () {
+    global $submenu;
+
+    $key = 'edit.php?post_type=reviewfic_reviews';
+    if ( empty( $submenu[ $key ] ) ) return;
+
+    $known_order = array(
+        'edit.php?post_type=reviewfic_reviews',
+        'post-new.php?post_type=reviewfic_reviews',
+        'edit-tags.php?taxonomy=reviewfic_category&post_type=reviewfic_reviews',
+        'edit-tags.php?taxonomy=reviewfic_source&post_type=reviewfic_reviews',
+        'edit.php?post_type=reviewfic_config',
+        'reviewfic-live-reviews',
+        'reviewfic-integrations',
+        'reviewfic-import-export',
+        'reviewfic-woocommerce',
+    );
+    $pinned_last = array( 'reviewfic-get-help', 'reviewfic-our-plugins' );
+
+    // Index existing items by slug
+    $by_slug = array();
+    foreach ( $submenu[ $key ] as $item ) {
+        $by_slug[ $item[2] ] = $item;
+    }
+
+    $sorted = array();
+
+    // 1. Known ordered items first
+    foreach ( $known_order as $slug ) {
+        if ( isset( $by_slug[ $slug ] ) ) {
+            $sorted[] = $by_slug[ $slug ];
+            unset( $by_slug[ $slug ] );
+        }
+    }
+
+    // 2. Any unknown items (future additions) come before the pinned last
+    foreach ( $by_slug as $slug => $item ) {
+        if ( ! in_array( $slug, $pinned_last, true ) ) {
+            $sorted[] = $item;
+            unset( $by_slug[ $slug ] );
+        }
+    }
+
+    // 3. Pinned last — always at the end
+    foreach ( $pinned_last as $slug ) {
+        if ( isset( $by_slug[ $slug ] ) ) {
+            $sorted[] = $by_slug[ $slug ];
+        }
+    }
+
+    $submenu[ $key ] = $sorted;
+}, 9999 );
