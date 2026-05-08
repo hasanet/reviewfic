@@ -38,7 +38,12 @@ Collect, manage, and display customer reviews on any WordPress site — star rat
 | 📐 **Responsive Grid** | 1–4 column layout, collapses to single column on mobile automatically |
 | 📝 **Review Collection Form** | `[reviewfic_form]` — let customers submit reviews directly from any page. Pending approval by default. |
 | 🔗 **Contact Form 7 Integration** | Map CF7 fields to Reviewfic fields via a built-in tab in the CF7 editor. No coding needed. |
+| 🔌 **WPForms / Fluent Forms / Gravity Forms** | Connect any form from these plugins via Reviewfic → Form Integrations. Per-form field mapping, source, and status. |
+| 🔴 **Live Google Reviews** | `[reviewfic_google place_id="..."]` — fetch and display live Google Places reviews. Cached 12h. |
+| 🟡 **Live Yelp Reviews** | `[reviewfic_yelp business_id="..."]` — fetch and display live Yelp Fusion reviews. Cached 12h. |
 | 📤 **Import / Export** | Export all reviews as CSV or JSON. Import from either format — new sources/categories created automatically. |
+| ❓ **Get Help** | Dedicated admin page linking to support, feature requests, and documentation. |
+| 🔌 **Our Plugins** | One-click install for other Themefic plugins directly from the WordPress admin. |
 | ♿ **Accessible Slider** | Touch swipe, keyboard arrow keys, and ARIA labels |
 | 🔌 **Zero Dependencies** | No jQuery plugins, no external CDN calls on the frontend |
 
@@ -196,6 +201,48 @@ Go to **Reviewfic → Import / Export** to bulk-manage reviews.
 
 ---
 
+## 🔴 Live Reviews (Google & Yelp)
+
+Pull reviews directly from external platforms and display them using Reviewfic's templates.
+
+### Setup
+
+Go to **Reviewfic → Live Reviews** and enter your API keys:
+
+| Platform | API | Free Tier |
+|---|---|---|
+| Google | [Places API](https://developers.google.com/maps/documentation/places/web-service/get-api-key) | $200/month credit (~unlimited for most sites) |
+| Yelp | [Fusion API](https://www.yelp.com/developers/documentation/v3/authentication) | 3 reviews per request |
+
+### Shortcodes
+
+```
+[reviewfic_google place_id="ChIJN1t_tDeuEmsRUsoyG83frY4" columns="3" template="1" max="5"]
+
+[reviewfic_yelp business_id="gary-danko-san-francisco" columns="3" template="1" max="3"]
+```
+
+Both shortcodes support all 5 templates, slider mode, columns, `show_avatar`, and design options. Results are **cached for 12 hours** to avoid excessive API calls.
+
+**Finding your IDs:**
+- Google Place ID → [Place ID Finder](https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder)
+- Yelp Business ID → the slug in your Yelp URL (e.g. `yelp.com/biz/gary-danko-san-francisco`)
+
+---
+
+## 🔌 Form Integrations (WPForms / Fluent Forms / Gravity Forms)
+
+Go to **Reviewfic → Form Integrations** to connect forms from these plugins. Each tab lists all forms from the installed plugin with:
+
+- Enable toggle per form
+- Review status (pending / published)  
+- Review source dropdown (from your taxonomy)
+- Field mapping: name, designation, company, rating, title, content, photo
+
+Connected forms are automatically styled to match Reviewfic's form design on the frontend.
+
+---
+
 ## 📝 Collecting Reviews from Customers
 
 ### Built-in Form
@@ -255,7 +302,9 @@ reviewfic/
 │   ├── shortcode-config.php     # Shortcode Generator CPT + meta box + save
 │   ├── review-form.php      # [reviewfic_form] shortcode + CF7 integration
 │   ├── import-export.php    # Import / Export admin page
-│   └── shortcode.php        # [reviewfic] shortcode handler
+│   ├── form-integrations.php # WPForms / Fluent Forms / Gravity Forms
+│   ├── live-reviews.php     # Google Places + Yelp Fusion live reviews
+│   └── extra-pages.php      # Get Help + Our Plugins admin pages
 ├── assets/
 │   ├── css/
 │   │   ├── reviewfic.css        # Frontend styles (templates, slider, pagination, form)
