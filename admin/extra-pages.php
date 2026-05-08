@@ -186,8 +186,16 @@ function reviewfic_our_plugins_page() {
             ?>
             <div class="rwf-plugin-card">
                 <div class="rwf-plugin-header">
-                    <div class="rwf-plugin-icon" style="background:<?php echo esc_attr( $plugin['color'] ); ?>;">
-                        <?php echo esc_html( $plugin['init'] ); ?>
+                    <div class="rwf-plugin-icon-wrap">
+                        <img
+                            src="<?php echo esc_url( 'https://ps.w.org/' . $plugin['slug'] . '/assets/icon-256x256.png' ); ?>"
+                            alt="<?php echo esc_attr( $plugin['name'] ); ?>"
+                            class="rwf-plugin-icon-img"
+                            onerror="this.closest('.rwf-plugin-icon-wrap').classList.add('rwf-icon-fallback');"
+                        >
+                        <div class="rwf-plugin-icon-badge" style="background:<?php echo esc_attr( $plugin['color'] ); ?>;">
+                            <?php echo esc_html( $plugin['init'] ); ?>
+                        </div>
                     </div>
                     <div>
                         <h3><?php echo esc_html( $plugin['name'] ); ?></h3>

@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.26
+Stable tag: 1.2.27
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -216,6 +216,13 @@ No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as bef
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.27 =
+* Fix: Our Plugins page now shows real plugin icons fetched from WordPress.org with letter-badge fallback.
+* New: Live Reviews — [reviewfic_google] shortcode pulls live reviews from Google Places API.
+* New: Live Reviews — [reviewfic_yelp] shortcode pulls live reviews from Yelp Fusion API.
+* New: Reviewfic → Live Reviews admin page for managing API keys and shortcode docs.
+* Improvement: Live reviews are cached for 12 hours and rendered using all existing templates and design options.
 
 = 1.2.26 =
 * New: Reviewfic → Get Help page — three cards linking to Support, Feature Request, and Documentation.
