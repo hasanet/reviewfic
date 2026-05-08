@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.24
+Stable tag: 1.2.25
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -216,6 +216,13 @@ No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as bef
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.25 =
+* New: WPForms integration — connect any WPForms form to Reviewfic via Reviewfic → Form Integrations.
+* New: Fluent Forms integration — same per-form field mapping and source selection.
+* New: Gravity Forms integration — same per-form field mapping and source selection.
+* New: Form Integrations admin page with tabbed UI for all three plugins, showing all forms with enable toggle, status, source dropdown, and field mapping.
+* Improvement: Connected WPForms, Fluent Forms, and Gravity Forms forms are styled to match Reviewfic form design on the frontend.
 
 = 1.2.24 =
 * Improvement: CF7 integration — Review Source is now a dropdown populated from the Reviewfic taxonomy instead of a manual slug input.

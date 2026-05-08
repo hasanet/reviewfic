@@ -392,3 +392,51 @@
         initCF7Styling();
     }
 })();
+
+// ── WPForms / Fluent Forms / Gravity Forms styling ──────────────────────────
+(function () {
+    'use strict';
+
+    function styleForms() {
+        if (!window.rwfForms) return;
+
+        // WPForms: wrapper id="wpforms-{id}" contains form.wpforms-form
+        (rwfForms.wpforms || []).forEach(function (id) {
+            var wrapper = document.getElementById('wpforms-' + id);
+            if (wrapper) {
+                var form = wrapper.querySelector('form');
+                if (form) initRwfForm(form);
+            }
+        });
+
+        // Fluent Forms: form element has id="fluentform_{id}"
+        (rwfForms.fluent || []).forEach(function (id) {
+            var form = document.getElementById('fluentform_' + id);
+            if (form) initRwfForm(form);
+        });
+
+        // Gravity Forms: form element has id="gform_{id}"
+        (rwfForms.gravity || []).forEach(function (id) {
+            var form = document.getElementById('gform_' + id);
+            if (form) initRwfForm(form);
+        });
+    }
+
+    function initRwfForm(form) {
+        if (form.classList.contains('rwf-styled-cf7-form')) return; // already done
+        form.classList.add('rwf-styled-cf7-form');
+        // Apply drag-drop to any file inputs
+        var fileInputs = form.querySelectorAll('input[type="file"]');
+        for (var i = 0; i < fileInputs.length; i++) {
+            if (!fileInputs[i].closest('.rwf-cf7-dropzone')) {
+                initCF7Dropzone(fileInputs[i]);
+            }
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', styleForms);
+    } else {
+        styleForms();
+    }
+})();
