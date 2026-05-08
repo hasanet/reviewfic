@@ -1065,6 +1065,7 @@
 .rwf-styled-cf7-form {
     max-width: 640px;
     font-family: inherit;
+    margin: auto;
 }
 
 /* Row spacing — CF7 wraps fields in <p> tags */
