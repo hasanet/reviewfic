@@ -194,7 +194,7 @@ function reviewfic_our_plugins_page() {
                 <div class="rwf-plugin-header">
                     <div class="rwf-plugin-icon-wrap">
                         <img
-                            src="<?php echo esc_url( 'https://ps.w.org/' . $plugin['slug'] . '/assets/icon-256x256.png' ); ?>"
+                            src="<?php echo esc_url( $plugin['icon_url'] ); ?>"
                             alt="<?php echo esc_attr( $plugin['name'] ); ?>"
                             class="rwf-plugin-icon-img"
                             onerror="this.closest('.rwf-plugin-icon-wrap').classList.add('rwf-icon-fallback');"
@@ -226,13 +226,10 @@ function reviewfic_our_plugins_page() {
                             <?php esc_html_e( 'Activate', 'reviewfic' ); ?>
                         </a>
                     <?php elseif ( current_user_can( 'install_plugins' ) ) : ?>
-                        <button type="button"
-                            class="rwf-plugin-btn rwf-btn-install rwf-ajax-install"
-                            data-slug="<?php echo esc_attr( $plugin['slug'] ); ?>"
-                            data-name="<?php echo esc_attr( $plugin['name'] ); ?>">
+                        <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'update.php?action=install-plugin&plugin=' . urlencode( $plugin['slug'] ) ), 'install-plugin_' . $plugin['slug'] ) ); ?>" class="rwf-plugin-btn rwf-btn-install">
                             <span class="dashicons dashicons-download"></span>
                             <?php esc_html_e( 'Install Now', 'reviewfic' ); ?>
-                        </button>
+                        </a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -240,42 +237,5 @@ function reviewfic_our_plugins_page() {
         </div>
     </div>
 
-    <script>
-    (function() {
-        if (typeof wp === 'undefined' || typeof wp.updates === 'undefined') return;
-        document.querySelectorAll('.rwf-ajax-install').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var slug = btn.dataset.slug;
-                btn.disabled = true;
-                btn.querySelector('.dashicons').className = 'dashicons dashicons-update rwf-spin';
-                btn.childNodes[btn.childNodes.length - 1].nodeValue = ' Installing\u2026';
-                wp.updates.installPlugin({
-                    slug: slug,
-                    success: function(response) {
-                        if (response.activateUrl) {
-                            var link = document.createElement('a');
-                            link.href = response.activateUrl;
-                            link.className = 'rwf-plugin-btn rwf-btn-activate';
-                            link.innerHTML = '<span class="dashicons dashicons-controls-play"></span> Activate';
-                            btn.replaceWith(link);
-                        } else {
-                            btn.innerHTML = '<span class="dashicons dashicons-yes"></span> Installed';
-                        }
-                    },
-                    error: function() {
-                        btn.innerHTML = '<span class="dashicons dashicons-warning"></span> Failed';
-                        btn.disabled = false;
-                    }
-                });
-            });
-        });
-    })();
-    </script>
     <?php
 }
-
-add_action( 'admin_enqueue_scripts', function( $hook ) {
-    if ( $hook === 'reviewfic_reviews_page_reviewfic-our-plugins' ) {
-        wp_enqueue_script( 'updates' );
-    }
-} );

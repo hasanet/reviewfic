@@ -179,9 +179,23 @@ function reviewfic_admin_brand_header() {
         ),
     );
 
-    $map   = $labels[$screen->post_type] ?? $labels['reviewfic_reviews'];
-    $label = $screen->action === 'add'    ? $map['add']
-           : ($screen->base === 'post'   ? $map['edit'] : $map['list']);
+    // Custom submenu pages get their own label
+    $page_slug = sanitize_key( $_GET['page'] ?? '' );
+    $page_labels = array(
+        'reviewfic-import-export' => 'Import / Export',
+        'reviewfic-integrations'  => 'Integrations',
+        'reviewfic-live-reviews'  => 'Live Reviews',
+        'reviewfic-woocommerce'   => 'WooCommerce',
+        'reviewfic-get-help'      => 'Get Help',
+        'reviewfic-our-plugins'   => 'Our Plugins',
+    );
+    if ( isset( $page_labels[ $page_slug ] ) ) {
+        $label = $page_labels[ $page_slug ];
+    } else {
+        $map   = $labels[$screen->post_type] ?? $labels['reviewfic_reviews'];
+        $label = $screen->action === 'add'    ? $map['add']
+               : ($screen->base === 'post'   ? $map['edit'] : $map['list']);
+    }
 
     $plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/reviewfic/reviewfic.php');
     $version     = $plugin_data['Version'] ?? '';
@@ -221,37 +235,6 @@ function reviewfic_admin_brand_header() {
 }
 add_action('admin_footer', 'reviewfic_admin_brand_header');
 
-// ── Fix admin top-bar title for Reviewfic subpages ────────────────────────
-add_filter( 'admin_title', function( $admin_title ) {
-    $page = sanitize_key( $_GET['page'] ?? '' );
-    $map  = array(
-        'reviewfic-import-export' => 'Import / Export',
-        'reviewfic-integrations'  => 'Integrations',
-        'reviewfic-live-reviews'  => 'Live Reviews',
-        'reviewfic-woocommerce'   => 'WooCommerce',
-        'reviewfic-get-help'      => 'Get Help',
-        'reviewfic-our-plugins'   => 'Our Plugins',
-    );
-    if ( isset( $map[ $page ] ) ) {
-        return $map[ $page ] . ' &lsaquo; ' . get_bloginfo( 'name' ) . ' &#8212; WordPress';
-    }
-    return $admin_title;
-} );
 
-// ── Reduce TinyMCE editor height for reviewfic_reviews ────────────────────
-add_filter( 'tiny_mce_before_init', function( $mce_init ) {
-    global $post;
-    if ( isset( $post->post_type ) && $post->post_type === 'reviewfic_reviews' ) {
-        $mce_init['height'] = 180;
-    }
-    return $mce_init;
-} );
 
-add_action( 'admin_head', function() {
-    global $post;
-    if ( ! isset( $post->post_type ) || $post->post_type !== 'reviewfic_reviews' ) return;
-    echo '<style>
-        #content { height: 160px !important; min-height: 160px !important; }
-        #wp-content-editor-container .mce-container-body { min-height: 160px !important; }
-    </style>';
-} );
+// Editor uses WordPress default height.

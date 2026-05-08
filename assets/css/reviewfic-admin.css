@@ -1929,6 +1929,14 @@
 .rwf-btn-install {
     background: var(--rwf-primary);
     color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.rwf-btn-install:focus {
+    box-shadow: 0 0 0 2px rgba(14,159,110,.4) !important;
+    outline: none !important;
 }
 
 .rwf-btn-activate {
@@ -2146,6 +2154,3 @@
     flex-shrink: 0;
 }
 
-/* AJAX install spinner */
-@keyframes rwf-spin { to { transform: rotate(360deg); } }
-.rwf-spin { display: inline-block; animation: rwf-spin 1s linear infinite; }
