@@ -4,7 +4,7 @@
 
 ### Testimonial Slider, Testimonial Grid & Customer Reviews for WordPress
 
-[![Version](https://img.shields.io/badge/version-1.2.23-brightgreen.svg)](https://github.com/hasanet/reviewfic)
+[![Version](https://img.shields.io/badge/version-1.2.24-brightgreen.svg)](https://github.com/hasanet/reviewfic)
 [![WordPress](https://img.shields.io/badge/WordPress-5.4%2B-blue.svg)](https://wordpress.org)
 [![Tested up to](https://img.shields.io/badge/tested%20up%20to-WP%206.9-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
@@ -293,7 +293,12 @@ The deploy script syncs files to Local by Flywheel and pushes to the `new-update
 
 See [readme.txt](readme.txt) for the full changelog.
 
-**Latest — v1.2.23**
+**Latest — v1.2.24**
+- Improvement: CF7 Review Source is now a taxonomy dropdown, not a manual slug field
+- New: CF7 photo upload with drag-and-drop (same design as built-in form)
+- New: CF7 connected forms automatically styled to match Reviewfic form (scoped only to connected forms)
+
+**v1.2.23**
 - Fix: Columns work correctly in slider mode — N columns = N cards visible per page
 - Improvement: Slider JS rewritten to support page-by-page multi-column navigation
 

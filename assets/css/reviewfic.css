@@ -1057,3 +1057,213 @@
 .rwf-has-file .rwf-dropzone-remove {
     display: inline-block;
 }
+
+/* ── CF7 Connected Form Styling ─────────────────────────────────────────── */
+/* Only applies to CF7 forms with Reviewfic integration enabled.            */
+/* Class .rwf-styled-cf7-form is injected by reviewfic-public.js            */
+
+.rwf-styled-cf7-form {
+    max-width: 640px;
+    font-family: inherit;
+}
+
+/* Row spacing — CF7 wraps fields in <p> tags */
+.rwf-styled-cf7-form p {
+    margin-bottom: 18px;
+}
+
+.rwf-styled-cf7-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #374151;
+}
+
+/* All text inputs, selects, textareas */
+.rwf-styled-cf7-form input[type="text"],
+.rwf-styled-cf7-form input[type="email"],
+.rwf-styled-cf7-form input[type="tel"],
+.rwf-styled-cf7-form input[type="number"],
+.rwf-styled-cf7-form input[type="url"],
+.rwf-styled-cf7-form select,
+.rwf-styled-cf7-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #111827;
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.rwf-styled-cf7-form input[type="text"]:focus,
+.rwf-styled-cf7-form input[type="email"]:focus,
+.rwf-styled-cf7-form input[type="tel"]:focus,
+.rwf-styled-cf7-form input[type="number"]:focus,
+.rwf-styled-cf7-form input[type="url"]:focus,
+.rwf-styled-cf7-form select:focus,
+.rwf-styled-cf7-form textarea:focus {
+    outline: none;
+    border-color: #0E9F6E;
+    box-shadow: 0 0 0 3px rgba(14,159,110,.15);
+}
+
+.rwf-styled-cf7-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Submit button */
+.rwf-styled-cf7-form input[type="submit"],
+.rwf-styled-cf7-form .wpcf7-submit {
+    display: inline-block;
+    background: #0E9F6E;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 11px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    font-family: inherit;
+}
+
+.rwf-styled-cf7-form input[type="submit"]:hover,
+.rwf-styled-cf7-form .wpcf7-submit:hover {
+    background: #0b8a5e;
+    transform: translateY(-1px);
+}
+
+/* CF7 validation messages */
+.rwf-styled-cf7-form .wpcf7-not-valid-tip {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}
+
+.rwf-styled-cf7-form .wpcf7-response-output {
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-top: 16px;
+    border: none;
+}
+
+.rwf-styled-cf7-form.sent .wpcf7-response-output {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.rwf-styled-cf7-form.failed .wpcf7-response-output,
+.rwf-styled-cf7-form.invalid .wpcf7-response-output,
+.rwf-styled-cf7-form.spam .wpcf7-response-output {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+/* CF7 file field — hide native input; JS wraps it in drag-drop zone */
+.rwf-styled-cf7-form .wpcf7-file {
+    display: none;
+}
+
+/* Drag-drop zone inside CF7 forms */
+.rwf-styled-cf7-form .rwf-cf7-dropzone {
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: #fafafa;
+    position: relative;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-dropzone:hover,
+.rwf-styled-cf7-form .rwf-cf7-dropzone.rwf-drag-over {
+    border-color: #0E9F6E;
+    background: #f0fdf4;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-dropzone.rwf-has-file {
+    border-style: solid;
+    border-color: #0E9F6E;
+    background: #f0fdf4;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    overflow: hidden;
+    transition: background 0.2s;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-avatar svg {
+    width: 36px;
+    height: 36px;
+    color: #9ca3af;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-drop-text {
+    font-size: 14px;
+    color: #374151;
+    margin: 0 0 6px;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-drop-text strong {
+    display: block;
+    font-size: 15px;
+    color: #111827;
+    margin-bottom: 2px;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-browse {
+    background: none;
+    border: none;
+    color: #0E9F6E;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-drop-hint {
+    font-size: 12px;
+    color: #9ca3af;
+    margin: 0;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-remove {
+    display: none;
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.rwf-styled-cf7-form .rwf-cf7-dropzone.rwf-has-file .rwf-cf7-remove {
+    display: inline-block;
+}
