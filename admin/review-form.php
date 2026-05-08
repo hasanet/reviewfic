@@ -83,6 +83,10 @@ function reviewfic_form_shortcode( $atts ) {
                     wp_safe_redirect( esc_url( $atts['redirect'] ) );
                     exit;
                 }
+
+                // Fire action so other modules (e.g. WooCommerce) can react
+                do_action( 'reviewfic_after_form_submit', $post_id, $_POST );
+
                 $success = true;
             } else {
                 $errors[] = __( 'Something went wrong. Please try again.', 'reviewfic' );
@@ -108,6 +112,13 @@ function reviewfic_form_shortcode( $atts ) {
         ?>
         <form class="rwf-submission-form" method="post" enctype="multipart/form-data" novalidate>
             <?php wp_nonce_field( 'reviewfic_submit_review', 'reviewfic_form_nonce' ); ?>
+            <?php
+            // Pre-fill product context from URL (set by WooCommerce review request email)
+            $rwf_product_id = intval( $_GET['rwf_product'] ?? $_POST['rwf_product_id'] ?? 0 );
+            if ( $rwf_product_id ) {
+                echo '<input type="hidden" name="rwf_product_id" value="' . esc_attr( $rwf_product_id ) . '">';
+            }
+            ?>
 
             <div class="rwf-form-row">
                 <label for="rwf_name"><?php esc_html_e( 'Your Name', 'reviewfic' ); ?> <span class="rwf-required" aria-hidden="true">*</span></label>

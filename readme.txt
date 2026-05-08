@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.27
+Stable tag: 1.2.28
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -124,6 +124,15 @@ Display live reviews directly from Google using `[reviewfic_google place_id="ChI
 **Live Reviews — Yelp**
 Display live reviews directly from Yelp using `[reviewfic_yelp business_id="..."]`. Reviews are fetched from the Yelp Fusion API (up to 3 on the free tier), cached for 12 hours, and support all the same display options as Google. Requires a Yelp Fusion API key, configured at **Reviewfic → Live Reviews**.
 
+**WooCommerce Integration**
+A dedicated **Reviewfic → WooCommerce** admin page brings three powerful features:
+
+<ul>
+<li><strong>Post-Purchase Review Request Email</strong> — automatically emails customers after order completion with a link to your review form. Choose the delay: immediately, or 1, 2, 3, 5, 7, or 14 days after order completion. Select any published page as the review landing page (with your `[reviewfic_form]` shortcode on it). Customize the email subject and body with placeholders: `{customer_name}`, `{order_id}`, `{site_name}`.</li>
+<li><strong>Replace WooCommerce Reviews Tab</strong> — replaces the default WooCommerce product reviews tab with Reviewfic's templates. Existing product reviews are rendered using Template 1 (Classic) with a full Reviewfic design. A "Write a Review" button links to your configured review landing page.</li>
+<li><strong>Auto-Tag Reviews by Product</strong> — when a customer clicks the review link from the email and submits a review, it is automatically tagged with the product name as a Reviewfic category. Works for single-product orders and enables product-filtered shortcodes.</li>
+</ul>
+
 **Responsive Grid**
 Display reviews in a 1, 2, 3, or 4 column grid. Collapses to a single column on tablets and mobile automatically.
 
@@ -218,6 +227,14 @@ Place `[reviewfic_form]` on any page or post. A styled submission form will appe
 
 Yes. Install Contact Form 7, then open any CF7 form in the editor. You will see a "Reviewfic" tab. Enable the integration, choose whether submissions go to pending or published, and map your CF7 field names to Reviewfic fields (name, rating, content, etc.). From that point on, every submission of that form automatically creates a review in Reviewfic.
 
+= How does the WooCommerce post-purchase email work? =
+
+When a customer's order is marked as completed, Reviewfic schedules a review request email using WP-Cron. The delay is configurable (immediately, or up to 14 days). The email includes a styled CTA button that links to the review page you select in **Reviewfic → WooCommerce**. If the order has a single product, the link includes the product ID so the review is automatically tagged with the product name.
+
+= Will the WooCommerce tab replacement affect existing reviews? =
+
+No. The replacement only changes how reviews are *displayed*. All existing WooCommerce product reviews (stored in wp_comments) are rendered using Reviewfic's Classic template. No data is lost or moved.
+
 = Will my existing shortcodes break after upgrading? =
 
 No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as before.
@@ -243,6 +260,13 @@ Yes. Go to **Reviewfic → Form Integrations** and select the relevant tab. Enab
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.28 =
+* New: WooCommerce integration — post-purchase review request email with configurable delay (0–14 days).
+* New: WooCommerce integration — configurable review landing page (any published page) linked in the email CTA.
+* New: WooCommerce integration — replace the WooCommerce product reviews tab with Reviewfic templates.
+* New: WooCommerce integration — auto-tag reviews by product name (Reviewfic category) when submitted via review request link.
+* Improvement: [reviewfic_form] now accepts rwf_product URL parameter for WooCommerce product context.
 
 = 1.2.27 =
 * Fix: Our Plugins page now shows real plugin icons fetched from WordPress.org with letter-badge fallback.

@@ -4,7 +4,7 @@
 
 ### Testimonial Slider, Testimonial Grid & Customer Reviews for WordPress
 
-[![Version](https://img.shields.io/badge/version-1.2.27-brightgreen.svg)](https://github.com/hasanet/reviewfic)
+[![Version](https://img.shields.io/badge/version-1.2.28-brightgreen.svg)](https://github.com/hasanet/reviewfic)
 [![WordPress](https://img.shields.io/badge/WordPress-5.4%2B-blue.svg)](https://wordpress.org)
 [![Tested up to](https://img.shields.io/badge/tested%20up%20to-WP%206.9-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
@@ -42,6 +42,7 @@ Collect, manage, and display customer reviews on any WordPress site — star rat
 | 🔴 **Live Google Reviews** | `[reviewfic_google place_id="..."]` — fetch and display live Google Places reviews. Cached 12h. |
 | 🟡 **Live Yelp Reviews** | `[reviewfic_yelp business_id="..."]` — fetch and display live Yelp Fusion reviews. Cached 12h. |
 | 📤 **Import / Export** | Export all reviews as CSV or JSON. Import from either format — new sources/categories created automatically. |
+| 🛒 **WooCommerce Integration** | Post-purchase review emails, replace WC reviews tab with Reviewfic templates, auto-tag reviews by product. |
 | ❓ **Get Help** | Dedicated admin page linking to support, feature requests, and documentation. |
 | 🔌 **Our Plugins** | One-click install for other Themefic plugins directly from the WordPress admin. |
 | ♿ **Accessible Slider** | Touch swipe, keyboard arrow keys, and ARIA labels |
@@ -201,6 +202,32 @@ Go to **Reviewfic → Import / Export** to bulk-manage reviews.
 
 ---
 
+## 🛒 WooCommerce Integration
+
+Go to **Reviewfic → WooCommerce** to configure three WooCommerce-specific features.
+
+### 1. Post-Purchase Review Request Email
+
+| Setting | Options |
+|---|---|
+| Enable | On / Off |
+| Delay | Immediately, 1, 2, 3, 5, 7, or 14 days after order completion |
+| Landing Page | Any published WordPress page (place `[reviewfic_form]` on it) |
+| Email Subject | Customisable with `{customer_name}`, `{order_id}`, `{site_name}` |
+| Email Body | Customisable — a styled CTA button is added automatically |
+
+The email is scheduled via WP-Cron. For single-product orders, the review link includes the product ID so reviews are auto-tagged.
+
+### 2. Replace WooCommerce Reviews Tab
+
+When enabled, replaces WooCommerce's default product reviews tab with Reviewfic's Classic template. Existing WC reviews are rendered using Reviewfic's card design. A **Write a Review** button links to your configured landing page.
+
+### 3. Auto-Tag Reviews by Product
+
+When a customer arrives via the review request email and submits a review via `[reviewfic_form]`, Reviewfic automatically creates or assigns a Reviewfic **Category** named after the product and tags the review. This lets you filter product-specific reviews in any shortcode using `category="product-name"`.
+
+---
+
 ## 🔴 Live Reviews (Google & Yelp)
 
 Pull reviews directly from external platforms and display them using Reviewfic's templates.
@@ -304,6 +331,7 @@ reviewfic/
 │   ├── import-export.php    # Import / Export admin page
 │   ├── form-integrations.php # WPForms / Fluent Forms / Gravity Forms
 │   ├── live-reviews.php     # Google Places + Yelp Fusion live reviews
+│   ├── woocommerce.php      # WooCommerce email, tab replacement, auto-tag
 │   └── extra-pages.php      # Get Help + Our Plugins admin pages
 ├── assets/
 │   ├── css/
@@ -342,7 +370,12 @@ The deploy script syncs files to Local by Flywheel and pushes to the `new-update
 
 See [readme.txt](readme.txt) for the full changelog.
 
-**Latest — v1.2.27**
+**Latest — v1.2.28**
+- New: WooCommerce integration — post-purchase review request email
+- New: WooCommerce integration — replace WC reviews tab with Reviewfic templates
+- New: WooCommerce integration — auto-tag reviews by product name
+
+**v1.2.27**
 - Fix: Our Plugins page uses real WP.org plugin icons with letter-badge fallback
 - New: `[reviewfic_google place_id="..."]` — live Google Places reviews (up to 5)
 - New: `[reviewfic_yelp business_id="..."]` — live Yelp Fusion reviews (up to 3)

@@ -1278,3 +1278,33 @@
     font-size: 14px;
     margin: 8px 0;
 }
+
+/* WooCommerce tab integration */
+.rwf-wc-no-reviews {
+    color: #6b7280;
+    font-size: 15px;
+    padding: 20px 0;
+}
+
+.rwf-wc-write-review {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+}
+
+.rwf-wc-review-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #0E9F6E;
+    color: #fff !important;
+    text-decoration: none !important;
+    padding: 11px 28px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.15s;
+}
+
+.rwf-wc-review-btn:hover { background: #0b8a5e; }
