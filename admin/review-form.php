@@ -180,7 +180,7 @@ function reviewfic_form_shortcode( $atts ) {
                     </div>
                     <p class="rwf-dropzone-text">
                         <strong><?php esc_html_e( 'Drag & drop your photo here', 'reviewfic' ); ?></strong><br>
-                        <span><?php esc_html_e( 'or', 'reviewfic' ); ?> <button type="button" class="rwf-dropzone-browse"><?php esc_html_e( 'browse to upload', 'reviewfic' ); ?></button></span>
+                        <span><?php esc_html_e( 'or', 'reviewfic' ); ?> <button type="button" class="rwf-dropzone-browse"><?php esc_html_e( 'Browse to Upload', 'reviewfic' ); ?></button></span>
                     </p>
                     <p class="rwf-dropzone-hint"><?php esc_html_e( 'JPG, PNG, GIF or WebP — max 5 MB (optional)', 'reviewfic' ); ?></p>
                     <input type="file" id="rwf_photo" name="rwf_photo" accept="image/jpeg,image/png,image/gif,image/webp" class="rwf-dropzone-input">

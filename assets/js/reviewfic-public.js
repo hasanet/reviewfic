@@ -318,8 +318,8 @@
 
         var dropText = document.createElement('p');
         dropText.className = 'rwf-cf7-drop-text';
-        dropText.innerHTML = 'Drag &amp; drop your photo here' +
-            '<span>or <button type="button" class="rwf-cf7-browse">browse to upload</button></span>';
+        dropText.innerHTML = 'Drag &amp; drop your photo here ' +
+            '<span>or <button type="button" class="rwf-cf7-browse">Browse to Upload</button></span>';
 
         var hint = document.createElement('p');
         hint.className = 'rwf-cf7-drop-hint';
