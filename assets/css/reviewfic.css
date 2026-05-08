@@ -442,14 +442,14 @@
     display: flex;
     transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
+    gap: var(--rwf-col-gap, 20px);
 }
 
 .reviewfic-slider .reviewfic-item {
-    min-width: 100%;
-    max-width: 100%;
     flex-shrink: 0;
     box-sizing: border-box;
     margin: 0;
+    /* min-width / max-width set by JS to account for gap */
 }
 
 /* Nav row: prev · dots · next */
