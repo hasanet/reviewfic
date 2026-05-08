@@ -412,6 +412,12 @@ function rwf_integrations_page() {
             'forms'  => array(),
             'id_hint' => '',
         ),
+        'tourfic' => array(
+            'label'  => 'Tourfic',
+            'active' => defined( 'TF_VERSION' ) && class_exists( 'WooCommerce' ),
+            'forms'  => array(),
+            'id_hint' => '',
+        ),
     );
     ?>
     <div class="wrap rwf-ie-wrap">
@@ -477,6 +483,41 @@ function rwf_integrations_page() {
                 <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=reviewfic_reviews&page=reviewfic-woocommerce' ) ); ?>" class="button button-primary rwf-ie-btn">
                     <span class="dashicons dashicons-admin-settings"></span>
                     <?php esc_html_e( 'Configure WooCommerce Settings', 'reviewfic' ); ?>
+                </a>
+            </div>
+
+        <?php elseif ( $active_tab === 'tourfic' ) :
+            $tf = get_option( 'reviewfic_tf_settings', array() );
+            $en_tf      = ( $tf['enabled']         ?? '0' ) === '1';
+            $rep_sec    = ( $tf['replace_section']  ?? '0' ) === '1';
+            $auto_tag   = ( $tf['auto_tag']         ?? '1' ) === '1';
+            $delay      = $tf['delay_days']         ?? '2';
+            $pg_id      = intval( $tf['review_page'] ?? 0 );
+            $pg_name    = $pg_id ? get_the_title( $pg_id ) : __( 'Not set', 'reviewfic' );
+        ?>
+            <div class="rwf-ie-card" style="max-width:680px;">
+                <div class="rwf-ie-card-header">
+                    <span class="dashicons dashicons-location-alt rwf-ie-card-icon"></span>
+                    <div>
+                        <h2><?php esc_html_e( 'Tourfic Integration', 'reviewfic' ); ?></h2>
+                        <p><?php esc_html_e( 'Current Tourfic settings summary.', 'reviewfic' ); ?></p>
+                    </div>
+                </div>
+                <table class="rwf-ie-schema" style="margin-bottom:20px;">
+                    <tr><td><strong><?php esc_html_e( 'Review Request Emails', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo $en_tf ? '<span style="color:#0E9F6E;font-weight:600;">&#10003; Enabled</span>' : '<span style="color:#6b7280;">&#10007; Disabled</span>'; ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Send Delay', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo esc_html( $delay == '0' ? __('Immediately','reviewfic') : $delay . ' ' . __('day(s) after completion','reviewfic') ); ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Review Landing Page', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo esc_html( $pg_name ); ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Replace Tourfic Review Section', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo $rep_sec ? '<span style="color:#0E9F6E;font-weight:600;">&#10003; Enabled</span>' : '<span style="color:#6b7280;">&#10007; Disabled</span>'; ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Auto-Tag by Service', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo $auto_tag ? '<span style="color:#0E9F6E;font-weight:600;">&#10003; Enabled</span>' : '<span style="color:#6b7280;">&#10007; Disabled</span>'; ?></td></tr>
+                </table>
+                <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=reviewfic_reviews&page=reviewfic-tourfic' ) ); ?>" class="button button-primary rwf-ie-btn">
+                    <span class="dashicons dashicons-admin-settings"></span>
+                    <?php esc_html_e( 'Configure Tourfic Settings', 'reviewfic' ); ?>
                 </a>
             </div>
 

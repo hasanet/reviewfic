@@ -118,6 +118,14 @@ function reviewfic_form_shortcode( $atts ) {
             if ( $rwf_product_id ) {
                 echo '<input type="hidden" name="rwf_product_id" value="' . esc_attr( $rwf_product_id ) . '">';
             }
+
+            // Pre-fill Tourfic service context from URL (set by Tourfic review request email)
+            $rwf_tf_service = intval( $_GET['rwf_tf_service'] ?? $_POST['rwf_tf_service_id'] ?? 0 );
+            $rwf_tf_type    = sanitize_key( $_GET['rwf_tf_type'] ?? $_POST['rwf_tf_type'] ?? '' );
+            if ( $rwf_tf_service ) {
+                echo '<input type="hidden" name="rwf_tf_service_id" value="' . esc_attr( $rwf_tf_service ) . '">';
+                echo '<input type="hidden" name="rwf_tf_type" value="' . esc_attr( $rwf_tf_type ) . '">';
+            }
             ?>
 
             <div class="rwf-form-row">
