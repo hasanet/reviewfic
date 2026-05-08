@@ -4,7 +4,7 @@
 
 ### Testimonial Slider, Testimonial Grid & Customer Reviews for WordPress
 
-[![Version](https://img.shields.io/badge/version-1.2.25-brightgreen.svg)](https://github.com/hasanet/reviewfic)
+[![Version](https://img.shields.io/badge/version-1.2.26-brightgreen.svg)](https://github.com/hasanet/reviewfic)
 [![WordPress](https://img.shields.io/badge/WordPress-5.4%2B-blue.svg)](https://wordpress.org)
 [![Tested up to](https://img.shields.io/badge/tested%20up%20to-WP%206.9-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
@@ -293,7 +293,11 @@ The deploy script syncs files to Local by Flywheel and pushes to the `new-update
 
 See [readme.txt](readme.txt) for the full changelog.
 
-**Latest — v1.2.25**
+**Latest — v1.2.26**
+- New: Reviewfic → Get Help page (Support, Feature Request, Docs)
+- New: Reviewfic → Our Plugins page with one-click install from WordPress.org
+
+**v1.2.25**
 - New: WPForms, Fluent Forms, and Gravity Forms integrations
 - New: Form Integrations admin page (Reviewfic → Form Integrations) with tabbed UI for all three plugins
 - Per-form: enable toggle, review status, source dropdown, full field mapping
