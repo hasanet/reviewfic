@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.35
+Stable tag: 1.2.36
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -260,6 +260,10 @@ Yes. Go to **Reviewfic → Form Integrations** and select the relevant tab. Enab
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.36 =
+* Fix: CF7 photo upload now correctly handles CF7 5.x+ where uploaded_files() returns an array of paths instead of a single string — previously caused a PHP 8 TypeError that corrupted CF7's JSON response and left the form stuck on the loading spinner.
+* Fix: Wrapped media_handle_sideload in an output buffer so any PHP notices from WP image helpers cannot bleed into CF7's AJAX / REST API JSON response.
 
 = 1.2.28 =
 * New: WooCommerce integration — post-purchase review request email with configurable delay (0–14 days).
