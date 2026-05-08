@@ -91,6 +91,7 @@ function rwf_config_options_cb($post) {
     $card_border  = $get('rwf_card_border',  '');
     $card_shadow  = $get('rwf_card_shadow',  'none');
     $card_radius  = $get('rwf_card_radius',  '10');
+    $col_gap      = $get('rwf_col_gap',      '20');
 
     $categories   = get_terms(array('taxonomy' => 'reviewfic_category', 'hide_empty' => false));
     $source_terms = get_terms(array('taxonomy' => 'reviewfic_source',   'hide_empty' => false));
@@ -323,6 +324,13 @@ function rwf_config_options_cb($post) {
                     <span class="rwf-range-val" id="rwf-radius-val"><?php echo esc_attr($card_radius); ?>px</span>
                 </div>
             </div>
+            <div class="rwf-config-row">
+                <label class="rwf-config-label" for="rwf_col_gap">Column Gap</label>
+                <div class="rwf-range-wrap">
+                    <input type="range" name="rwf_col_gap" id="rwf_col_gap" min="0" max="60" value="<?php echo esc_attr($col_gap); ?>" class="rwf-range" />
+                    <span class="rwf-range-val" id="rwf-gap-val"><?php echo esc_attr($col_gap); ?>px</span>
+                </div>
+            </div>
         </div>
 
         <!-- Slider -->
@@ -466,6 +474,9 @@ function rwf_config_options_cb($post) {
         $('#rwf_card_radius').on('input', function() {
             $('#rwf-radius-val').text($(this).val() + 'px');
         });
+        $('#rwf_col_gap').on('input', function() {
+            $('#rwf-gap-val').text($(this).val() + 'px');
+        });
 
         // Color pickers
         if ($.fn.wpColorPicker) {
@@ -495,7 +506,7 @@ function rwf_save_config_meta($post_id) {
         }
     }
 
-    $number_fields = array('rwf_slider_speed', 'rwf_max_items', 'rwf_per_page', 'rwf_card_radius');
+    $number_fields = array('rwf_slider_speed', 'rwf_max_items', 'rwf_per_page', 'rwf_card_radius', 'rwf_col_gap');
     foreach ($number_fields as $key) {
         if (isset($_POST[$key]) && $_POST[$key] !== '') {
             update_post_meta($post_id, $key, absint($_POST[$key]));

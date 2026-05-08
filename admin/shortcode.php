@@ -75,6 +75,7 @@ function reviewfic_shortcode($atts) {
         $card_border  = get_post_meta($config_id, 'rwf_card_border', true);
         $card_shadow  = get_post_meta($config_id, 'rwf_card_shadow', true);
         $card_radius  = get_post_meta($config_id, 'rwf_card_radius', true);
+        $col_gap      = get_post_meta($config_id, 'rwf_col_gap',     true);
 
         $shadow_map = array(
             'sm' => '0 1px 4px rgba(0,0,0,.08)',
@@ -90,7 +91,8 @@ function reviewfic_shortcode($atts) {
         if ($name_color)         $vars[] = '--rwf-name-color:'   . esc_attr($name_color);
         if ($card_border)        $vars[] = '--rwf-card-border:'  . esc_attr($card_border);
         if (!empty($shadow_map[$card_shadow])) $vars[] = '--rwf-card-shadow:' . $shadow_map[$card_shadow];
-        if ($card_radius !== '') $vars[] = '--rwf-card-radius:'  . intval($card_radius) . 'px';
+        if ($card_radius !== '') $vars[] = '--rwf-card-radius:' . intval($card_radius) . 'px';
+        if ($col_gap      !== '') $vars[] = '--rwf-col-gap:'     . intval($col_gap)      . 'px';
 
         if ($vars) $design_style = ' style="' . implode(';', $vars) . '"';
     }
