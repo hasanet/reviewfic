@@ -274,15 +274,33 @@ function reviewfic_cf7_on_submit( $contact_form ) {
     }
 
     // Photo upload
+    // CF7 5.x uploaded_files() may return a string path or an array of paths.
+    // Passing an array to file_exists() throws a TypeError in PHP 8+, which
+    // corrupts CF7's JSON response and leaves the form stuck on the spinner.
     $photo_field    = sanitize_text_field( $field_map['photo'] ?? '' );
     $uploaded_files = $submission->uploaded_files();
-    $tmp_path       = $uploaded_files[ $photo_field ] ?? '';
-    if ( $photo_field && $tmp_path && file_exists( $tmp_path ) ) {
+    $tmp_raw        = $photo_field ? ( $uploaded_files[ $photo_field ] ?? null ) : null;
+    // Normalise to a single string path regardless of CF7 version.
+    if ( is_array( $tmp_raw ) ) {
+        $tmp_path = (string) ( reset( $tmp_raw ) ?: '' );
+    } elseif ( is_string( $tmp_raw ) ) {
+        $tmp_path = $tmp_raw;
+    } else {
+        $tmp_path = '';
+    }
+    if ( $tmp_path !== '' && file_exists( $tmp_path ) ) {
         require_once ABSPATH . 'wp-admin/includes/image.php';
         require_once ABSPATH . 'wp-admin/includes/file.php';
         require_once ABSPATH . 'wp-admin/includes/media.php';
-        $attachment_id = media_handle_sideload( array( 'name' => basename( $tmp_path ), 'tmp_name' => $tmp_path ), $post_id );
-        if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
+        // Buffer output so any PHP notices from the sideload helpers cannot
+        // corrupt CF7's JSON AJAX / REST API response.
+        ob_start();
+        $attachment_id = media_handle_sideload(
+            array( 'name' => basename( $tmp_path ), 'tmp_name' => $tmp_path ),
+            $post_id
+        );
+        ob_end_clean();
+        if ( ! is_wp_error( $attachment_id ) ) {
             update_post_meta( $post_id, 'reviewfic_reviewer_photo', $attachment_id );
         }
     }
