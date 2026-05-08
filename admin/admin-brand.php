@@ -220,3 +220,38 @@ function reviewfic_admin_brand_header() {
     <?php
 }
 add_action('admin_footer', 'reviewfic_admin_brand_header');
+
+// ── Fix admin top-bar title for Reviewfic subpages ────────────────────────
+add_filter( 'admin_title', function( $admin_title ) {
+    $page = sanitize_key( $_GET['page'] ?? '' );
+    $map  = array(
+        'reviewfic-import-export' => 'Import / Export',
+        'reviewfic-integrations'  => 'Integrations',
+        'reviewfic-live-reviews'  => 'Live Reviews',
+        'reviewfic-woocommerce'   => 'WooCommerce',
+        'reviewfic-get-help'      => 'Get Help',
+        'reviewfic-our-plugins'   => 'Our Plugins',
+    );
+    if ( isset( $map[ $page ] ) ) {
+        return $map[ $page ] . ' &lsaquo; ' . get_bloginfo( 'name' ) . ' &#8212; WordPress';
+    }
+    return $admin_title;
+} );
+
+// ── Reduce TinyMCE editor height for reviewfic_reviews ────────────────────
+add_filter( 'tiny_mce_before_init', function( $mce_init ) {
+    global $post;
+    if ( isset( $post->post_type ) && $post->post_type === 'reviewfic_reviews' ) {
+        $mce_init['height'] = 180;
+    }
+    return $mce_init;
+} );
+
+add_action( 'admin_head', function() {
+    global $post;
+    if ( ! isset( $post->post_type ) || $post->post_type !== 'reviewfic_reviews' ) return;
+    echo '<style>
+        #content { height: 160px !important; min-height: 160px !important; }
+        #wp-content-editor-container .mce-container-body { min-height: 160px !important; }
+    </style>';
+} );

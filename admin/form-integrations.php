@@ -100,8 +100,8 @@ add_action( 'admin_menu', 'rwf_register_integrations_page' );
 function rwf_register_integrations_page() {
     add_submenu_page(
         'edit.php?post_type=reviewfic_reviews',
-        __( 'Form Integrations', 'reviewfic' ),
-        __( 'Form Integrations', 'reviewfic' ),
+        __( 'Integrations', 'reviewfic' ),
+        __( 'Integrations', 'reviewfic' ),
         'manage_options',
         'reviewfic-integrations',
         'rwf_integrations_page'
@@ -320,14 +320,47 @@ function rwf_get_gravity_forms() {
 
 
 // ══════════════════════════════════════════════════════════════════════════
+//  CF7 SAVE HANDLER
+// ══════════════════════════════════════════════════════════════════════════
+
+add_action( 'admin_post_rwf_save_cf7_integration', function () {
+    if ( ! current_user_can( 'manage_options' ) ) wp_die( 'Unauthorized' );
+    check_admin_referer( 'rwf_save_cf7_integration' );
+
+    $all_cf7 = get_posts( array( 'post_type' => 'wpcf7_contact_form', 'posts_per_page' => -1, 'fields' => 'ids' ) );
+    foreach ( $all_cf7 as $fid ) {
+        update_post_meta( $fid, '_rwf_cf7_enabled', '0' );
+    }
+
+    $raw_forms = $_POST['rwf_cf7_forms'] ?? array();
+    if ( is_array( $raw_forms ) ) {
+        foreach ( $raw_forms as $form_id => $data ) {
+            $form_id = intval( $form_id );
+            if ( ! $form_id ) continue;
+            update_post_meta( $form_id, '_rwf_cf7_enabled', isset( $data['enabled'] ) ? '1' : '0' );
+            $field_map = array();
+            foreach ( $data['fields'] ?? array() as $key => $val ) {
+                $field_map[ sanitize_key( $key ) ] = sanitize_text_field( wp_unslash( $val ) );
+            }
+            $field_map['status'] = in_array( $data['status'] ?? '', array( 'publish', 'pending' ), true ) ? $data['status'] : 'pending';
+            $field_map['source'] = sanitize_text_field( wp_unslash( $data['source'] ?? '' ) );
+            update_post_meta( $form_id, '_rwf_cf7_fields', $field_map );
+        }
+    }
+
+    wp_safe_redirect( add_query_arg( array( 'post_type' => 'reviewfic_reviews', 'page' => 'reviewfic-integrations', 'tab' => 'cf7', 'saved' => '1' ), admin_url( 'edit.php' ) ) );
+    exit;
+} );
+
+// ══════════════════════════════════════════════════════════════════════════
 //  ADMIN PAGE UI
 // ══════════════════════════════════════════════════════════════════════════
 
 function rwf_integrations_page() {
-    $active_tab  = sanitize_key( $_GET['tab'] ?? 'wpforms' );
+    $active_tab  = sanitize_key( $_GET['tab'] ?? 'cf7' );
     $saved       = ! empty( $_GET['saved'] );
     $all         = rwf_get_integrations();
-    $sources     = get_terms( array( 'taxonomy' => 'reviewfic_source', 'hide_empty' => false ) );
+    $sources  = get_terms( array( 'taxonomy' => 'reviewfic_source', 'hide_empty' => false ) );
 
     $field_keys = array(
         'name'        => __( 'Reviewer Name',     'reviewfic' ),
@@ -339,24 +372,45 @@ function rwf_integrations_page() {
         'photo'       => __( 'Photo (file field)', 'reviewfic' ),
     );
 
+    // CF7 forms
+    $cf7_forms = array();
+    if ( class_exists( 'WPCF7_ContactForm' ) ) {
+        $posts = get_posts( array( 'post_type' => 'wpcf7_contact_form', 'posts_per_page' => -1, 'post_status' => 'publish' ) );
+        foreach ( $posts as $p ) {
+            $cf7_forms[] = array( 'id' => $p->ID, 'title' => $p->post_title );
+        }
+    }
+
     $tabs = array(
+        'cf7'     => array(
+            'label'   => 'Contact Form 7',
+            'active'  => class_exists( 'WPCF7_ContactForm' ),
+            'forms'   => $cf7_forms,
+            'id_hint' => __( 'Enter the CF7 field name exactly as it appears in the Form tab (e.g. your-name, your-message)', 'reviewfic' ),
+        ),
         'wpforms' => array(
-            'label'     => 'WPForms',
-            'active'    => function_exists( 'wpforms' ),
-            'forms'     => rwf_get_wpforms_forms(),
-            'id_hint'   => __( 'Use the numeric Field ID shown in the form builder (e.g. 1, 2, 3)', 'reviewfic' ),
+            'label'   => 'WPForms',
+            'active'  => function_exists( 'wpforms' ),
+            'forms'   => rwf_get_wpforms_forms(),
+            'id_hint' => __( 'Use the numeric Field ID shown in the form builder (e.g. 1, 2, 3)', 'reviewfic' ),
         ),
         'fluent'  => array(
-            'label'     => 'Fluent Forms',
-            'active'    => defined( 'FLUENTFORM' ) || class_exists( 'FluentForm\App\Models\Form' ),
-            'forms'     => rwf_get_fluent_forms(),
-            'id_hint'   => __( 'Use the field name/key shown in the form editor (e.g. names, message)', 'reviewfic' ),
+            'label'   => 'Fluent Forms',
+            'active'  => defined( 'FLUENTFORM' ) || class_exists( 'FluentForm\App\Models\Form' ),
+            'forms'   => rwf_get_fluent_forms(),
+            'id_hint' => __( 'Use the field name/key shown in the form editor (e.g. names, message)', 'reviewfic' ),
         ),
         'gravity' => array(
-            'label'     => 'Gravity Forms',
-            'active'    => class_exists( 'GFAPI' ),
-            'forms'     => rwf_get_gravity_forms(),
-            'id_hint'   => __( 'Use the numeric Field ID shown in the form editor (e.g. 1, 2, 3)', 'reviewfic' ),
+            'label'   => 'Gravity Forms',
+            'active'  => class_exists( 'GFAPI' ),
+            'forms'   => rwf_get_gravity_forms(),
+            'id_hint' => __( 'Use the numeric Field ID shown in the form editor (e.g. 1, 2, 3)', 'reviewfic' ),
+        ),
+        'woocommerce' => array(
+            'label'  => 'WooCommerce',
+            'active' => class_exists( 'WooCommerce' ),
+            'forms'  => array(),
+            'id_hint' => '',
         ),
     );
     ?>
@@ -391,12 +445,109 @@ function rwf_integrations_page() {
                     '<strong>' . esc_html( $tab['label'] ) . '</strong>'
                 ); ?></p>
             </div>
+        <?php elseif ( $active_tab === 'woocommerce' ) :
+            $wc = get_option( 'reviewfic_wc_settings', array() );
+            $en_wc    = ( $wc['enabled']    ?? '0' ) === '1';
+            $rep_tab  = ( $wc['replace_tab'] ?? '0' ) === '1';
+            $auto_tag = ( $wc['auto_tag']   ?? '1' ) === '1';
+            $delay    = $wc['delay_days']   ?? '2';
+            $pg_id    = intval( $wc['review_page'] ?? 0 );
+            $pg_name  = $pg_id ? get_the_title( $pg_id ) : __( 'Not set', 'reviewfic' );
+        ?>
+            <div class="rwf-ie-card" style="max-width:680px;">
+                <div class="rwf-ie-card-header">
+                    <span class="dashicons dashicons-cart rwf-ie-card-icon"></span>
+                    <div>
+                        <h2><?php esc_html_e( 'WooCommerce Integration', 'reviewfic' ); ?></h2>
+                        <p><?php esc_html_e( 'Current WooCommerce settings summary.', 'reviewfic' ); ?></p>
+                    </div>
+                </div>
+                <table class="rwf-ie-schema" style="margin-bottom:20px;">
+                    <tr><td><strong><?php esc_html_e( 'Review Request Emails', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo $en_wc ? '<span style="color:#0E9F6E;font-weight:600;">&#10003; Enabled</span>' : '<span style="color:#6b7280;">&#10007; Disabled</span>'; ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Send Delay', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo esc_html( $delay == '0' ? __('Immediately','reviewfic') : $delay . ' ' . __('day(s) after completion','reviewfic') ); ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Review Landing Page', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo esc_html( $pg_name ); ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Replace WC Reviews Tab', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo $rep_tab ? '<span style="color:#0E9F6E;font-weight:600;">&#10003; Enabled</span>' : '<span style="color:#6b7280;">&#10007; Disabled</span>'; ?></td></tr>
+                    <tr><td><strong><?php esc_html_e( 'Auto-Tag by Product', 'reviewfic' ); ?></strong></td>
+                        <td><?php echo $auto_tag ? '<span style="color:#0E9F6E;font-weight:600;">&#10003; Enabled</span>' : '<span style="color:#6b7280;">&#10007; Disabled</span>'; ?></td></tr>
+                </table>
+                <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=reviewfic_reviews&page=reviewfic-woocommerce' ) ); ?>" class="button button-primary rwf-ie-btn">
+                    <span class="dashicons dashicons-admin-settings"></span>
+                    <?php esc_html_e( 'Configure WooCommerce Settings', 'reviewfic' ); ?>
+                </a>
+            </div>
+
+        <?php elseif ( $active_tab === 'cf7' ) :
+            $cf7_forms = $tab['forms'];
+        ?>
+            <?php if ( empty( $cf7_forms ) ) : ?>
+                <div class="rwf-ie-card" style="max-width:600px;">
+                    <p><?php esc_html_e( 'No Contact Form 7 forms found. Create a form first, then come back.', 'reviewfic' ); ?></p>
+                </div>
+            <?php else : ?>
+                <p class="description" style="margin-bottom:16px;">
+                    <strong><?php esc_html_e( 'Field name hint:', 'reviewfic' ); ?></strong>
+                    <?php esc_html_e( 'Enter the CF7 field name exactly as shown in the Form tab (e.g. your-name, your-message)', 'reviewfic' ); ?>
+                </p>
+                <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+                    <?php wp_nonce_field( 'rwf_save_cf7_integration' ); ?>
+                    <input type="hidden" name="action" value="rwf_save_cf7_integration">
+                    <div class="rwf-integrations-list">
+                        <?php foreach ( $cf7_forms as $form ) :
+                            $fid       = $form['id'];
+                            $cf7_en    = get_post_meta( $fid, '_rwf_cf7_enabled', true ) === '1';
+                            $cf7_fmap  = get_post_meta( $fid, '_rwf_cf7_fields', true );
+                            if ( ! is_array( $cf7_fmap ) ) $cf7_fmap = array();
+                        ?>
+                        <div class="rwf-int-form-card <?php echo $cf7_en ? 'rwf-int-enabled' : ''; ?>">
+                            <div class="rwf-int-form-header">
+                                <label class="rwf-int-toggle-label">
+                                    <input type="checkbox" name="rwf_cf7_forms[<?php echo esc_attr( $fid ); ?>][enabled]" value="1" class="rwf-int-enable-cb" <?php checked( $cf7_en ); ?>>
+                                    <strong><?php echo esc_html( $form['title'] ); ?></strong>
+                                    <span class="rwf-int-id-badge">ID: <?php echo esc_html( $fid ); ?></span>
+                                </label>
+                                <button type="button" class="rwf-int-toggle-btn <?php echo $cf7_en ? '' : 'collapsed'; ?>">
+                                    <?php esc_html_e( 'Configure', 'reviewfic' ); ?> <span class="dashicons dashicons-arrow-down-alt2"></span>
+                                </button>
+                            </div>
+                            <div class="rwf-int-form-body <?php echo $cf7_en ? '' : 'rwf-int-collapsed'; ?>">
+                                <div class="rwf-int-row"><label><?php esc_html_e( 'Review Status', 'reviewfic' ); ?></label>
+                                    <select name="rwf_cf7_forms[<?php echo esc_attr($fid); ?>][status]">
+                                        <option value="pending" <?php selected($cf7_fmap['status']??'pending','pending'); ?>><?php esc_html_e('Pending — require approval','reviewfic'); ?></option>
+                                        <option value="publish" <?php selected($cf7_fmap['status']??'pending','publish'); ?>><?php esc_html_e('Published — auto-approve','reviewfic'); ?></option>
+                                    </select>
+                                </div>
+                                <div class="rwf-int-row"><label><?php esc_html_e( 'Review Source', 'reviewfic' ); ?></label>
+                                    <select name="rwf_cf7_forms[<?php echo esc_attr($fid); ?>][source]">
+                                        <option value=""><?php esc_html_e('— None —','reviewfic'); ?></option>
+                                        <?php if ( ! empty( $sources ) && ! is_wp_error( $sources ) ) foreach ( $sources as $source ) : ?>
+                                            <option value="<?php echo esc_attr($source->slug); ?>" <?php selected($cf7_fmap['source']??'',$source->slug); ?>><?php echo esc_html($source->name); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="rwf-int-field-map">
+                                    <p class="rwf-int-map-heading"><?php esc_html_e('Field Mapping','reviewfic'); ?></p>
+                                    <?php foreach ( $field_keys as $fkey => $flabel ) : ?>
+                                    <div class="rwf-int-row rwf-int-map-row">
+                                        <label><?php echo esc_html($flabel); ?></label>
+                                        <input type="text" name="rwf_cf7_forms[<?php echo esc_attr($fid); ?>][fields][<?php echo esc_attr($fkey); ?>]" value="<?php echo esc_attr($cf7_fmap[$fkey]??''); ?>" placeholder="cf7-field-name" class="regular-text">
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <p style="margin-top:20px;"><button type="submit" class="button button-primary rwf-ie-btn"><?php esc_html_e('Save Contact Form 7 Settings','reviewfic'); ?></button></p>
+                </form>
+            <?php endif; ?>
+
         <?php elseif ( empty( $tab['forms'] ) ) : ?>
             <div class="rwf-ie-card" style="max-width:600px;">
-                <p><?php printf(
-                    esc_html__( 'No %s forms found. Create a form first, then come back to configure the integration.', 'reviewfic' ),
-                    esc_html( $tab['label'] )
-                ); ?></p>
+                <p><?php printf( esc_html__( 'No %s forms found. Create a form first, then come back to configure the integration.', 'reviewfic' ), esc_html( $tab['label'] ) ); ?></p>
             </div>
         <?php else : ?>
             <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">

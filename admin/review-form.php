@@ -201,41 +201,89 @@ add_shortcode( 'reviewfic_form', 'reviewfic_form_shortcode' );
 
 // ── Contact Form 7 Integration ─────────────────────────────────────────────
 
-/**
- * Only hook CF7 features when CF7 is active.
- */
 add_action( 'plugins_loaded', 'reviewfic_cf7_init' );
 
 function reviewfic_cf7_init() {
     if ( ! class_exists( 'WPCF7_ContactForm' ) ) return;
-
-    add_filter( 'wpcf7_editor_panels',    'reviewfic_cf7_add_panel' );
-    add_action( 'wpcf7_save_contact_form','reviewfic_cf7_save_panel' );
-    add_action( 'wpcf7_mail_sent',        'reviewfic_cf7_on_submit' );
-    add_action( 'wp_enqueue_scripts',     'reviewfic_cf7_frontend_scripts' );
+    // CF7 form panel and save are managed from Reviewfic > Integrations
+    add_action( 'wpcf7_mail_sent',    'reviewfic_cf7_on_submit' );
+    add_action( 'wp_enqueue_scripts', 'reviewfic_cf7_frontend_scripts' );
 }
 
-/**
- * Pass enabled CF7 form IDs to the frontend JS so it can style them.
- */
 function reviewfic_cf7_frontend_scripts() {
     if ( ! wp_script_is( 'reviewfic-frontend', 'enqueued' ) ) return;
 
-    $forms = get_posts( array(
-        'post_type'      => 'wpcf7_contact_form',
-        'posts_per_page' => -1,
-        'post_status'    => 'publish',
-        'fields'         => 'ids',
-    ) );
-
+    $forms   = get_posts( array( 'post_type' => 'wpcf7_contact_form', 'posts_per_page' => -1, 'post_status' => 'publish', 'fields' => 'ids' ) );
     $enabled = array();
     foreach ( $forms as $form_id ) {
         if ( get_post_meta( $form_id, '_rwf_cf7_enabled', true ) === '1' ) {
             $enabled[] = $form_id;
         }
     }
-
     if ( ! empty( $enabled ) ) {
         wp_localize_script( 'reviewfic-frontend', 'rwfCF7', array( 'forms' => $enabled ) );
+    }
+}
+
+function reviewfic_cf7_on_submit( $contact_form ) {
+    $form_id   = $contact_form->id();
+    $enabled   = get_post_meta( $form_id, '_rwf_cf7_enabled', true );
+    if ( $enabled !== '1' ) return;
+
+    $field_map = get_post_meta( $form_id, '_rwf_cf7_fields', true );
+    if ( ! is_array( $field_map ) || empty( $field_map ) ) return;
+
+    $submission = WPCF7_Submission::get_instance();
+    if ( ! $submission ) return;
+
+    $data = $submission->get_posted_data();
+
+    $get = function ( $key ) use ( $field_map, $data ) {
+        $cf7_key = $field_map[ $key ] ?? '';
+        if ( ! $cf7_key ) return '';
+        $value = $data[ $cf7_key ] ?? '';
+        return is_array( $value ) ? sanitize_text_field( implode( ', ', $value ) ) : sanitize_text_field( wp_unslash( $value ) );
+    };
+
+    $name    = $get( 'name' );
+    $content = $get( 'content' );
+    if ( empty( $name ) && empty( $content ) ) return;
+
+    $rating = (float) $get( 'rating' );
+    if ( $rating < 1 || $rating > 5 ) $rating = 5.0;
+
+    $status = in_array( $field_map['status'] ?? '', array( 'publish', 'pending' ), true ) ? $field_map['status'] : 'pending';
+
+    $post_id = wp_insert_post( array(
+        'post_type'    => 'reviewfic_reviews',
+        'post_title'   => $get( 'title' ) ?: ( $name ? $name . "'s Review" : __( 'Review', 'reviewfic' ) ),
+        'post_content' => $content,
+        'post_status'  => $status,
+    ) );
+
+    if ( ! $post_id || is_wp_error( $post_id ) ) return;
+
+    update_post_meta( $post_id, 'reviewfic_review_stars',       $rating );
+    update_post_meta( $post_id, 'reviewfic_client_name',        $name );
+    update_post_meta( $post_id, 'reviewfic_client_designation', $get( 'designation' ) );
+    update_post_meta( $post_id, 'reviewfic_client_company',     $get( 'company' ) );
+
+    $source_slug = sanitize_text_field( $field_map['source'] ?? '' );
+    if ( $source_slug ) {
+        wp_set_post_terms( $post_id, array( $source_slug ), 'reviewfic_source', false );
+    }
+
+    // Photo upload
+    $photo_field    = sanitize_text_field( $field_map['photo'] ?? '' );
+    $uploaded_files = $submission->uploaded_files();
+    $tmp_path       = $uploaded_files[ $photo_field ] ?? '';
+    if ( $photo_field && $tmp_path && file_exists( $tmp_path ) ) {
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/media.php';
+        $attachment_id = media_handle_sideload( array( 'name' => basename( $tmp_path ), 'tmp_name' => $tmp_path ), $post_id );
+        if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
+            update_post_meta( $post_id, 'reviewfic_reviewer_photo', $attachment_id );
+        }
     }
 }
