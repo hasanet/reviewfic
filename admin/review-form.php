@@ -83,6 +83,10 @@ function reviewfic_form_shortcode( $atts ) {
                     wp_safe_redirect( esc_url( $atts['redirect'] ) );
                     exit;
                 }
+
+                // Fire action so other modules (e.g. WooCommerce) can react
+                do_action( 'reviewfic_after_form_submit', $post_id, $_POST );
+
                 $success = true;
             } else {
                 $errors[] = __( 'Something went wrong. Please try again.', 'reviewfic' );
@@ -108,6 +112,13 @@ function reviewfic_form_shortcode( $atts ) {
         ?>
         <form class="rwf-submission-form" method="post" enctype="multipart/form-data" novalidate>
             <?php wp_nonce_field( 'reviewfic_submit_review', 'reviewfic_form_nonce' ); ?>
+            <?php
+            // Pre-fill product context from URL (set by WooCommerce review request email)
+            $rwf_product_id = intval( $_GET['rwf_product'] ?? $_POST['rwf_product_id'] ?? 0 );
+            if ( $rwf_product_id ) {
+                echo '<input type="hidden" name="rwf_product_id" value="' . esc_attr( $rwf_product_id ) . '">';
+            }
+            ?>
 
             <div class="rwf-form-row">
                 <label for="rwf_name"><?php esc_html_e( 'Your Name', 'reviewfic' ); ?> <span class="rwf-required" aria-hidden="true">*</span></label>
@@ -198,162 +209,33 @@ add_action( 'plugins_loaded', 'reviewfic_cf7_init' );
 function reviewfic_cf7_init() {
     if ( ! class_exists( 'WPCF7_ContactForm' ) ) return;
 
-    add_filter( 'wpcf7_editor_panels', 'reviewfic_cf7_add_panel' );
-    add_action( 'wpcf7_save_contact_form', 'reviewfic_cf7_save_panel' );
-    add_action( 'wpcf7_mail_sent', 'reviewfic_cf7_on_submit' );
+    add_filter( 'wpcf7_editor_panels',    'reviewfic_cf7_add_panel' );
+    add_action( 'wpcf7_save_contact_form','reviewfic_cf7_save_panel' );
+    add_action( 'wpcf7_mail_sent',        'reviewfic_cf7_on_submit' );
+    add_action( 'wp_enqueue_scripts',     'reviewfic_cf7_frontend_scripts' );
 }
 
 /**
- * Add a "Reviewfic" tab to the CF7 form editor.
+ * Pass enabled CF7 form IDs to the frontend JS so it can style them.
  */
-function reviewfic_cf7_add_panel( $panels ) {
-    $panels['reviewfic-panel'] = array(
-        'title'    => __( 'Reviewfic', 'reviewfic' ),
-        'callback' => 'reviewfic_cf7_panel_content',
-    );
-    return $panels;
-}
+function reviewfic_cf7_frontend_scripts() {
+    if ( ! wp_script_is( 'reviewfic-frontend', 'enqueued' ) ) return;
 
-/**
- * Render the Reviewfic panel inside the CF7 editor.
- */
-function reviewfic_cf7_panel_content( $post ) {
-    $form_id   = $post->id();
-    $enabled   = get_post_meta( $form_id, '_rwf_cf7_enabled', true );
-    $field_map = get_post_meta( $form_id, '_rwf_cf7_fields',  true );
-    if ( ! is_array( $field_map ) ) $field_map = array();
-
-    $fields = array(
-        'name'        => __( 'Reviewer Name',          'reviewfic' ),
-        'designation' => __( 'Designation',            'reviewfic' ),
-        'company'     => __( 'Company',                'reviewfic' ),
-        'rating'      => __( 'Star Rating (1–5)',      'reviewfic' ),
-        'title'       => __( 'Review Title',           'reviewfic' ),
-        'content'     => __( 'Review Content',         'reviewfic' ),
-        'source'      => __( 'Review Source (slug)',   'reviewfic' ),
-    );
-    ?>
-    <div class="rwf-cf7-panel">
-        <h2><?php esc_html_e( 'Reviewfic Integration', 'reviewfic' ); ?></h2>
-        <p><?php esc_html_e( 'Automatically create a review in Reviewfic when this form is submitted.', 'reviewfic' ); ?></p>
-
-        <table class="form-table">
-            <tr>
-                <th scope="row"><?php esc_html_e( 'Enable', 'reviewfic' ); ?></th>
-                <td>
-                    <label>
-                        <input type="checkbox" name="rwf_cf7_enabled" value="1" <?php checked( $enabled, '1' ); ?>>
-                        <?php esc_html_e( 'Send submissions from this form to Reviewfic', 'reviewfic' ); ?>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><?php esc_html_e( 'Review Status', 'reviewfic' ); ?></th>
-                <td>
-                    <select name="rwf_cf7_status">
-                        <option value="pending" <?php selected( $field_map['status'] ?? 'pending', 'pending' ); ?>><?php esc_html_e( 'Pending — require manual approval', 'reviewfic' ); ?></option>
-                        <option value="publish" <?php selected( $field_map['status'] ?? 'pending', 'publish' ); ?>><?php esc_html_e( 'Published — auto-approve',          'reviewfic' ); ?></option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-
-        <h3><?php esc_html_e( 'Field Mapping', 'reviewfic' ); ?></h3>
-        <p class="description">
-            <?php esc_html_e( 'Enter the CF7 field name (e.g. your-name) that maps to each Reviewfic field. Leave blank to skip that field.', 'reviewfic' ); ?>
-        </p>
-
-        <table class="form-table">
-            <?php foreach ( $fields as $key => $label ) : ?>
-            <tr>
-                <th scope="row"><?php echo esc_html( $label ); ?></th>
-                <td>
-                    <input
-                        type="text"
-                        name="rwf_cf7_field[<?php echo esc_attr( $key ); ?>]"
-                        value="<?php echo esc_attr( $field_map[ $key ] ?? '' ); ?>"
-                        class="regular-text"
-                        placeholder="<?php esc_attr_e( 'cf7-field-name', 'reviewfic' ); ?>"
-                    >
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-    </div>
-    <?php
-}
-
-/**
- * Save CF7 panel settings when the CF7 form is saved.
- */
-function reviewfic_cf7_save_panel( $contact_form ) {
-    if ( ! isset( $_POST['rwf_cf7_enabled'] ) && ! isset( $_POST['rwf_cf7_field'] ) ) return;
-
-    $form_id = $contact_form->id();
-    $enabled = isset( $_POST['rwf_cf7_enabled'] ) ? '1' : '0';
-    update_post_meta( $form_id, '_rwf_cf7_enabled', $enabled );
-
-    $field_map = array();
-    if ( isset( $_POST['rwf_cf7_field'] ) && is_array( $_POST['rwf_cf7_field'] ) ) {
-        foreach ( $_POST['rwf_cf7_field'] as $key => $val ) {
-            $field_map[ sanitize_key( $key ) ] = sanitize_text_field( wp_unslash( $val ) );
-        }
-    }
-    $field_map['status'] = sanitize_text_field( wp_unslash( $_POST['rwf_cf7_status'] ?? 'pending' ) );
-
-    update_post_meta( $form_id, '_rwf_cf7_fields', $field_map );
-}
-
-/**
- * On CF7 mail_sent: create a Reviewfic review from the mapped fields.
- */
-function reviewfic_cf7_on_submit( $contact_form ) {
-    $form_id = $contact_form->id();
-    $enabled = get_post_meta( $form_id, '_rwf_cf7_enabled', true );
-    if ( $enabled !== '1' ) return;
-
-    $field_map = get_post_meta( $form_id, '_rwf_cf7_fields', true );
-    if ( ! is_array( $field_map ) || empty( $field_map ) ) return;
-
-    $submission = WPCF7_Submission::get_instance();
-    if ( ! $submission ) return;
-
-    $data = $submission->get_posted_data();
-
-    $get = function ( $key ) use ( $field_map, $data ) {
-        $cf7_key = $field_map[ $key ] ?? '';
-        if ( ! $cf7_key ) return '';
-        $value = $data[ $cf7_key ] ?? '';
-        return is_array( $value ) ? sanitize_text_field( implode( ', ', $value ) ) : sanitize_text_field( wp_unslash( $value ) );
-    };
-
-    $name    = $get( 'name' );
-    $content = $get( 'content' );
-    if ( empty( $name ) && empty( $content ) ) return;
-
-    $rating = (float) $get( 'rating' );
-    if ( $rating < 1 || $rating > 5 ) $rating = 5.0;
-
-    $status  = in_array( $field_map['status'] ?? '', array( 'publish', 'pending' ), true )
-               ? $field_map['status']
-               : 'pending';
-
-    $post_id = wp_insert_post( array(
-        'post_type'    => 'reviewfic_reviews',
-        'post_title'   => $get( 'title' ) ?: ( $name ? $name . "'s Review" : __( 'Review', 'reviewfic' ) ),
-        'post_content' => $content,
-        'post_status'  => $status,
+    $forms = get_posts( array(
+        'post_type'      => 'wpcf7_contact_form',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'fields'         => 'ids',
     ) );
 
-    if ( $post_id && ! is_wp_error( $post_id ) ) {
-        update_post_meta( $post_id, 'reviewfic_review_stars',       $rating );
-        update_post_meta( $post_id, 'reviewfic_client_name',        $name );
-        update_post_meta( $post_id, 'reviewfic_client_designation', $get( 'designation' ) );
-        update_post_meta( $post_id, 'reviewfic_client_company',     $get( 'company' ) );
-
-        $source_slug = $get( 'source' );
-        if ( $source_slug ) {
-            wp_set_post_terms( $post_id, array( $source_slug ), 'reviewfic_source', false );
+    $enabled = array();
+    foreach ( $forms as $form_id ) {
+        if ( get_post_meta( $form_id, '_rwf_cf7_enabled', true ) === '1' ) {
+            $enabled[] = $form_id;
         }
+    }
+
+    if ( ! empty( $enabled ) ) {
+        wp_localize_script( 'reviewfic-frontend', 'rwfCF7', array( 'forms' => $enabled ) );
     }
 }

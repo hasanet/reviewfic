@@ -1,5 +1,6 @@
 /**
- * Reviewfic — Frontend Slider v1.2.6
+ * Reviewfic — Frontend Slider
+ * Supports single and multi-column (page-by-page) modes.
  * Reads options from data-* attributes on .reviewfic-slider
  */
 (function () {
@@ -13,41 +14,53 @@
         var nextEl = slider.querySelector('.reviewfic-slider-next');
         var dotsEl = slider.querySelector('.reviewfic-slider-dots');
         var total  = slides.length;
-        var current = 0;
+        var current = 0; // current page index
         var autoTimer = null;
 
         if (!track || total === 0) return;
 
         // Read options from data attributes
-        var showNav   = slider.dataset.nav   !== 'no';
-        var showDots  = slider.dataset.dots  !== 'no';
-        var autoPlay  = slider.dataset.auto  === 'yes';
-        var speed     = parseInt(slider.dataset.speed, 10) || 4000;
-        var loop      = slider.dataset.loop  !== 'no';
-        var pauseHover= slider.dataset.pause !== 'no';
+        var showNav    = slider.dataset.nav     !== 'no';
+        var showDots   = slider.dataset.dots    !== 'no';
+        var autoPlay   = slider.dataset.auto    === 'yes';
+        var speed      = parseInt(slider.dataset.speed, 10) || 4000;
+        var loop       = slider.dataset.loop    !== 'no';
+        var pauseHover = slider.dataset.pause   !== 'no';
+        var columns    = Math.max(1, parseInt(slider.dataset.columns, 10) || 1);
+
+        // Set item widths based on column count
+        var itemWidth = (100 / columns);
+        for (var s = 0; s < slides.length; s++) {
+            slides[s].style.minWidth = itemWidth + '%';
+            slides[s].style.maxWidth = itemWidth + '%';
+        }
+
+        // Pages: how many full advances fit
+        var pages = Math.ceil(total / columns);
+        // Last page may have fewer items — cap movement so we never go past the last item
+        var maxPage = pages - 1;
 
         // Apply nav/dots visibility
         if (navEl) {
             if (prevEl) prevEl.style.display = showNav ? '' : 'none';
             if (nextEl) nextEl.style.display = showNav ? '' : 'none';
             if (dotsEl) dotsEl.style.display = showDots ? '' : 'none';
-            // Hide entire nav bar if both are off
             if (!showNav && !showDots) navEl.style.display = 'none';
         }
 
-        // Only 1 slide — hide nav entirely
-        if (total === 1) {
+        // Hide nav if only one page
+        if (pages <= 1) {
             if (navEl) navEl.style.display = 'none';
             return;
         }
 
-        // Build dots
+        // Build dots (one per page)
         if (showDots && dotsEl) {
-            for (var i = 0; i < total; i++) {
+            for (var i = 0; i < pages; i++) {
                 (function (index) {
                     var dot = document.createElement('button');
                     dot.className = 'reviewfic-slider-dot' + (index === 0 ? ' active' : '');
-                    dot.setAttribute('aria-label', 'Go to review ' + (index + 1));
+                    dot.setAttribute('aria-label', 'Go to page ' + (index + 1));
                     dot.addEventListener('click', function () { goTo(index); resetAuto(); });
                     dotsEl.appendChild(dot);
                 })(i);
@@ -62,22 +75,23 @@
             }
         }
 
-        function goTo(index) {
+        function goTo(pageIndex) {
             if (loop) {
-                current = ((index % total) + total) % total;
+                current = ((pageIndex % pages) + pages) % pages;
             } else {
-                current = Math.max(0, Math.min(index, total - 1));
+                current = Math.max(0, Math.min(pageIndex, maxPage));
                 if (prevEl) prevEl.disabled = current === 0;
-                if (nextEl) nextEl.disabled = current === total - 1;
+                if (nextEl) nextEl.disabled = current === maxPage;
             }
-            track.style.transform = 'translateX(-' + (current * 100) + '%)';
+            // Move by full item-width increments per page
+            track.style.transform = 'translateX(-' + (current * columns * itemWidth) + '%)';
             updateDots();
         }
 
         function startAuto() {
             if (!autoPlay) return;
             autoTimer = setInterval(function () {
-                goTo(loop ? current + 1 : (current < total - 1 ? current + 1 : 0));
+                goTo(loop ? current + 1 : (current < maxPage ? current + 1 : 0));
             }, speed);
         }
 
@@ -256,5 +270,173 @@
         document.addEventListener('DOMContentLoaded', initAll);
     } else {
         initAll();
+    }
+})();
+
+// ── CF7 Connected Form Styling & File Drag-Drop ─────────────────────────────
+(function () {
+    'use strict';
+
+    var AVATAR_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>';
+
+    function initCF7Dropzone(fileInput) {
+        // Wrap the native file input in a drag-drop zone
+        var zone = document.createElement('div');
+        zone.className = 'rwf-cf7-dropzone';
+
+        var avatar = document.createElement('div');
+        avatar.className = 'rwf-cf7-avatar';
+        avatar.innerHTML = AVATAR_SVG;
+
+        var dropText = document.createElement('p');
+        dropText.className = 'rwf-cf7-drop-text';
+        dropText.innerHTML = '<strong>Drag &amp; drop your photo here</strong>' +
+            '<span>or <button type="button" class="rwf-cf7-browse">browse to upload</button></span>';
+
+        var hint = document.createElement('p');
+        hint.className = 'rwf-cf7-drop-hint';
+        hint.textContent = 'JPG, PNG, GIF or WebP — max 5 MB (optional)';
+
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'rwf-cf7-remove';
+        removeBtn.textContent = '✕ Remove photo';
+
+        zone.appendChild(avatar);
+        zone.appendChild(dropText);
+        zone.appendChild(hint);
+        zone.appendChild(removeBtn);
+
+        // Insert zone before the hidden file input
+        fileInput.parentNode.insertBefore(zone, fileInput);
+        // Move file input inside zone (keeps it in the form)
+        zone.appendChild(fileInput);
+
+        var browse = zone.querySelector('.rwf-cf7-browse');
+
+        function previewFile(file) {
+            if (!file || !file.type.startsWith('image/')) return;
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                avatar.innerHTML = '<img src="' + e.target.result + '" alt="Preview">';
+                zone.classList.add('rwf-has-file');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function reset() {
+            fileInput.value = '';
+            avatar.innerHTML = AVATAR_SVG;
+            zone.classList.remove('rwf-has-file');
+        }
+
+        fileInput.addEventListener('change', function () {
+            if (fileInput.files[0]) previewFile(fileInput.files[0]);
+        });
+
+        browse.addEventListener('click', function (e) {
+            e.stopPropagation();
+            fileInput.click();
+        });
+
+        removeBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            reset();
+        });
+
+        zone.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            zone.classList.add('rwf-drag-over');
+        });
+        zone.addEventListener('dragleave', function () {
+            zone.classList.remove('rwf-drag-over');
+        });
+        zone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            zone.classList.remove('rwf-drag-over');
+            var file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                var dt = new DataTransfer();
+                dt.items.add(file);
+                fileInput.files = dt.files;
+                previewFile(file);
+            }
+        });
+    }
+
+    function initStyledForm(form) {
+        form.classList.add('rwf-styled-cf7-form');
+        // Init drag-drop on any file inputs
+        var fileInputs = form.querySelectorAll('input[type="file"]');
+        for (var i = 0; i < fileInputs.length; i++) {
+            initCF7Dropzone(fileInputs[i]);
+        }
+    }
+
+    function initCF7Styling() {
+        if (!window.rwfCF7 || !rwfCF7.forms || !rwfCF7.forms.length) return;
+
+        rwfCF7.forms.forEach(function (id) {
+            // CF7 wraps each form in a div with id="wpcf7-f{id}-p{page}-o{n}"
+            var wrappers = document.querySelectorAll('[id^="wpcf7-f' + id + '-"]');
+            wrappers.forEach(function (wrapper) {
+                var form = wrapper.querySelector('form.wpcf7-form');
+                if (form) initStyledForm(form);
+            });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCF7Styling);
+    } else {
+        initCF7Styling();
+    }
+})();
+
+// ── WPForms / Fluent Forms / Gravity Forms styling ──────────────────────────
+(function () {
+    'use strict';
+
+    function styleForms() {
+        if (!window.rwfForms) return;
+
+        // WPForms: wrapper id="wpforms-{id}" contains form.wpforms-form
+        (rwfForms.wpforms || []).forEach(function (id) {
+            var wrapper = document.getElementById('wpforms-' + id);
+            if (wrapper) {
+                var form = wrapper.querySelector('form');
+                if (form) initRwfForm(form);
+            }
+        });
+
+        // Fluent Forms: form element has id="fluentform_{id}"
+        (rwfForms.fluent || []).forEach(function (id) {
+            var form = document.getElementById('fluentform_' + id);
+            if (form) initRwfForm(form);
+        });
+
+        // Gravity Forms: form element has id="gform_{id}"
+        (rwfForms.gravity || []).forEach(function (id) {
+            var form = document.getElementById('gform_' + id);
+            if (form) initRwfForm(form);
+        });
+    }
+
+    function initRwfForm(form) {
+        if (form.classList.contains('rwf-styled-cf7-form')) return; // already done
+        form.classList.add('rwf-styled-cf7-form');
+        // Apply drag-drop to any file inputs
+        var fileInputs = form.querySelectorAll('input[type="file"]');
+        for (var i = 0; i < fileInputs.length; i++) {
+            if (!fileInputs[i].closest('.rwf-cf7-dropzone')) {
+                initCF7Dropzone(fileInputs[i]);
+            }
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', styleForms);
+    } else {
+        styleForms();
     }
 })();

@@ -439,18 +439,10 @@ function rwf_config_options_cb($post) {
                     syncLabel($('#rwf_pagination'), 'Yes', 'No');
                     $('#rwf-pagination-subopts').addClass('rwf-collapsed');
                 }
-                // Grey out columns — irrelevant in slider mode
-                $('.rwf-col-btn').prop('disabled', true).css('opacity', '0.4');
             } else {
                 $('#rwf-slider-subopts').addClass('rwf-collapsed');
-                $('.rwf-col-btn').prop('disabled', false).css('opacity', '1');
             }
         });
-
-        // Init column state on load
-        if ($('#rwf_slider').is(':checked')) {
-            $('.rwf-col-btn').prop('disabled', true).css('opacity', '0.4');
-        }
 
         // Pagination toggle
         $('#rwf_pagination').on('change', function() {

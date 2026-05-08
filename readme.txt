@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, star rating, customer reviews, social proof
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.2.22
+Stable tag: 1.2.28
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -115,6 +115,24 @@ Connect an existing Contact Form 7 form to Reviewfic. After installing CF7, a "R
 **Import / Export**
 Bulk-manage your reviews without touching the database. Export all reviews as a CSV file (opens in Excel or Google Sheets) or as a JSON file for developer use or re-importing. Import a CSV or JSON file to bulk-create reviews on any site — new sources and categories are created automatically if they don't already exist. Access via **Reviewfic → Import / Export**.
 
+**WPForms, Fluent Forms & Gravity Forms Integrations**
+Connect any WPForms, Fluent Forms, or Gravity Forms form to Reviewfic from the dedicated **Reviewfic → Form Integrations** admin page. A tabbed interface lists all forms from each installed plugin. Per form: enable toggle, review status (pending or published), review source dropdown, and full field mapping (name, designation, company, star rating, title, content, photo). Connected forms are automatically styled to match the Reviewfic form design on the frontend.
+
+**Live Reviews — Google Places**
+Display live reviews directly from Google using `[reviewfic_google place_id="ChIJ..."]`. Reviews are fetched from the Google Places API, cached for 12 hours, and rendered using any of Reviewfic's 5 templates with full slider, column, and design option support. Requires a Google Places API key, configured at **Reviewfic → Live Reviews**.
+
+**Live Reviews — Yelp**
+Display live reviews directly from Yelp using `[reviewfic_yelp business_id="..."]`. Reviews are fetched from the Yelp Fusion API (up to 3 on the free tier), cached for 12 hours, and support all the same display options as Google. Requires a Yelp Fusion API key, configured at **Reviewfic → Live Reviews**.
+
+**WooCommerce Integration**
+A dedicated **Reviewfic → WooCommerce** admin page brings three powerful features:
+
+<ul>
+<li><strong>Post-Purchase Review Request Email</strong> — automatically emails customers after order completion with a link to your review form. Choose the delay: immediately, or 1, 2, 3, 5, 7, or 14 days after order completion. Select any published page as the review landing page (with your `[reviewfic_form]` shortcode on it). Customize the email subject and body with placeholders: `{customer_name}`, `{order_id}`, `{site_name}`.</li>
+<li><strong>Replace WooCommerce Reviews Tab</strong> — replaces the default WooCommerce product reviews tab with Reviewfic's templates. Existing product reviews are rendered using Template 1 (Classic) with a full Reviewfic design. A "Write a Review" button links to your configured review landing page.</li>
+<li><strong>Auto-Tag Reviews by Product</strong> — when a customer clicks the review link from the email and submits a review, it is automatically tagged with the product name as a Reviewfic category. Works for single-product orders and enables product-filtered shortcodes.</li>
+</ul>
+
 **Responsive Grid**
 Display reviews in a 1, 2, 3, or 4 column grid. Collapses to a single column on tablets and mobile automatically.
 
@@ -138,6 +156,12 @@ Submission form with auto-approval and a redirect on success:
 
 Submission form without the platform dropdown:
 <pre>[reviewfic_form show_source="no"]</pre>
+
+Live Google reviews, 3 columns, Classic template:
+<pre>[reviewfic_google place_id="ChIJN1t_tDeuEmsRUsoyG83frY4" columns="3" template="1"]</pre>
+
+Live Yelp reviews, slider mode:
+<pre>[reviewfic_yelp business_id="gary-danko-san-francisco" slider="yes" template="2"]</pre>
 
 === Who Is This For? ===
 
@@ -203,9 +227,29 @@ Place `[reviewfic_form]` on any page or post. A styled submission form will appe
 
 Yes. Install Contact Form 7, then open any CF7 form in the editor. You will see a "Reviewfic" tab. Enable the integration, choose whether submissions go to pending or published, and map your CF7 field names to Reviewfic fields (name, rating, content, etc.). From that point on, every submission of that form automatically creates a review in Reviewfic.
 
+= How does the WooCommerce post-purchase email work? =
+
+When a customer's order is marked as completed, Reviewfic schedules a review request email using WP-Cron. The delay is configurable (immediately, or up to 14 days). The email includes a styled CTA button that links to the review page you select in **Reviewfic → WooCommerce**. If the order has a single product, the link includes the product ID so the review is automatically tagged with the product name.
+
+= Will the WooCommerce tab replacement affect existing reviews? =
+
+No. The replacement only changes how reviews are *displayed*. All existing WooCommerce product reviews (stored in wp_comments) are rendered using Reviewfic's Classic template. No data is lost or moved.
+
 = Will my existing shortcodes break after upgrading? =
 
 No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as before.
+
+= How do I display live Google reviews? =
+
+Go to **Reviewfic → Live Reviews**, enter your Google Places API key, then use `[reviewfic_google place_id="YOUR_PLACE_ID"]` on any page. Your Place ID can be found using the Google Place ID Finder tool. Reviews are cached for 12 hours automatically.
+
+= How do I display live Yelp reviews? =
+
+Go to **Reviewfic → Live Reviews**, enter your Yelp Fusion API key, then use `[reviewfic_yelp business_id="YOUR_BUSINESS_ID"]`. The Business ID is the slug in your Yelp business URL. Yelp's free tier returns up to 3 reviews.
+
+= Can I connect WPForms, Fluent Forms, or Gravity Forms? =
+
+Yes. Go to **Reviewfic → Form Integrations** and select the relevant tab. Enable any form, choose the review status and source, and map your form field IDs to Reviewfic fields. Submissions from connected forms automatically create reviews in Reviewfic.
 
 == Screenshots ==
 1. Reviewfic admin — Reviews list with branded interface
@@ -216,6 +260,41 @@ No. All existing `[reviewfic id="X"]` shortcodes continue to work exactly as bef
 6. Dark and Centered templates
 
 == Changelog ==
+
+= 1.2.28 =
+* New: WooCommerce integration — post-purchase review request email with configurable delay (0–14 days).
+* New: WooCommerce integration — configurable review landing page (any published page) linked in the email CTA.
+* New: WooCommerce integration — replace the WooCommerce product reviews tab with Reviewfic templates.
+* New: WooCommerce integration — auto-tag reviews by product name (Reviewfic category) when submitted via review request link.
+* Improvement: [reviewfic_form] now accepts rwf_product URL parameter for WooCommerce product context.
+
+= 1.2.27 =
+* Fix: Our Plugins page now shows real plugin icons fetched from WordPress.org with letter-badge fallback.
+* New: Live Reviews — [reviewfic_google] shortcode pulls live reviews from Google Places API.
+* New: Live Reviews — [reviewfic_yelp] shortcode pulls live reviews from Yelp Fusion API.
+* New: Reviewfic → Live Reviews admin page for managing API keys and shortcode docs.
+* Improvement: Live reviews are cached for 12 hours and rendered using all existing templates and design options.
+
+= 1.2.26 =
+* New: Reviewfic → Get Help page — three cards linking to Support, Feature Request, and Documentation.
+* New: Reviewfic → Our Plugins page — showcases 6 Themefic plugins with Install Now / Activate / Active status buttons that work directly from the WordPress admin.
+
+= 1.2.25 =
+* New: WPForms integration — connect any WPForms form to Reviewfic via Reviewfic → Form Integrations.
+* New: Fluent Forms integration — same per-form field mapping and source selection.
+* New: Gravity Forms integration — same per-form field mapping and source selection.
+* New: Form Integrations admin page with tabbed UI for all three plugins, showing all forms with enable toggle, status, source dropdown, and field mapping.
+* Improvement: Connected WPForms, Fluent Forms, and Gravity Forms forms are styled to match Reviewfic form design on the frontend.
+
+= 1.2.24 =
+* Improvement: CF7 integration — Review Source is now a dropdown populated from the Reviewfic taxonomy instead of a manual slug input.
+* New: CF7 integration — Photo upload field mapping with drag-and-drop uploader on the frontend (same design as the built-in form).
+* New: CF7 forms connected to Reviewfic are automatically styled to match the Reviewfic review form design. Style is scoped only to connected forms.
+
+= 1.2.23 =
+* Fix: Re-enabled column support in slider mode — columns control how many cards are visible per page.
+* Improvement: Slider now supports multi-column page-by-page navigation. 3 columns = 3 cards per slide, dots represent pages.
+* Fix: data-columns attribute now passed from shortcode to slider wrapper.
 
 = 1.2.22 =
 * Fix: Slider layout broken from slide 2 onwards — caused by a legacy CSS rule adding margin to track items, making each slide overflow its 100% width boundary.
