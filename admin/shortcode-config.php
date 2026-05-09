@@ -166,6 +166,91 @@ function rwf_config_options_cb($post) {
                         <div class="rwf-mp-stars centered">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                         <div class="rwf-mp-line centered"></div>',
         ),
+        '6' => array(
+            'label' => 'Split',
+            'desc'  => 'Coloured left panel with avatar, white content panel on right',
+            'cls'   => 'rwf-mp-6',
+            'html'  => '<div class="rwf-mp-split">
+                            <div class="rwf-mp-split-l">
+                                <div class="rwf-mp-circle rwf-mp-circle-white"></div>
+                                <div class="rwf-mp-line rwf-mp-line-faint xshort"></div>
+                                <div class="rwf-mp-line rwf-mp-line-faint xshort"></div>
+                            </div>
+                            <div class="rwf-mp-split-r">
+                                <div class="rwf-mp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                                <div class="rwf-mp-line"></div>
+                                <div class="rwf-mp-line short"></div>
+                            </div>
+                        </div>',
+        ),
+        '7' => array(
+            'label' => 'Glow',
+            'desc'  => 'White card with gradient glow border, italic quote, avatar footer',
+            'cls'   => 'rwf-mp-7',
+            'html'  => '<div class="rwf-mp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <div class="rwf-mp-quote">&ldquo;</div>
+                        <div class="rwf-mp-line"></div>
+                        <div class="rwf-mp-line short"></div>
+                        <div class="rwf-mp-avatar-row rwf-mp-footer-row">
+                            <div class="rwf-mp-circle rwf-mp-circle-accent"></div>
+                            <div class="rwf-mp-lines">
+                                <div class="rwf-mp-line short"></div>
+                                <div class="rwf-mp-line xshort"></div>
+                            </div>
+                        </div>',
+        ),
+        '8' => array(
+            'label' => 'Score',
+            'desc'  => 'Prominent numerical rating bubble, badge, stars, content, client row',
+            'cls'   => 'rwf-mp-8',
+            'html'  => '<div class="rwf-mp-t8-wrap">
+                            <div class="rwf-mp-t8-score">5.0</div>
+                            <div>
+                                <div class="rwf-mp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                                <div class="rwf-mp-line short"></div>
+                            </div>
+                        </div>
+                        <div class="rwf-mp-line"></div>
+                        <div class="rwf-mp-line short"></div>
+                        <div class="rwf-mp-avatar-row">
+                            <div class="rwf-mp-circle"></div>
+                            <div class="rwf-mp-lines">
+                                <div class="rwf-mp-line short"></div>
+                            </div>
+                        </div>',
+        ),
+        '9' => array(
+            'label' => 'Magazine',
+            'desc'  => 'Editorial pull-quote style, no card background, byline row at bottom',
+            'cls'   => 'rwf-mp-9',
+            'html'  => '<div class="rwf-mp-quote rwf-mp-quote-lg">&ldquo;</div>
+                        <div class="rwf-mp-line"></div>
+                        <div class="rwf-mp-line"></div>
+                        <div class="rwf-mp-line short"></div>
+                        <div class="rwf-mp-avatar-row rwf-mp-byline-row">
+                            <div class="rwf-mp-circle rwf-mp-circle-accent"></div>
+                            <div class="rwf-mp-lines">
+                                <div class="rwf-mp-line short"></div>
+                            </div>
+                            <div class="rwf-mp-stars" style="margin-left:auto;font-size:6px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        </div>',
+        ),
+        '10' => array(
+            'label' => 'Neon Dark',
+            'desc'  => 'Deep dark card, teal-to-purple gradient header, light content, footer row',
+            'cls'   => 'rwf-mp-10',
+            'html'  => '<div class="rwf-mp-t10-head">
+                            <div class="rwf-mp-circle rwf-mp-circle-white"></div>
+                            <div class="rwf-mp-lines">
+                                <div class="rwf-mp-line rwf-mp-line-faint short"></div>
+                                <div class="rwf-mp-line rwf-mp-line-faint xshort"></div>
+                            </div>
+                        </div>
+                        <div class="rwf-mp-line light"></div>
+                        <div class="rwf-mp-line light short"></div>
+                        <div class="rwf-mp-line light"></div>
+                        <div class="rwf-mp-stars" style="color:#f59e0b;margin-top:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>',
+        ),
     );
     ?>
     <div class="rwf-config-wrap">

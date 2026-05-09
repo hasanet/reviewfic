@@ -56,7 +56,7 @@ function reviewfic_shortcode($atts) {
         }
     }
 
-    $template      = in_array($atts['template'], array('1','2','3','4','5'), true) ? $atts['template'] : '1';
+    $template      = in_array($atts['template'], array('1','2','3','4','5','6','7','8','9','10'), true) ? $atts['template'] : '1';
     $use_slider    = $atts['slider'] === 'yes';
     $use_pagination= !$use_slider && $atts['pagination'] === 'yes';
     $per_page      = max(1, intval($atts['per_page']));
@@ -244,6 +244,98 @@ function reviewfic_shortcode($atts) {
                 $output .= $stars_markup;
                 $output .= '<div class="reviewfic-content reviewfic-quote">' . get_the_content() . '</div>';
                 $output .= $badge_markup;
+                break;
+
+            // ── Template 6: Horizontal Split ─────────────────────────────
+            // Coloured left panel (avatar + name + meta + badge) | white right (stars + title + content)
+            case '6':
+                $t6_avatar = '';
+                if ( $atts['show_avatar'] === 'yes' && ! empty( $reviewer_photo ) ) {
+                    $t6_img = wp_get_attachment_image(
+                        $reviewer_photo, 'thumbnail', false,
+                        array( 'class' => 'rwf-t6-photo', 'alt' => esc_attr( $client_name ) )
+                    );
+                    if ( $t6_img ) $t6_avatar = $t6_img;
+                }
+                $t6_initials = '<div class="rwf-t6-initials">' . esc_html( mb_substr( $client_name, 0, 1 ) ) . '</div>';
+
+                $output .= '<div class="rwf-t6-left">';
+                $output .= $t6_avatar ?: $t6_initials;
+                $output .= '<span class="rwf-t6-name">' . esc_html( $client_name ) . '</span>';
+                if ( $client_meta ) $output .= $client_meta;
+                if ( $badge_markup ) $output .= $badge_markup;
+                $output .= '</div>';
+
+                $output .= '<div class="rwf-t6-right">';
+                $output .= $stars_markup;
+                if ( get_the_title() ) $output .= '<h3 class="reviewfic-title">' . get_the_title() . '</h3>';
+                $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
+                $output .= '</div>';
+                break;
+
+            // ── Template 7: Gradient Glow ────────────────────────────────
+            // White card with green box-shadow border, italic content, avatar footer row
+            case '7':
+                $output .= '<div class="rwf-t7-top">';
+                $output .= $stars_markup;
+                if ( $badge_markup ) $output .= $badge_markup;
+                $output .= '</div>';
+                $output .= '<div class="rwf-t7-quote-mark">&ldquo;</div>';
+                $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
+                $output .= '<div class="rwf-t7-footer">';
+                if ( $avatar_markup ) $output .= $avatar_markup;
+                $output .= '<div class="rwf-t7-client">';
+                $output .= '<span class="reviewfic-client-name">' . esc_html( $client_name ) . '</span>';
+                if ( $client_meta ) $output .= $client_meta;
+                $output .= '</div>';
+                $output .= '</div>';
+                break;
+
+            // ── Template 8: Score Card ───────────────────────────────────
+            // Big numerical rating bubble (absolute top-right) + badge + stars + title + content + client
+            case '8':
+                $score_display = number_format( floatval( $stars ), 1 );
+                $output .= '<div class="rwf-t8-score-bubble" aria-label="' . esc_attr( $score_display ) . ' out of 5">' . esc_html( $score_display ) . '</div>';
+                if ( $badge_markup ) $output .= $badge_markup;
+                $output .= $stars_markup;
+                if ( get_the_title() ) $output .= '<h3 class="reviewfic-title">' . get_the_title() . '</h3>';
+                $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
+                $output .= $client_markup;
+                break;
+
+            // ── Template 9: Magazine / Pull Quote ───────────────────────
+            // Editorial style: no card, large opening quote, bold italic content, byline at bottom
+            case '9':
+                $output .= '<div class="rwf-t9-quote-mark" aria-hidden="true">&ldquo;</div>';
+                $output .= '<div class="reviewfic-content rwf-t9-content">' . get_the_content() . '</div>';
+                $output .= '<div class="rwf-t9-byline">';
+                $output .= '<div class="rwf-t9-author">';
+                if ( $avatar_markup ) $output .= $avatar_markup;
+                $output .= '<div>';
+                $output .= '<span class="reviewfic-client-name">' . esc_html( $client_name ) . '</span>';
+                if ( $client_meta ) $output .= $client_meta;
+                $output .= '</div></div>';
+                $output .= '<div class="rwf-t9-right">';
+                $output .= $stars_markup;
+                if ( $badge_markup ) $output .= $badge_markup;
+                $output .= '</div>';
+                $output .= '</div>';
+                break;
+
+            // ── Template 10: Neon Dark Gradient ─────────────────────────
+            // Deep dark card, teal-to-purple gradient header strip, white content, stars + badge footer
+            case '10':
+                $output .= '<div class="rwf-t10-header">';
+                if ( $avatar_markup ) $output .= $avatar_markup;
+                $output .= '<div class="rwf-t10-client">';
+                $output .= '<span class="rwf-t10-name">' . esc_html( $client_name ) . '</span>';
+                if ( $client_meta ) $output .= $client_meta;
+                $output .= '</div></div>';
+                $output .= '<div class="reviewfic-content">' . get_the_content() . '</div>';
+                $output .= '<div class="rwf-t10-footer">';
+                $output .= $stars_markup;
+                if ( $badge_markup ) $output .= $badge_markup;
+                $output .= '</div>';
                 break;
             default:
                 $output .= $badge_markup;

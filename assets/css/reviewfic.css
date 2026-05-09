@@ -1309,3 +1309,434 @@
 }
 
 .rwf-wc-review-btn:hover { background: #0b8a5e; }
+
+/* =====================================================
+   TEMPLATE 6 — Horizontal Split
+   Coloured left panel (avatar · name · meta · badge)
+   | white right panel (stars · title · content)
+   ===================================================== */
+
+.reviewfic-template-6 {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 20px rgba(0,0,0,.07);
+    background: none;
+}
+
+.rwf-t6-left {
+    background: linear-gradient(160deg, #0E9F6E 0%, #0b8a5e 100%);
+    background: linear-gradient(160deg, var(--rwf-accent-color, #0E9F6E) 0%, color-mix(in srgb, var(--rwf-accent-color, #0E9F6E) 80%, black) 100%);
+    min-width: 120px;
+    max-width: 140px;
+    padding: 24px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.rwf-t6-photo {
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,0.4);
+    display: block;
+}
+
+.rwf-t6-initials {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(255,255,255,0.35);
+    flex-shrink: 0;
+}
+
+.rwf-t6-name {
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 1.3;
+    text-align: center;
+    display: block;
+    word-break: break-word;
+}
+
+.rwf-t6-left .reviewfic-client-meta {
+    color: rgba(255,255,255,0.75);
+    font-size: 10.5px;
+    text-align: center;
+}
+
+.rwf-t6-left .reviewfic-source-badge {
+    margin-bottom: 0;
+    font-size: 9.5px;
+    padding: 2px 8px;
+    line-height: 1.5;
+}
+
+.rwf-t6-right {
+    flex: 1;
+    padding: 22px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.reviewfic-template-6 .reviewfic-stars { margin: 0; }
+
+.reviewfic-template-6 .reviewfic-title {
+    margin: 0;
+    font-size: 1em;
+    color: #111827;
+}
+
+.reviewfic-template-6 .reviewfic-content {
+    flex: 1;
+    margin-bottom: 0;
+    color: #374151;
+    line-height: 1.7;
+}
+
+@media (max-width: 540px) {
+    .reviewfic-template-6 { flex-direction: column; }
+    .rwf-t6-left {
+        flex-direction: row;
+        min-width: unset;
+        max-width: unset;
+        padding: 14px 18px;
+        text-align: left;
+        align-items: center;
+        gap: 12px;
+    }
+}
+
+/* =====================================================
+   TEMPLATE 7 — Gradient Glow
+   White card with green glow shadow border, italic
+   quote body, avatar + name footer
+   ===================================================== */
+
+.reviewfic-template-7 {
+    background: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    box-shadow: 0 0 0 2px #0E9F6E, 0 12px 40px rgba(14,159,110,.13);
+    box-shadow: 0 0 0 2px var(--rwf-accent-color, #0E9F6E), 0 12px 40px rgba(14,159,110,.13);
+}
+
+.rwf-t7-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.rwf-t7-top .reviewfic-stars { margin: 0; }
+.rwf-t7-top .reviewfic-source-badge { margin-bottom: 0; }
+
+.rwf-t7-quote-mark {
+    font-size: 72px;
+    line-height: 0.7;
+    color: #0E9F6E;
+    color: var(--rwf-accent-color, #0E9F6E);
+    opacity: 0.14;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    margin-bottom: 8px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.reviewfic-template-7 .reviewfic-content {
+    flex: 1;
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.75;
+    color: #374151;
+    margin-bottom: 20px;
+}
+
+.rwf-t7-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 16px;
+}
+
+.rwf-t7-footer .reviewfic-avatar {
+    width: 44px;
+    height: 44px;
+    border: 2px solid #0E9F6E;
+    border-color: var(--rwf-accent-color, #0E9F6E);
+    flex-shrink: 0;
+}
+
+.rwf-t7-client {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rwf-t7-footer .reviewfic-client-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #111827;
+}
+
+.rwf-t7-footer .reviewfic-client-meta {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* =====================================================
+   TEMPLATE 8 — Score Card
+   Floating score bubble top-right, badge, stars,
+   title, content, client row
+   ===================================================== */
+
+.reviewfic-template-8 {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.rwf-t8-score-bubble {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #0E9F6E;
+    background: var(--rwf-accent-color, #0E9F6E);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(14,159,110,.38);
+    line-height: 1;
+    letter-spacing: -0.5px;
+    z-index: 1;
+}
+
+/* Prevent text running under the bubble */
+.reviewfic-template-8 .reviewfic-source-badge,
+.reviewfic-template-8 .reviewfic-stars,
+.reviewfic-template-8 .reviewfic-title {
+    padding-right: 60px;
+}
+
+.reviewfic-template-8 .reviewfic-stars { margin: 0; }
+
+.reviewfic-template-8 .reviewfic-title {
+    margin: 0;
+    font-size: 1.02em;
+    color: #111827;
+}
+
+.reviewfic-template-8 .reviewfic-content {
+    flex: 1;
+    color: #374151;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+.reviewfic-template-8 .reviewfic-client-row {
+    margin-top: auto;
+}
+
+/* =====================================================
+   TEMPLATE 9 — Magazine / Pull Quote
+   No card background, editorial typography, big opening
+   quote, bold italic body, two-column byline at bottom
+   ===================================================== */
+
+.reviewfic-template-9 {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #0E9F6E;
+    border-bottom-color: var(--rwf-accent-color, #0E9F6E);
+    border-radius: 0;
+    padding: 6px 0 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    box-shadow: none;
+}
+
+.rwf-t9-quote-mark {
+    font-size: 72px;
+    line-height: 0.85;
+    color: #0E9F6E;
+    color: var(--rwf-accent-color, #0E9F6E);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    pointer-events: none;
+    user-select: none;
+    margin-bottom: 10px;
+}
+
+.rwf-t9-content {
+    font-size: 1.06em;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.8;
+    color: #111827;
+    flex: 1;
+    margin-bottom: 18px;
+}
+
+.rwf-t9-byline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.rwf-t9-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rwf-t9-author .reviewfic-avatar {
+    width: 38px;
+    height: 38px;
+    border: 2px solid #0E9F6E;
+    border-color: var(--rwf-accent-color, #0E9F6E);
+    flex-shrink: 0;
+}
+
+.rwf-t9-author .reviewfic-client-name {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.rwf-t9-author .reviewfic-client-meta { font-size: 11.5px; }
+
+.rwf-t9-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.rwf-t9-right .reviewfic-stars {
+    margin: 0;
+    justify-content: flex-end;
+}
+
+.rwf-t9-right .reviewfic-source-badge { margin-bottom: 0; }
+
+/* =====================================================
+   TEMPLATE 10 — Neon Dark Gradient
+   Deep dark card, teal-to-purple gradient header strip,
+   light-coloured content, stars + badge footer row
+   ===================================================== */
+
+.reviewfic-template-10 {
+    background: #0f172a;
+    border: none;
+    border-radius: 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.04);
+}
+
+.rwf-t10-header {
+    background: linear-gradient(135deg, #0E9F6E 0%, #7c3aed 100%);
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.rwf-t10-header .reviewfic-avatar {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255,255,255,0.35);
+    flex-shrink: 0;
+}
+
+.rwf-t10-client {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.rwf-t10-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rwf-t10-client .reviewfic-client-meta {
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.72);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.reviewfic-template-10 .reviewfic-content {
+    flex: 1;
+    padding: 22px 22px 16px;
+    color: #94a3b8;
+    font-size: 14px;
+    line-height: 1.75;
+    margin-bottom: 0;
+}
+
+.rwf-t10-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 22px;
+    border-top: 1px solid #1e293b;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rwf-t10-footer .reviewfic-stars { margin: 0; }
+.rwf-t10-footer .reviewfic-source-badge { margin-bottom: 0; opacity: .82; }
+.reviewfic-template-10 .reviewfic-star-score { color: #475569; }
