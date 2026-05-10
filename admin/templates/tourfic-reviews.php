@@ -65,10 +65,10 @@ if ( empty( $comments ) ) {
 
     if ( function_exists( 'rwf_render_live_cards' ) ) {
         echo rwf_render_live_cards( $reviews, array( // phpcs:ignore WordPress.Security.EscapeOutput
-            'columns'     => '3',
-            'template'    => '1',
-            'slider'      => 'no',
-            'show_avatar' => 'yes',
+            'columns'     => $s['display_columns'],
+            'template'    => $s['display_template'],
+            'slider'      => $s['display_slider'],
+            'show_avatar' => $s['display_show_avatar'],
         ), 'custom', get_bloginfo( 'name' ) );
     }
 }

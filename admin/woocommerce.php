@@ -42,8 +42,12 @@ function rwf_wc_get_settings() {
         'review_page'   => '',
         'email_subject' => 'How was your experience with {site_name}?',
         'email_body'    => "Hi {customer_name},\n\nThank you for your recent order #{order_id} from {site_name}.\n\nWe'd love to hear what you think! Your feedback helps us improve and helps other customers make better decisions.\n\nClick the button below to leave your review — it only takes a minute.\n\nThank you for your support!",
-        'replace_tab'   => '0',
-        'auto_tag'      => '1',
+        'replace_tab'         => '0',
+        'auto_tag'            => '1',
+        'display_template'    => '1',
+        'display_columns'     => '3',
+        'display_slider'      => 'no',
+        'display_show_avatar' => 'yes',
     ) );
 }
 
@@ -75,8 +79,14 @@ function rwf_wc_save_settings() {
     $s['review_page']   = intval( $_POST['rwf_review_page'] ?? 0 );
     $s['email_subject'] = sanitize_text_field( wp_unslash( $_POST['rwf_email_subject'] ?? '' ) );
     $s['email_body']    = sanitize_textarea_field( wp_unslash( $_POST['rwf_email_body'] ?? '' ) );
-    $s['replace_tab']   = isset( $_POST['rwf_replace_tab'] ) ? '1' : '0';
-    $s['auto_tag']      = isset( $_POST['rwf_auto_tag'] ) ? '1' : '0';
+    $s['replace_tab']         = isset( $_POST['rwf_replace_tab'] ) ? '1' : '0';
+    $s['auto_tag']            = isset( $_POST['rwf_auto_tag'] ) ? '1' : '0';
+    $s['display_template']    = in_array( $_POST['rwf_display_template'] ?? '1', array('1','2','3','4','5','6','7','8','9','10'), true )
+                                    ? sanitize_text_field( $_POST['rwf_display_template'] ) : '1';
+    $s['display_columns']     = in_array( intval( $_POST['rwf_display_columns'] ?? 3 ), array(1,2,3,4), true )
+                                    ? strval( intval( $_POST['rwf_display_columns'] ) ) : '3';
+    $s['display_slider']      = isset( $_POST['rwf_display_slider'] ) ? 'yes' : 'no';
+    $s['display_show_avatar'] = isset( $_POST['rwf_display_show_avatar'] ) ? 'yes' : 'no';
 
     update_option( 'reviewfic_wc_settings', $s );
 
@@ -191,7 +201,41 @@ function rwf_wc_page() {
                                 <input type="checkbox" name="rwf_replace_tab" value="1" <?php checked( $s['replace_tab'], '1' ); ?>>
                                 <strong><?php esc_html_e( 'Replace the WooCommerce reviews tab', 'reviewfic' ); ?></strong>
                             </label>
-                            <p class="description"><?php esc_html_e( 'Product reviews will be rendered using Template 1 (Classic) with 3 columns. A "Write a Review" button links to your review landing page.', 'reviewfic' ); ?></p>
+                        </div>
+
+                        <?php
+                        $tpl_names = function_exists( 'rwf_template_names' ) ? rwf_template_names() : array();
+                        ?>
+                        <div class="rwf-wc-field">
+                            <label><?php esc_html_e( 'Display Template', 'reviewfic' ); ?></label>
+                            <select name="rwf_display_template">
+                                <?php foreach ( $tpl_names as $val => $label ) : ?>
+                                    <option value="<?php echo esc_attr( $val ); ?>" <?php selected( $s['display_template'], $val ); ?>><?php echo esc_html( $label ); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="rwf-wc-field">
+                            <label><?php esc_html_e( 'Columns', 'reviewfic' ); ?></label>
+                            <select name="rwf_display_columns">
+                                <?php foreach ( array('1','2','3','4') as $c ) : ?>
+                                    <option value="<?php echo esc_attr( $c ); ?>" <?php selected( $s['display_columns'], $c ); ?>><?php echo esc_html( $c ); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="rwf-wc-field">
+                            <label class="rwf-wc-toggle-label">
+                                <input type="checkbox" name="rwf_display_slider" value="1" <?php checked( $s['display_slider'], 'yes' ); ?>>
+                                <strong><?php esc_html_e( 'Enable slider (carousel)', 'reviewfic' ); ?></strong>
+                            </label>
+                        </div>
+
+                        <div class="rwf-wc-field">
+                            <label class="rwf-wc-toggle-label">
+                                <input type="checkbox" name="rwf_display_show_avatar" value="1" <?php checked( $s['display_show_avatar'], 'yes' ); ?>>
+                                <strong><?php esc_html_e( 'Show reviewer avatars', 'reviewfic' ); ?></strong>
+                            </label>
                         </div>
                     </div>
 
@@ -382,13 +426,13 @@ function rwf_wc_reviews_tab_content() {
             );
         }
 
-        // Use rwf_render_live_cards from live-reviews.php
+        // Use saved display settings from WooCommerce integration page
         if ( function_exists( 'rwf_render_live_cards' ) ) {
             echo rwf_render_live_cards( $reviews, array(
-                'columns'     => '3',
-                'template'    => '1',
-                'slider'      => 'no',
-                'show_avatar' => 'yes',
+                'columns'     => $s['display_columns'],
+                'template'    => $s['display_template'],
+                'slider'      => $s['display_slider'],
+                'show_avatar' => $s['display_show_avatar'],
             ), 'custom', get_bloginfo( 'name' ) );
         }
     }

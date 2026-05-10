@@ -124,7 +124,7 @@ function rwf_live_reviews_page() {
                         <tr><td><code>place_id</code></td><td><?php esc_html_e( 'Required. Google Place ID.', 'reviewfic' ); ?> <a href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder" target="_blank" rel="noopener"><?php esc_html_e( 'Find it here', 'reviewfic' ); ?> ↗</a></td></tr>
                         <tr><td><code>max</code></td><td><?php esc_html_e( '1–5 (Google returns up to 5 reviews). Default: 5', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>columns</code></td><td><?php esc_html_e( '1–4. Default: 3', 'reviewfic' ); ?></td></tr>
-                        <tr><td><code>template</code></td><td><?php esc_html_e( '1–5. Default: 1', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
                     </table>
@@ -137,7 +137,36 @@ function rwf_live_reviews_page() {
                         <tr><td><code>business_id</code></td><td><?php esc_html_e( 'Required. Yelp Business ID or alias (e.g. gary-danko-san-francisco).', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>max</code></td><td><?php esc_html_e( '1–3 (Yelp free tier limit). Default: 3', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>columns</code></td><td><?php esc_html_e( '1–4. Default: 3', 'reviewfic' ); ?></td></tr>
-                        <tr><td><code>template</code></td><td><?php esc_html_e( '1–5. Default: 1', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
+                    </table>
+                </div>
+
+                <div class="rwf-live-shortcode-block" style="margin-top:20px;">
+                    <div class="rwf-live-platform-badge" style="background:#96588a;margin-bottom:8px;">WooCommerce</div>
+                    <code class="rwf-live-code">[reviewfic_woocommerce product_id="123" columns="3" template="1" max="10"]</code>
+                    <table class="rwf-live-attr-table">
+                        <tr><td><code>product_id</code></td><td><?php esc_html_e( 'Required. WooCommerce product ID. Display existing product reviews anywhere on the site.', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>max</code></td><td><?php esc_html_e( 'Maximum reviews to show. Default: 10', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>columns</code></td><td><?php esc_html_e( '1–4. Default: 3', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
+                    </table>
+                    <?php if ( ! class_exists( 'WooCommerce' ) ) : ?>
+                        <p class="description" style="color:#b32d2e;margin-top:8px;"><?php esc_html_e( 'WooCommerce is not active — this shortcode will show an error until it is installed.', 'reviewfic' ); ?></p>
+                    <?php endif; ?>
+                </div>
+
+                <div class="rwf-live-shortcode-block" style="margin-top:20px;">
+                    <div class="rwf-live-platform-badge" style="background:#21759b;margin-bottom:8px;">WordPress.org</div>
+                    <code class="rwf-live-code">[reviewfic_wporg plugin="reviewfic" columns="3" template="1" max="5"]</code>
+                    <table class="rwf-live-attr-table">
+                        <tr><td><code>plugin</code></td><td><?php esc_html_e( 'Required. The plugin slug as it appears on WordPress.org (e.g. "contact-form-7"). No API key needed.', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>max</code></td><td><?php esc_html_e( 'Maximum reviews to show. Default: 5', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>columns</code></td><td><?php esc_html_e( '1–4. Default: 3', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
                     </table>
@@ -156,10 +185,30 @@ function rwf_live_reviews_page() {
 
 // ── Shared render helper ───────────────────────────────────────────────────
 
+/**
+ * Shared template name map used by WC, Tourfic, and any future
+ * integration settings pages to render the template <select>.
+ */
+function rwf_template_names() {
+    return array(
+        '1'  => __( '1 – Classic',    'reviewfic' ),
+        '2'  => __( '2 – Quote',      'reviewfic' ),
+        '3'  => __( '3 – Minimal',    'reviewfic' ),
+        '4'  => __( '4 – Dark',       'reviewfic' ),
+        '5'  => __( '5 – Centered',   'reviewfic' ),
+        '6'  => __( '6 – Split',      'reviewfic' ),
+        '7'  => __( '7 – Glow',       'reviewfic' ),
+        '8'  => __( '8 – Score',      'reviewfic' ),
+        '9'  => __( '9 – Magazine',   'reviewfic' ),
+        '10' => __( '10 – Neon Dark', 'reviewfic' ),
+    );
+}
+
 function rwf_render_live_cards( $reviews, $atts, $source_slug, $source_name ) {
     static $slider_id = 1000; // offset to avoid collision with CPT slider IDs
 
-    $template     = in_array( $atts['template'], array('1','2','3','4','5'), true ) ? $atts['template'] : '1';
+    $valid_templates = array( '1','2','3','4','5','6','7','8','9','10' );
+    $template     = in_array( $atts['template'], $valid_templates, true ) ? $atts['template'] : '1';
     $use_slider   = $atts['slider'] === 'yes';
     $show_avatar  = $atts['show_avatar'] !== 'no';
     $columns      = max( 1, min( 4, intval( $atts['columns'] ) ) );
@@ -241,6 +290,43 @@ function rwf_render_live_cards( $reviews, $atts, $source_slug, $source_name ) {
                 break;
             case '5':
                 echo $client_markup . $stars_markup . '<div class="reviewfic-content reviewfic-quote">' . wp_kses_post( $r['content'] ) . '</div>' . $badge_markup;
+                break;
+            case '6': // Horizontal Split
+                $t6_img = ( $show_avatar && ! empty( $r['avatar'] ) )
+                    ? '<img src="' . esc_url( $r['avatar'] ) . '" alt="' . esc_attr( $r['name'] ) . '" class="rwf-t6-photo" loading="lazy">'
+                    : '';
+                echo '<div class="rwf-t6-left">';
+                echo $t6_img ?: '<div class="rwf-t6-initials">' . esc_html( mb_substr( $r['name'], 0, 1 ) ) . '</div>';
+                echo '<span class="rwf-t6-name">' . esc_html( $r['name'] ) . '</span>';
+                if ( $client_meta ) echo $client_meta;
+                echo $badge_markup . '</div>';
+                echo '<div class="rwf-t6-right">' . $stars_markup . $title_html . $content_html . '</div>';
+                break;
+            case '7': // Gradient Glow
+                echo '<div class="rwf-t7-top">' . $stars_markup . $badge_markup . '</div>';
+                echo '<div class="rwf-t7-quote-mark">&ldquo;</div>';
+                echo $content_html;
+                echo '<div class="rwf-t7-footer">' . $avatar_markup
+                    . '<div class="rwf-t7-client"><span class="reviewfic-client-name">' . esc_html( $r['name'] ) . '</span>'
+                    . $client_meta . '</div></div>';
+                break;
+            case '8': // Score Card
+                echo '<div class="rwf-t8-score-bubble">' . esc_html( number_format( $stars, 1 ) ) . '</div>';
+                echo $badge_markup . $stars_markup . $title_html . $content_html . $client_markup;
+                break;
+            case '9': // Magazine / Pull Quote
+                echo '<div class="rwf-t9-quote-mark" aria-hidden="true">&ldquo;</div>';
+                echo '<div class="reviewfic-content rwf-t9-content">' . wp_kses_post( $r['content'] ) . '</div>';
+                echo '<div class="rwf-t9-byline"><div class="rwf-t9-author">' . $avatar_markup
+                    . '<div><span class="reviewfic-client-name">' . esc_html( $r['name'] ) . '</span>' . $client_meta . '</div>'
+                    . '</div><div class="rwf-t9-right">' . $stars_markup . $badge_markup . '</div></div>';
+                break;
+            case '10': // Neon Dark Gradient
+                echo '<div class="rwf-t10-header">' . $avatar_markup
+                    . '<div class="rwf-t10-client"><span class="rwf-t10-name">' . esc_html( $r['name'] ) . '</span>'
+                    . $client_meta . '</div></div>';
+                echo $content_html;
+                echo '<div class="rwf-t10-footer">' . $stars_markup . $badge_markup . '</div>';
                 break;
             default:
                 echo $badge_markup . $stars_markup . $title_html . $content_html . $client_markup;
@@ -434,4 +520,171 @@ function rwf_yelp_shortcode( $atts ) {
     }
 
     return rwf_render_live_cards( $reviews, $atts, 'yelp', 'Yelp' );
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════
+//  WOOCOMMERCE ON-SITE REVIEWS SHORTCODE
+//  Reads native WooCommerce product reviews (wp_comments, type='review')
+//  and renders them with any Reviewfic template — no API key needed.
+// ══════════════════════════════════════════════════════════════════════════
+
+add_shortcode( 'reviewfic_woocommerce', 'rwf_woocommerce_shortcode' );
+
+function rwf_woocommerce_shortcode( $atts ) {
+    $atts = shortcode_atts( array(
+        'product_id'  => 0,
+        'max'         => 10,
+        'columns'     => 3,
+        'template'    => '1',
+        'slider'      => 'no',
+        'show_avatar' => 'yes',
+    ), $atts, 'reviewfic_woocommerce' );
+
+    if ( ! class_exists( 'WooCommerce' ) ) {
+        return rwf_live_error( __( 'WooCommerce is not active. Install and activate WooCommerce to use this shortcode.', 'reviewfic' ) );
+    }
+
+    $product_id = intval( $atts['product_id'] );
+    if ( ! $product_id ) {
+        return rwf_live_error( __( '[reviewfic_woocommerce] requires a product_id attribute.', 'reviewfic' ) );
+    }
+
+    $max = max( 1, intval( $atts['max'] ) );
+
+    $comments = get_comments( array(
+        'post_id' => $product_id,
+        'type'    => 'review',
+        'status'  => 'approve',
+        'order'   => 'DESC',
+        'number'  => $max,
+    ) );
+
+    if ( empty( $comments ) ) {
+        return rwf_live_error( __( 'No reviews found for this product.', 'reviewfic' ) );
+    }
+
+    $product_name = get_the_title( $product_id ) ?: get_bloginfo( 'name' );
+    $reviews      = array();
+
+    foreach ( $comments as $comment ) {
+        $rating    = intval( get_comment_meta( $comment->comment_ID, 'rating', true ) );
+        $reviews[] = array(
+            'title'   => '',
+            'content' => $comment->comment_content,
+            'stars'   => $rating ? (float) $rating : 5.0,
+            'name'    => $comment->comment_author,
+            'meta'    => '',
+            'avatar'  => get_avatar_url( $comment->comment_author_email, array( 'size' => 96 ) ),
+            'time'    => human_time_diff( strtotime( $comment->comment_date ), current_time( 'timestamp' ) )
+                         . ' ' . __( 'ago', 'reviewfic' ),
+        );
+    }
+
+    return rwf_render_live_cards( $reviews, $atts, 'custom', $product_name );
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════
+//  WORDPRESS.ORG PLUGIN REVIEWS SHORTCODE
+//  Fetches reviews via the public WP.org RSS feed — no API key needed.
+//  Feed: https://wordpress.org/support/plugin/{slug}/reviews/feed/
+//  Star ratings are encoded as ★ characters at the start of the item title.
+// ══════════════════════════════════════════════════════════════════════════
+
+add_shortcode( 'reviewfic_wporg', 'rwf_wporg_shortcode' );
+
+function rwf_wporg_shortcode( $atts ) {
+    $atts = shortcode_atts( array(
+        'plugin'      => '',
+        'max'         => 5,
+        'columns'     => 3,
+        'template'    => '1',
+        'slider'      => 'no',
+        'show_avatar' => 'yes',
+    ), $atts, 'reviewfic_wporg' );
+
+    $slug = sanitize_title( $atts['plugin'] );
+    if ( empty( $slug ) ) {
+        return rwf_live_error( __( '[reviewfic_wporg] requires a plugin attribute (e.g. plugin="contact-form-7").', 'reviewfic' ) );
+    }
+
+    $max       = max( 1, intval( $atts['max'] ) );
+    $cache_key = 'reviewfic_wporg_' . md5( $slug );
+    $cached    = get_transient( $cache_key );
+
+    if ( $cached === false ) {
+        $feed_url = 'https://wordpress.org/support/plugin/' . $slug . '/reviews/feed/';
+        $response = wp_remote_get( $feed_url, array( 'timeout' => 10 ) );
+
+        if ( is_wp_error( $response ) ) {
+            return rwf_live_error( __( 'Could not connect to WordPress.org.', 'reviewfic' ) );
+        }
+
+        $body = wp_remote_retrieve_body( $response );
+        if ( empty( $body ) ) {
+            return rwf_live_error( __( 'No review data returned from WordPress.org.', 'reviewfic' ) );
+        }
+
+        // Suppress XML parse warnings; handle malformed feeds gracefully
+        libxml_use_internal_errors( true );
+        $xml = simplexml_load_string( $body );
+        libxml_clear_errors();
+
+        if ( ! $xml || ! isset( $xml->channel->item ) ) {
+            return rwf_live_error(
+                sprintf(
+                    /* translators: %s: plugin slug */
+                    __( 'No reviews found for plugin "%s" on WordPress.org. Check the plugin slug is correct.', 'reviewfic' ),
+                    $slug
+                )
+            );
+        }
+
+        $raw = array();
+        foreach ( $xml->channel->item as $item ) {
+            $raw_title = (string) $item->title;
+
+            // Star rating is encoded as leading ★ characters, e.g. "★★★★★ Excellent plugin"
+            preg_match( '/^(★+)/u', $raw_title, $m );
+            $star_count  = ! empty( $m[1] ) ? mb_strlen( $m[1] ) : 5;
+            $clean_title = trim( preg_replace( '/^★+\s*/u', '', $raw_title ) );
+
+            // Author from dc:creator namespace
+            $dc   = $item->children( 'http://purl.org/dc/elements/1.1/' );
+            $name = ! empty( $dc->creator ) ? (string) $dc->creator : __( 'Anonymous', 'reviewfic' );
+
+            // Content: prefer <description>, strip HTML tags
+            $content = trim( strip_tags( html_entity_decode( (string) $item->description, ENT_QUOTES, 'UTF-8' ) ) );
+
+            $pub_date = (string) $item->pubDate;
+            $time     = $pub_date
+                ? date_i18n( get_option( 'date_format' ), strtotime( $pub_date ) )
+                : '';
+
+            $raw[] = array(
+                'title'   => $clean_title,
+                'content' => $content,
+                'stars'   => (float) max( 1, min( 5, $star_count ) ),
+                'name'    => $name,
+                'meta'    => '',
+                'avatar'  => '',
+                'time'    => $time,
+            );
+        }
+
+        if ( empty( $raw ) ) {
+            return rwf_live_error( __( 'No reviews found for this plugin.', 'reviewfic' ) );
+        }
+
+        set_transient( $cache_key, $raw, 12 * HOUR_IN_SECONDS );
+        $cached = $raw;
+    }
+
+    $reviews = array_slice( $cached, 0, $max );
+
+    // Derive a readable plugin name from the feed title if possible, else use slug
+    $source_name = ucwords( str_replace( '-', ' ', $slug ) );
+
+    return rwf_render_live_cards( $reviews, $atts, 'custom', $source_name );
 }
