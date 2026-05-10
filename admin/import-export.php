@@ -238,10 +238,7 @@ function reviewfic_import_export_page() {
                     <span class="dashicons dashicons-download rwf-ie-card-icon"></span>
                     <div>
                         <h2><?php esc_html_e( 'Export Reviews', 'reviewfic' ); ?></h2>
-                        <p><?php printf(
-                            esc_html__( 'Download all %d reviews as a file. Use it as a backup or to import into another site.', 'reviewfic' ),
-                            intval( $count )
-                        ); ?></p>
+                        <p><?php esc_html_e( 'Download your reviews as a backup or to import into another site.', 'reviewfic' ); ?></p>
                     </div>
                 </div>
 
