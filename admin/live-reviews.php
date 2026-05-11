@@ -67,7 +67,7 @@ function rwf_live_reviews_page() {
                     <span class="dashicons dashicons-admin-network rwf-ie-card-icon"></span>
                     <div>
                         <h2><?php esc_html_e( 'API Keys', 'reviewfic' ); ?></h2>
-                        <p><?php esc_html_e( 'Enter your API credentials to enable live review fetching.', 'reviewfic' ); ?></p>
+                        <p><?php esc_html_e( 'Enter your API credentials to enable live review easily.', 'reviewfic' ); ?></p>
                     </div>
                 </div>
 
