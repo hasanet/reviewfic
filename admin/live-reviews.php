@@ -403,12 +403,38 @@ function rwf_google_shortcode( $atts ) {
         $body = json_decode( wp_remote_retrieve_body( $response ), true );
 
         if ( empty( $body['result']['reviews'] ) ) {
-            $status = $body['status'] ?? 'UNKNOWN';
-            return rwf_live_error(
-                $status === 'REQUEST_DENIED'
-                    ? __( 'Google API key is invalid or missing the Places API permission.', 'reviewfic' )
-                    : __( 'No reviews found for this Place ID.', 'reviewfic' )
-            );
+            $status        = $body['status'] ?? 'UNKNOWN';
+            $error_message = $body['error_message'] ?? '';
+
+            switch ( $status ) {
+                case 'REQUEST_DENIED':
+                    $msg = __( 'Google API key is invalid, missing the Places API permission, or restricted in a way that blocks server-side requests (e.g. an "HTTP referrer" restriction — use "IP addresses" or "None" instead since this request comes from your server, not a browser).', 'reviewfic' );
+                    break;
+                case 'OVER_QUERY_LIMIT':
+                    $msg = __( 'Google API quota exceeded, or billing is not enabled on this Google Cloud project. The Places API requires an active billing account even within the free usage tier.', 'reviewfic' );
+                    break;
+                case 'INVALID_REQUEST':
+                case 'NOT_FOUND':
+                    $msg = __( 'This Place ID was not recognised by Google. Copy it from Google\'s Place ID Finder tool — it should look like "ChIJ..." and not be a Maps URL, CID, or business name.', 'reviewfic' );
+                    break;
+                case 'OK':
+                    // The call succeeded, but Google returned zero reviews for this place.
+                    $msg = __( 'Google did not return any reviews for this place. This is a known Google API limitation: Place Details only returns up to 5 "most relevant" reviews chosen by Google\'s own algorithm, and for some places it returns none even though reviews are visible on Google Maps.', 'reviewfic' );
+                    break;
+                default:
+                    $msg = __( 'No reviews found for this Place ID.', 'reviewfic' );
+            }
+
+            if ( current_user_can( 'manage_options' ) ) {
+                $msg .= ' ' . sprintf(
+                    /* translators: 1: Google API status code, 2: optional error message from Google */
+                    __( '(Admin debug — Google API status: %1$s%2$s)', 'reviewfic' ),
+                    $status,
+                    $error_message ? ' — ' . $error_message : ''
+                );
+            }
+
+            return rwf_live_error( $msg );
         }
 
         $cached = $body['result']['reviews'];
