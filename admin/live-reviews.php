@@ -119,23 +119,25 @@ function rwf_live_reviews_page() {
 
                 <div class="rwf-live-shortcode-block">
                     <div class="rwf-live-platform-badge rwf-badge-google" style="margin-bottom:8px;">Google</div>
-                    <code class="rwf-live-code">[reviewfic_google place_id="ChIJ..." columns="3" template="1" max="5"]</code>
+                    <code class="rwf-live-code">[reviewfic_google place_id="ChIJ..." id="12" max="5"]</code>
                     <table class="rwf-live-attr-table">
                         <tr><td><code>place_id</code></td><td><?php esc_html_e( 'Required. Google Place ID.', 'reviewfic' ); ?> <a href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder" target="_blank" rel="noopener"><?php esc_html_e( 'Find it here', 'reviewfic' ); ?> ↗</a></td></tr>
                         <tr><td><code>max</code></td><td><?php esc_html_e( '1–5 (Google returns up to 5 reviews). Default: 5', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>id</code></td><td><?php esc_html_e( 'Optional. ID of a saved Shortcode Config — when set, it controls template, columns, slider (with all sub-options), pagination, and design colours, overriding any of the attributes below.', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>columns</code></td><td><?php esc_html_e( '1–4. Default: 3', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
-                        <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no — see Slider & Pagination below for sub-options.', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
                     </table>
                 </div>
 
                 <div class="rwf-live-shortcode-block" style="margin-top:20px;">
                     <div class="rwf-live-platform-badge rwf-badge-yelp" style="margin-bottom:8px;">Yelp</div>
-                    <code class="rwf-live-code">[reviewfic_yelp business_id="..." columns="3" template="1" max="3"]</code>
+                    <code class="rwf-live-code">[reviewfic_yelp business_id="..." id="12" max="3"]</code>
                     <table class="rwf-live-attr-table">
                         <tr><td><code>business_id</code></td><td><?php esc_html_e( 'Required. Yelp Business ID or alias (e.g. gary-danko-san-francisco).', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>max</code></td><td><?php esc_html_e( '1–3 (Yelp free tier limit). Default: 3', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>id</code></td><td><?php esc_html_e( 'Optional. ID of a saved Shortcode Config — same as Google, overrides the attributes below.', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>columns</code></td><td><?php esc_html_e( '1–4. Default: 3', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
@@ -145,10 +147,11 @@ function rwf_live_reviews_page() {
 
                 <div class="rwf-live-shortcode-block" style="margin-top:20px;">
                     <div class="rwf-live-platform-badge" style="background:#96588a;margin-bottom:8px;">WooCommerce</div>
-                    <code class="rwf-live-code">[reviewfic_woocommerce product_id="123" columns="3" template="1" max="10"]</code>
+                    <code class="rwf-live-code">[reviewfic_woocommerce product_id="123" id="12" max="10"]</code>
                     <table class="rwf-live-attr-table">
                         <tr><td><code>product_id</code></td><td><?php esc_html_e( 'Required. WooCommerce product ID. Display existing product reviews anywhere on the site.', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>max</code></td><td><?php esc_html_e( 'Maximum reviews to show. Default: 10', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>id</code></td><td><?php esc_html_e( 'Optional. ID of a saved Shortcode Config — same as Google, overrides the attributes below.', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>columns</code></td><td><?php esc_html_e( '1–4. Default: 3', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
@@ -161,14 +164,32 @@ function rwf_live_reviews_page() {
 
                 <div class="rwf-live-shortcode-block" style="margin-top:20px;">
                     <div class="rwf-live-platform-badge" style="background:#21759b;margin-bottom:8px;">WordPress.org</div>
-                    <code class="rwf-live-code">[reviewfic_wporg plugin="reviewfic" columns="3" template="1" max="5"]</code>
+                    <code class="rwf-live-code">[reviewfic_wporg plugin="reviewfic" id="12" max="5"]</code>
                     <table class="rwf-live-attr-table">
                         <tr><td><code>plugin</code></td><td><?php esc_html_e( 'Required. The plugin slug as it appears on WordPress.org (e.g. "contact-form-7"). No API key needed.', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>max</code></td><td><?php esc_html_e( 'Maximum reviews to show. Default: 5', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>id</code></td><td><?php esc_html_e( 'Optional. ID of a saved Shortcode Config — same as Google, overrides the attributes below.', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>columns</code></td><td><?php esc_html_e( '1–4. Default: 3', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
+                    </table>
+                </div>
+
+                <div class="rwf-live-shortcode-block" style="margin-top:20px;">
+                    <div class="rwf-live-platform-badge" style="background:#374151;margin-bottom:8px;"><?php esc_html_e( 'Slider & Pagination (all four shortcodes)', 'reviewfic' ); ?></div>
+                    <p class="description" style="margin-bottom:10px;">
+                        <?php esc_html_e( 'Every live review shortcode above supports the exact same slider and pagination attributes as the regular [reviewfic] shortcode. These work standalone, or are fully overridden if an id (saved config) is supplied.', 'reviewfic' ); ?>
+                    </p>
+                    <table class="rwf-live-attr-table">
+                        <tr><td><code>slider_nav</code></td><td><?php esc_html_e( 'yes / no — show prev/next arrows. Default: yes', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>slider_dots</code></td><td><?php esc_html_e( 'yes / no — show navigation dots. Default: yes', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>slider_auto</code></td><td><?php esc_html_e( 'yes / no — autoplay. Default: no', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>slider_speed</code></td><td><?php esc_html_e( 'Autoplay interval in milliseconds. Default: 4000', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>slider_loop</code></td><td><?php esc_html_e( 'yes / no — loop back to the start. Default: yes', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>slider_pause</code></td><td><?php esc_html_e( 'yes / no — pause autoplay on hover. Default: yes', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>pagination</code></td><td><?php esc_html_e( 'yes / no — paginate results instead of showing them all at once. Ignored when slider="yes". Default: no', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>per_page</code></td><td><?php esc_html_e( 'Items per page when pagination is enabled. Default: 6', 'reviewfic' ); ?></td></tr>
                     </table>
                 </div>
 
@@ -204,15 +225,108 @@ function rwf_template_names() {
     );
 }
 
+/**
+ * Resolve display settings for any live-review shortcode (Google, Yelp,
+ * WooCommerce on-site, WordPress.org) from an optional saved Shortcode
+ * Config post — exact same mechanism as the regular [reviewfic id="X"]
+ * shortcode. This gives every live integration full parity: all 10
+ * templates, every slider sub-option, pagination, and the full design
+ * colour/shadow/radius/gap system — without duplicating that logic.
+ *
+ * If 'id' is absent/0/invalid, $atts is returned unchanged except for
+ * an added empty 'design_style' key, so existing direct-attribute usage
+ * (template="2" columns="3" slider="yes" etc.) keeps working exactly
+ * as before.
+ */
+function rwf_resolve_live_display_atts( $atts ) {
+    $atts['design_style'] = '';
+
+    $config_id = intval( $atts['id'] ?? 0 );
+    if ( $config_id <= 0 ) {
+        return $atts;
+    }
+
+    $config = get_post( $config_id );
+    if ( ! $config || $config->post_type !== 'reviewfic_config' || $config->post_status !== 'publish' ) {
+        return $atts;
+    }
+
+    $get = function ( $key, $fallback ) use ( $config_id ) {
+        $v = get_post_meta( $config_id, $key, true );
+        return ( $v !== '' && $v !== false ) ? $v : $fallback;
+    };
+
+    $atts['template']     = $get( 'rwf_template',     $atts['template']     ?? '1' );
+    $atts['columns']      = $get( 'rwf_columns',      $atts['columns']      ?? 3 );
+    $atts['show_avatar']  = $get( 'rwf_show_avatar',  $atts['show_avatar']  ?? 'yes' );
+    $atts['slider']       = $get( 'rwf_slider',       $atts['slider']       ?? 'no' );
+    $atts['slider_nav']   = $get( 'rwf_slider_nav',   $atts['slider_nav']   ?? 'yes' );
+    $atts['slider_dots']  = $get( 'rwf_slider_dots',  $atts['slider_dots']  ?? 'yes' );
+    $atts['slider_auto']  = $get( 'rwf_slider_auto',  $atts['slider_auto']  ?? 'no' );
+    $atts['slider_speed'] = $get( 'rwf_slider_speed', $atts['slider_speed'] ?? '4000' );
+    $atts['slider_loop']  = $get( 'rwf_slider_loop',  $atts['slider_loop']  ?? 'yes' );
+    $atts['slider_pause'] = $get( 'rwf_slider_pause', $atts['slider_pause'] ?? 'yes' );
+    $atts['pagination']   = $get( 'rwf_pagination',   $atts['pagination']   ?? 'no' );
+    $atts['per_page']     = $get( 'rwf_per_page',     $atts['per_page']     ?? 6 );
+
+    // ── Design CSS variables — identical mapping to admin/shortcode.php ──
+    $shadow_map = array(
+        'sm' => '0 1px 4px rgba(0,0,0,.08)',
+        'md' => '0 4px 16px rgba(0,0,0,.12)',
+        'lg' => '0 8px 32px rgba(0,0,0,.18)',
+    );
+
+    $card_bg      = get_post_meta( $config_id, 'rwf_card_bg', true );
+    $text_color   = get_post_meta( $config_id, 'rwf_text_color', true );
+    $star_color   = get_post_meta( $config_id, 'rwf_star_color', true );
+    $accent_color = get_post_meta( $config_id, 'rwf_accent_color', true );
+    $meta_color   = get_post_meta( $config_id, 'rwf_meta_color', true );
+    $name_color   = get_post_meta( $config_id, 'rwf_name_color', true );
+    $card_border  = get_post_meta( $config_id, 'rwf_card_border', true );
+    $card_shadow  = get_post_meta( $config_id, 'rwf_card_shadow', true );
+    $card_radius  = get_post_meta( $config_id, 'rwf_card_radius', true );
+    $col_gap      = get_post_meta( $config_id, 'rwf_col_gap', true );
+
+    $vars = array();
+    if ( $card_bg )            $vars[] = '--rwf-card-bg:'      . esc_attr( $card_bg );
+    if ( $text_color )         $vars[] = '--rwf-text-color:'   . esc_attr( $text_color );
+    if ( $star_color )         $vars[] = '--rwf-star-color:'   . esc_attr( $star_color );
+    if ( $accent_color )       $vars[] = '--rwf-accent-color:' . esc_attr( $accent_color );
+    if ( $meta_color )         $vars[] = '--rwf-meta-color:'   . esc_attr( $meta_color );
+    if ( $name_color )         $vars[] = '--rwf-name-color:'   . esc_attr( $name_color );
+    if ( $card_border )        $vars[] = '--rwf-card-border:'  . esc_attr( $card_border );
+    if ( ! empty( $shadow_map[ $card_shadow ] ) ) $vars[] = '--rwf-card-shadow:' . $shadow_map[ $card_shadow ];
+    if ( $card_radius !== '' ) $vars[] = '--rwf-card-radius:' . intval( $card_radius ) . 'px';
+    if ( $col_gap     !== '' ) $vars[] = '--rwf-col-gap:'     . intval( $col_gap )      . 'px';
+
+    if ( $vars ) $atts['design_style'] = ' style="' . implode( ';', $vars ) . '"';
+
+    return $atts;
+}
+
 function rwf_render_live_cards( $reviews, $atts, $source_slug, $source_name ) {
     static $slider_id = 1000; // offset to avoid collision with CPT slider IDs
 
     $valid_templates = array( '1','2','3','4','5','6','7','8','9','10' );
-    $template     = in_array( $atts['template'], $valid_templates, true ) ? $atts['template'] : '1';
-    $use_slider   = $atts['slider'] === 'yes';
-    $show_avatar  = $atts['show_avatar'] !== 'no';
-    $columns      = max( 1, min( 4, intval( $atts['columns'] ) ) );
+    $template      = in_array( $atts['template'], $valid_templates, true ) ? $atts['template'] : '1';
+    $use_slider    = ( $atts['slider'] ?? 'no' ) === 'yes';
+    $use_pagination= ! $use_slider && ( $atts['pagination'] ?? 'no' ) === 'yes';
+    $per_page      = max( 1, intval( $atts['per_page'] ?? 6 ) );
+    $design_style  = $atts['design_style'] ?? '';
+    $show_avatar   = $atts['show_avatar'] !== 'no';
+    $columns       = max( 1, min( 4, intval( $atts['columns'] ) ) );
     $known_sources = array('google','trustpilot','g2','capterra','facebook','yelp','amazon');
+
+    // ── Pagination: slice the already-fetched array (no DB query here) ──
+    $total_items = count( $reviews );
+    $total_pages = 1;
+    $current_page = 1;
+    if ( $use_pagination ) {
+        $page_key     = 'rwf_lp_' . abs( crc32( $source_slug . serialize( $atts ) ) );
+        $current_page = max( 1, intval( $_GET[ $page_key ] ?? 1 ) );
+        $total_pages  = $total_items > 0 ? (int) ceil( $total_items / $per_page ) : 1;
+        $reviews      = array_slice( $reviews, ( $current_page - 1 ) * $per_page, $per_page );
+    }
 
     $star_path = plugin_dir_path( __FILE__ ) . 'assets/img/';
 
@@ -232,12 +346,17 @@ function rwf_render_live_cards( $reviews, $atts, $source_slug, $source_name ) {
     if ( $use_slider ) {
         $slider_id++;
         echo '<div class="reviewfic-slider" id="reviewfic-slider-' . $slider_id . '"'
-            . ' data-nav="yes" data-dots="yes" data-auto="no" data-speed="4000"'
-            . ' data-loop="yes" data-pause="yes"'
-            . ' data-columns="' . esc_attr( $columns ) . '">';
+            . ' data-nav="'   . ( ( $atts['slider_nav']   ?? 'yes' ) === 'yes' ? 'yes' : 'no' ) . '"'
+            . ' data-dots="'  . ( ( $atts['slider_dots']  ?? 'yes' ) === 'yes' ? 'yes' : 'no' ) . '"'
+            . ' data-auto="'  . ( ( $atts['slider_auto']  ?? 'no'  ) === 'yes' ? 'yes' : 'no' ) . '"'
+            . ' data-speed="' . intval( $atts['slider_speed'] ?? 4000 ) . '"'
+            . ' data-loop="'  . ( ( $atts['slider_loop']  ?? 'yes' ) === 'yes' ? 'yes' : 'no' ) . '"'
+            . ' data-pause="' . ( ( $atts['slider_pause'] ?? 'yes' ) === 'yes' ? 'yes' : 'no' ) . '"'
+            . ' data-columns="' . esc_attr( $columns ) . '"'
+            . $design_style . '>';
         echo '<div class="reviewfic-slider-track">';
     } else {
-        echo '<div class="reviewfic-columns reviewfic-columns-' . esc_attr( $columns ) . '">';
+        echo '<div class="reviewfic-columns reviewfic-columns-' . esc_attr( $columns ) . '"' . $design_style . '>';
     }
 
     foreach ( $reviews as $r ) {
@@ -345,6 +464,31 @@ function rwf_render_live_cards( $reviews, $atts, $source_slug, $source_name ) {
         echo '</div>';
     }
 
+    // ── Pagination ────────────────────────────────────────────
+    if ( $use_pagination && $total_pages > 1 ) {
+        echo '<div class="reviewfic-pagination">';
+
+        if ( $current_page > 1 ) {
+            echo '<a href="' . esc_url( add_query_arg( $page_key, $current_page - 1 ) ) . '" class="rwf-page-btn rwf-page-prev">&laquo;</a>';
+        }
+
+        $range = 2;
+        for ( $p = 1; $p <= $total_pages; $p++ ) {
+            if ( $p === 1 || $p === $total_pages || ( $p >= $current_page - $range && $p <= $current_page + $range ) ) {
+                $active = $p === $current_page ? ' active' : '';
+                echo '<a href="' . esc_url( add_query_arg( $page_key, $p ) ) . '" class="rwf-page-btn' . $active . '">' . $p . '</a>';
+            } elseif ( $p === $current_page - $range - 1 || $p === $current_page + $range + 1 ) {
+                echo '<span class="rwf-page-ellipsis">&hellip;</span>';
+            }
+        }
+
+        if ( $current_page < $total_pages ) {
+            echo '<a href="' . esc_url( add_query_arg( $page_key, $current_page + 1 ) ) . '" class="rwf-page-btn rwf-page-next">&raquo;</a>';
+        }
+
+        echo '</div>';
+    }
+
     return ob_get_clean();
 }
 
@@ -361,13 +505,23 @@ add_shortcode( 'reviewfic_google', 'rwf_google_shortcode' );
 
 function rwf_google_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'place_id'    => '',
-        'max'         => 5,
-        'columns'     => 3,
-        'template'    => '1',
-        'slider'      => 'no',
-        'show_avatar' => 'yes',
+        'id'           => 0,
+        'place_id'     => '',
+        'max'          => 5,
+        'columns'      => 3,
+        'template'     => '1',
+        'show_avatar'  => 'yes',
+        'slider'       => 'no',
+        'slider_nav'   => 'yes',
+        'slider_dots'  => 'yes',
+        'slider_auto'  => 'no',
+        'slider_speed' => '4000',
+        'slider_loop'  => 'yes',
+        'slider_pause' => 'yes',
+        'pagination'   => 'no',
+        'per_page'     => 6,
     ), $atts, 'reviewfic_google' );
+    $atts = rwf_resolve_live_display_atts( $atts );
 
     $place_id = sanitize_text_field( $atts['place_id'] );
     if ( empty( $place_id ) ) {
@@ -471,13 +625,23 @@ add_shortcode( 'reviewfic_yelp', 'rwf_yelp_shortcode' );
 
 function rwf_yelp_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'business_id' => '',
-        'max'         => 3,
-        'columns'     => 3,
-        'template'    => '1',
-        'slider'      => 'no',
-        'show_avatar' => 'yes',
+        'id'           => 0,
+        'business_id'  => '',
+        'max'          => 3,
+        'columns'      => 3,
+        'template'     => '1',
+        'show_avatar'  => 'yes',
+        'slider'       => 'no',
+        'slider_nav'   => 'yes',
+        'slider_dots'  => 'yes',
+        'slider_auto'  => 'no',
+        'slider_speed' => '4000',
+        'slider_loop'  => 'yes',
+        'slider_pause' => 'yes',
+        'pagination'   => 'no',
+        'per_page'     => 6,
     ), $atts, 'reviewfic_yelp' );
+    $atts = rwf_resolve_live_display_atts( $atts );
 
     $business_id = sanitize_text_field( $atts['business_id'] );
     if ( empty( $business_id ) ) {
@@ -559,13 +723,23 @@ add_shortcode( 'reviewfic_woocommerce', 'rwf_woocommerce_shortcode' );
 
 function rwf_woocommerce_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'product_id'  => 0,
-        'max'         => 10,
-        'columns'     => 3,
-        'template'    => '1',
-        'slider'      => 'no',
-        'show_avatar' => 'yes',
+        'id'           => 0,
+        'product_id'   => 0,
+        'max'          => 10,
+        'columns'      => 3,
+        'template'     => '1',
+        'show_avatar'  => 'yes',
+        'slider'       => 'no',
+        'slider_nav'   => 'yes',
+        'slider_dots'  => 'yes',
+        'slider_auto'  => 'no',
+        'slider_speed' => '4000',
+        'slider_loop'  => 'yes',
+        'slider_pause' => 'yes',
+        'pagination'   => 'no',
+        'per_page'     => 6,
     ), $atts, 'reviewfic_woocommerce' );
+    $atts = rwf_resolve_live_display_atts( $atts );
 
     if ( ! class_exists( 'WooCommerce' ) ) {
         return rwf_live_error( __( 'WooCommerce is not active. Install and activate WooCommerce to use this shortcode.', 'reviewfic' ) );
@@ -622,13 +796,23 @@ add_shortcode( 'reviewfic_wporg', 'rwf_wporg_shortcode' );
 
 function rwf_wporg_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'plugin'      => '',
-        'max'         => 5,
-        'columns'     => 3,
-        'template'    => '1',
-        'slider'      => 'no',
-        'show_avatar' => 'yes',
+        'id'           => 0,
+        'plugin'       => '',
+        'max'          => 5,
+        'columns'      => 3,
+        'template'     => '1',
+        'show_avatar'  => 'yes',
+        'slider'       => 'no',
+        'slider_nav'   => 'yes',
+        'slider_dots'  => 'yes',
+        'slider_auto'  => 'no',
+        'slider_speed' => '4000',
+        'slider_loop'  => 'yes',
+        'slider_pause' => 'yes',
+        'pagination'   => 'no',
+        'per_page'     => 6,
     ), $atts, 'reviewfic_wporg' );
+    $atts = rwf_resolve_live_display_atts( $atts );
 
     $slug = sanitize_title( $atts['plugin'] );
     if ( empty( $slug ) ) {

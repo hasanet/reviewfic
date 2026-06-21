@@ -55,6 +55,7 @@ function rwf_tf_get_settings() {
         'display_columns'     => '3',
         'display_slider'      => 'no',
         'display_show_avatar' => 'yes',
+        'display_config_id'   => '0',
     ) );
 }
 
@@ -127,6 +128,7 @@ function rwf_tf_save_settings() {
                                     ? strval( intval( $_POST['rwf_display_columns'] ) ) : '3';
     $s['display_slider']      = isset( $_POST['rwf_display_slider'] ) ? 'yes' : 'no';
     $s['display_show_avatar'] = isset( $_POST['rwf_display_show_avatar'] ) ? 'yes' : 'no';
+    $s['display_config_id']   = intval( $_POST['rwf_display_config_id'] ?? 0 );
 
     update_option( 'reviewfic_tf_settings', $s );
 
@@ -250,7 +252,32 @@ function rwf_tf_page() {
                             <p class="description"><em><?php esc_html_e( 'Note: car rental listings use an embedded review block and are not affected by this setting.', 'reviewfic' ); ?></em></p>
                         </div>
 
-                        <?php $tpl_names = function_exists( 'rwf_template_names' ) ? rwf_template_names() : array(); ?>
+                        <?php
+                        $tpl_names    = function_exists( 'rwf_template_names' ) ? rwf_template_names() : array();
+                        $saved_configs = get_posts( array(
+                            'post_type'      => 'reviewfic_config',
+                            'post_status'    => 'publish',
+                            'posts_per_page' => -1,
+                            'orderby'        => 'title',
+                            'order'          => 'ASC',
+                        ) );
+                        ?>
+
+                        <div class="rwf-wc-field">
+                            <label><?php esc_html_e( 'Saved Display Config (optional)', 'reviewfic' ); ?></label>
+                            <select name="rwf_display_config_id">
+                                <option value="0"><?php esc_html_e( '— None, use the quick settings below —', 'reviewfic' ); ?></option>
+                                <?php foreach ( $saved_configs as $cfg ) : ?>
+                                    <option value="<?php echo esc_attr( $cfg->ID ); ?>" <?php selected( intval( $s['display_config_id'] ), $cfg->ID ); ?>>
+                                        <?php echo esc_html( $cfg->post_title ); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <p class="description">
+                                <?php esc_html_e( 'Pick a config built in Shortcode Generator for full control — every template, slider option (nav/dots/autoplay/speed/loop/pause), pagination, and design colour/shadow/radius setting. When a config is selected, it overrides the quick settings below.', 'reviewfic' ); ?>
+                            </p>
+                        </div>
+
                         <div class="rwf-wc-field">
                             <label><?php esc_html_e( 'Display Template', 'reviewfic' ); ?></label>
                             <select name="rwf_display_template">

@@ -48,6 +48,7 @@ function rwf_wc_get_settings() {
         'display_columns'     => '3',
         'display_slider'      => 'no',
         'display_show_avatar' => 'yes',
+        'display_config_id'   => '0',
     ) );
 }
 
@@ -87,6 +88,7 @@ function rwf_wc_save_settings() {
                                     ? strval( intval( $_POST['rwf_display_columns'] ) ) : '3';
     $s['display_slider']      = isset( $_POST['rwf_display_slider'] ) ? 'yes' : 'no';
     $s['display_show_avatar'] = isset( $_POST['rwf_display_show_avatar'] ) ? 'yes' : 'no';
+    $s['display_config_id']   = intval( $_POST['rwf_display_config_id'] ?? 0 );
 
     update_option( 'reviewfic_wc_settings', $s );
 
@@ -204,8 +206,31 @@ function rwf_wc_page() {
                         </div>
 
                         <?php
-                        $tpl_names = function_exists( 'rwf_template_names' ) ? rwf_template_names() : array();
+                        $tpl_names    = function_exists( 'rwf_template_names' ) ? rwf_template_names() : array();
+                        $saved_configs = get_posts( array(
+                            'post_type'      => 'reviewfic_config',
+                            'post_status'    => 'publish',
+                            'posts_per_page' => -1,
+                            'orderby'        => 'title',
+                            'order'          => 'ASC',
+                        ) );
                         ?>
+
+                        <div class="rwf-wc-field">
+                            <label><?php esc_html_e( 'Saved Display Config (optional)', 'reviewfic' ); ?></label>
+                            <select name="rwf_display_config_id">
+                                <option value="0"><?php esc_html_e( '— None, use the quick settings below —', 'reviewfic' ); ?></option>
+                                <?php foreach ( $saved_configs as $cfg ) : ?>
+                                    <option value="<?php echo esc_attr( $cfg->ID ); ?>" <?php selected( intval( $s['display_config_id'] ), $cfg->ID ); ?>>
+                                        <?php echo esc_html( $cfg->post_title ); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <p class="description">
+                                <?php esc_html_e( 'Pick a config built in Shortcode Generator for full control — every template, slider option (nav/dots/autoplay/speed/loop/pause), pagination, and design colour/shadow/radius setting. When a config is selected, it overrides the quick settings below.', 'reviewfic' ); ?>
+                            </p>
+                        </div>
+
                         <div class="rwf-wc-field">
                             <label><?php esc_html_e( 'Display Template', 'reviewfic' ); ?></label>
                             <select name="rwf_display_template">
@@ -402,6 +427,8 @@ function rwf_wc_reviews_tab_content() {
     global $product;
     if ( ! $product ) return;
 
+    $s = rwf_wc_get_settings();
+
     $comments = get_comments( array(
         'post_id'  => $product->get_id(),
         'type'     => 'review',
@@ -426,19 +453,33 @@ function rwf_wc_reviews_tab_content() {
             );
         }
 
-        // Use saved display settings from WooCommerce integration page
+        // Build the full attribute set, then resolve through the saved
+        // Display Config (if one is selected) for full template/slider/
+        // pagination/design parity with the regular [reviewfic] shortcode.
         if ( function_exists( 'rwf_render_live_cards' ) ) {
-            echo rwf_render_live_cards( $reviews, array(
-                'columns'     => $s['display_columns'],
+            $live_atts = array(
+                'id'           => intval( $s['display_config_id'] ?? 0 ),
+                'columns'      => $s['display_columns'],
                 'template'    => $s['display_template'],
                 'slider'      => $s['display_slider'],
                 'show_avatar' => $s['display_show_avatar'],
-            ), 'custom', get_bloginfo( 'name' ) );
+                'slider_nav'   => 'yes',
+                'slider_dots'  => 'yes',
+                'slider_auto'  => 'no',
+                'slider_speed' => '4000',
+                'slider_loop'  => 'yes',
+                'slider_pause' => 'yes',
+                'pagination'   => 'no',
+                'per_page'     => 6,
+            );
+            if ( function_exists( 'rwf_resolve_live_display_atts' ) ) {
+                $live_atts = rwf_resolve_live_display_atts( $live_atts );
+            }
+            echo rwf_render_live_cards( $reviews, $live_atts, 'custom', get_bloginfo( 'name' ) );
         }
     }
 
     // Write a Review CTA
-    $s              = rwf_wc_get_settings();
     $review_page_id = intval( $s['review_page'] );
     if ( $review_page_id ) {
         $url = add_query_arg( 'rwf_product', $product->get_id(), get_permalink( $review_page_id ) );
