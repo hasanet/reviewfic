@@ -71,6 +71,7 @@ function rwf_config_options_cb($post) {
     $columns     = $get('rwf_columns',      '3');
     $max_items   = $get('rwf_max_items',    '');
     $show_avatar = $get('rwf_show_avatar',  'yes');
+    $show_source = $get('rwf_show_source',  'yes');
     $category    = $get('rwf_category',     'all');
     $source      = $get('rwf_source',       'all');
     $slider      = $get('rwf_slider',       'no');
@@ -306,6 +307,15 @@ function rwf_config_options_cb($post) {
                         <span class="rwf-toggle-label"><?php echo $show_avatar === 'yes' ? 'Yes' : 'No'; ?></span>
                     </label>
                 </div>
+                <div class="rwf-config-row">
+                    <label class="rwf-config-label">Show Source Badge</label>
+                    <label class="rwf-toggle">
+                        <input type="checkbox" name="rwf_show_source" id="rwf_show_source" <?php checked($show_source, 'yes'); ?> />
+                        <span class="rwf-toggle-track"><span class="rwf-toggle-thumb"></span></span>
+                        <span class="rwf-toggle-label"><?php echo $show_source === 'yes' ? 'Yes' : 'No'; ?></span>
+                    </label>
+                    <span class="rwf-section-hint">Hides the platform badge (Google, Yelp, etc). For live Google/Yelp reviews, keep this on — both platforms require their attribution to stay visible.</span>
+                </div>
             </div>
 
             <!-- Filter -->
@@ -510,6 +520,7 @@ function rwf_config_options_cb($post) {
         }
 
         $('#rwf_show_avatar').on('change', function() { syncLabel($(this), 'Yes', 'No'); });
+        $('#rwf_show_source').on('change', function() { syncLabel($(this), 'Yes', 'No'); });
         $('#rwf_slider_nav').on('change',  function() { syncLabel($(this), 'Show', 'Hide'); });
         $('#rwf_slider_dots').on('change', function() { syncLabel($(this), 'Show', 'Hide'); });
         $('#rwf_slider_loop').on('change', function() { syncLabel($(this), 'On', 'Off'); });
@@ -579,7 +590,7 @@ function rwf_save_config_meta($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!current_user_can('edit_post', $post_id)) return;
 
-    $checkboxes = array('rwf_slider','rwf_slider_nav','rwf_slider_dots','rwf_slider_auto','rwf_slider_loop','rwf_slider_pause','rwf_show_avatar','rwf_pagination');
+    $checkboxes = array('rwf_slider','rwf_slider_nav','rwf_slider_dots','rwf_slider_auto','rwf_slider_loop','rwf_slider_pause','rwf_show_avatar','rwf_show_source','rwf_pagination');
     foreach ($checkboxes as $key) {
         update_post_meta($post_id, $key, isset($_POST[$key]) ? 'yes' : 'no');
     }

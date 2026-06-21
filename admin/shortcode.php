@@ -12,6 +12,7 @@ function reviewfic_shortcode($atts) {
         'columns'      => 1,
         'max_items'    => -1,
         'show_avatar'  => 'yes',
+        'show_source'  => 'yes',
         // Filter
         'category'     => 'all',
         'source'       => 'all',
@@ -42,6 +43,7 @@ function reviewfic_shortcode($atts) {
             $atts['columns']      = $get('rwf_columns',      1);
             $atts['max_items']    = $get('rwf_max_items',    -1) ?: -1;
             $atts['show_avatar']  = $get('rwf_show_avatar',  'yes');
+            $atts['show_source']  = $get('rwf_show_source',  'yes');
             $atts['category']     = $get('rwf_category',     'all');
             $atts['source']       = $get('rwf_source',       'all');
             $atts['slider']       = $get('rwf_slider',       'no');
@@ -191,7 +193,7 @@ function reviewfic_shortcode($atts) {
 
         // Source badge
         $badge_markup = '';
-        if ($review_source) {
+        if ($review_source && $atts['show_source'] === 'yes') {
             $slug      = $review_source->slug;
             $css_class = in_array($slug, $known_sources, true) ? 'reviewfic-source-' . $slug : 'reviewfic-source-custom';
             $badge_markup = '<span class="reviewfic-source-badge ' . esc_attr($css_class) . '">' . esc_html($review_source->name) . '</span>';

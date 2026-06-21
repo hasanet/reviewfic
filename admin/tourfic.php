@@ -55,6 +55,7 @@ function rwf_tf_get_settings() {
         'display_columns'     => '3',
         'display_slider'      => 'no',
         'display_show_avatar' => 'yes',
+        'display_show_source' => 'yes',
         'display_config_id'   => '0',
     ) );
 }
@@ -128,6 +129,7 @@ function rwf_tf_save_settings() {
                                     ? strval( intval( $_POST['rwf_display_columns'] ) ) : '3';
     $s['display_slider']      = isset( $_POST['rwf_display_slider'] ) ? 'yes' : 'no';
     $s['display_show_avatar'] = isset( $_POST['rwf_display_show_avatar'] ) ? 'yes' : 'no';
+    $s['display_show_source'] = isset( $_POST['rwf_display_show_source'] ) ? 'yes' : 'no';
     $s['display_config_id']   = intval( $_POST['rwf_display_config_id'] ?? 0 );
 
     update_option( 'reviewfic_tf_settings', $s );
@@ -308,6 +310,14 @@ function rwf_tf_page() {
                                 <input type="checkbox" name="rwf_display_show_avatar" value="1" <?php checked( $s['display_show_avatar'], 'yes' ); ?>>
                                 <strong><?php esc_html_e( 'Show reviewer avatars', 'reviewfic' ); ?></strong>
                             </label>
+                        </div>
+
+                        <div class="rwf-wc-field">
+                            <label class="rwf-wc-toggle-label">
+                                <input type="checkbox" name="rwf_display_show_source" value="1" <?php checked( $s['display_show_source'], 'yes' ); ?>>
+                                <strong><?php esc_html_e( 'Show source badge', 'reviewfic' ); ?></strong>
+                            </label>
+                            <p class="description"><?php esc_html_e( 'Shows your site name as a badge on each review. Safe to disable — this is just a label, not a third-party platform attribution.', 'reviewfic' ); ?></p>
                         </div>
                     </div>
 

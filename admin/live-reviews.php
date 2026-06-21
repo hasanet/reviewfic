@@ -128,6 +128,7 @@ function rwf_live_reviews_page() {
                         <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no — see Slider & Pagination below for sub-options.', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>show_source</code></td><td><?php esc_html_e( 'yes / no. Default: yes.', 'reviewfic' ); ?> <strong><?php esc_html_e( 'Keep this on — Google requires attribution to stay visible when displaying its content.', 'reviewfic' ); ?></strong></td></tr>
                     </table>
                 </div>
 
@@ -142,6 +143,7 @@ function rwf_live_reviews_page() {
                         <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>show_source</code></td><td><?php esc_html_e( 'yes / no. Default: yes.', 'reviewfic' ); ?> <strong><?php esc_html_e( 'Keep this on — Yelp\'s Display Requirements mandate Yelp attribution stay visible when showing Yelp content.', 'reviewfic' ); ?></strong></td></tr>
                     </table>
                 </div>
 
@@ -156,6 +158,7 @@ function rwf_live_reviews_page() {
                         <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>show_source</code></td><td><?php esc_html_e( 'yes / no. Default: yes. Safe to disable — these are your own site\'s reviews, no third-party attribution applies.', 'reviewfic' ); ?></td></tr>
                     </table>
                     <?php if ( ! class_exists( 'WooCommerce' ) ) : ?>
                         <p class="description" style="color:#b32d2e;margin-top:8px;"><?php esc_html_e( 'WooCommerce is not active — this shortcode will show an error until it is installed.', 'reviewfic' ); ?></p>
@@ -173,6 +176,7 @@ function rwf_live_reviews_page() {
                         <tr><td><code>template</code></td><td><?php esc_html_e( '1–10. Default: 1', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>slider</code></td><td><?php esc_html_e( 'yes / no. Default: no', 'reviewfic' ); ?></td></tr>
                         <tr><td><code>show_avatar</code></td><td><?php esc_html_e( 'yes / no. Default: yes', 'reviewfic' ); ?></td></tr>
+                        <tr><td><code>show_source</code></td><td><?php esc_html_e( 'yes / no. Default: yes. Safe to disable — WordPress.org has no attribution requirement for review excerpts.', 'reviewfic' ); ?></td></tr>
                     </table>
                 </div>
 
@@ -259,6 +263,7 @@ function rwf_resolve_live_display_atts( $atts ) {
     $atts['template']     = $get( 'rwf_template',     $atts['template']     ?? '1' );
     $atts['columns']      = $get( 'rwf_columns',      $atts['columns']      ?? 3 );
     $atts['show_avatar']  = $get( 'rwf_show_avatar',  $atts['show_avatar']  ?? 'yes' );
+    $atts['show_source']  = $get( 'rwf_show_source',  $atts['show_source']  ?? 'yes' );
     $atts['slider']       = $get( 'rwf_slider',       $atts['slider']       ?? 'no' );
     $atts['slider_nav']   = $get( 'rwf_slider_nav',   $atts['slider_nav']   ?? 'yes' );
     $atts['slider_dots']  = $get( 'rwf_slider_dots',  $atts['slider_dots']  ?? 'yes' );
@@ -336,10 +341,14 @@ function rwf_render_live_cards( $reviews, $atts, $source_slug, $source_name ) {
         return file_exists( $file ) ? file_get_contents( $file ) : '★';
     };
 
+    $show_source  = ( $atts['show_source'] ?? 'yes' ) !== 'no';
+
     $source_class = in_array( $source_slug, $known_sources, true )
                     ? 'reviewfic-source-' . $source_slug
                     : 'reviewfic-source-custom';
-    $badge_markup = '<span class="reviewfic-source-badge ' . esc_attr( $source_class ) . '">' . esc_html( $source_name ) . '</span>';
+    $badge_markup = $show_source
+        ? '<span class="reviewfic-source-badge ' . esc_attr( $source_class ) . '">' . esc_html( $source_name ) . '</span>'
+        : '';
 
     ob_start();
 
@@ -511,6 +520,7 @@ function rwf_google_shortcode( $atts ) {
         'columns'      => 3,
         'template'     => '1',
         'show_avatar'  => 'yes',
+        'show_source'  => 'yes',
         'slider'       => 'no',
         'slider_nav'   => 'yes',
         'slider_dots'  => 'yes',
@@ -631,6 +641,7 @@ function rwf_yelp_shortcode( $atts ) {
         'columns'      => 3,
         'template'     => '1',
         'show_avatar'  => 'yes',
+        'show_source'  => 'yes',
         'slider'       => 'no',
         'slider_nav'   => 'yes',
         'slider_dots'  => 'yes',
@@ -729,6 +740,7 @@ function rwf_woocommerce_shortcode( $atts ) {
         'columns'      => 3,
         'template'     => '1',
         'show_avatar'  => 'yes',
+        'show_source'  => 'yes',
         'slider'       => 'no',
         'slider_nav'   => 'yes',
         'slider_dots'  => 'yes',
@@ -802,6 +814,7 @@ function rwf_wporg_shortcode( $atts ) {
         'columns'      => 3,
         'template'     => '1',
         'show_avatar'  => 'yes',
+        'show_source'  => 'yes',
         'slider'       => 'no',
         'slider_nav'   => 'yes',
         'slider_dots'  => 'yes',

@@ -70,6 +70,7 @@ if ( empty( $comments ) ) {
             'template'    => $s['display_template'],
             'slider'      => $s['display_slider'],
             'show_avatar' => $s['display_show_avatar'],
+            'show_source' => $s['display_show_source'],
             'slider_nav'   => 'yes',
             'slider_dots'  => 'yes',
             'slider_auto'  => 'no',
