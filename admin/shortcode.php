@@ -64,6 +64,11 @@ function reviewfic_shortcode($atts) {
     $per_page      = max(1, intval($atts['per_page']));
     $known_sources = array('google','trustpilot','g2','capterra','facebook','yelp','amazon');
 
+    // Load only what this specific render needs — never sitewide
+    if ( function_exists( 'reviewfic_load_slider_assets' ) ) {
+        $use_slider ? reviewfic_load_slider_assets() : reviewfic_load_display_assets();
+    }
+
     // ── Design CSS variables ──────────────────────────────────
     $design_style = '';
     if ($config_id > 0) {
