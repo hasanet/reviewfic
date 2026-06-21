@@ -64,12 +64,26 @@ if ( empty( $comments ) ) {
     }
 
     if ( function_exists( 'rwf_render_live_cards' ) ) {
-        echo rwf_render_live_cards( $reviews, array( // phpcs:ignore WordPress.Security.EscapeOutput
-            'columns'     => '3',
-            'template'    => '1',
-            'slider'      => 'no',
-            'show_avatar' => 'yes',
-        ), 'custom', get_bloginfo( 'name' ) );
+        $live_atts = array(
+            'id'           => intval( $s['display_config_id'] ?? 0 ),
+            'columns'      => $s['display_columns'],
+            'template'    => $s['display_template'],
+            'slider'      => $s['display_slider'],
+            'show_avatar' => $s['display_show_avatar'],
+            'show_source' => $s['display_show_source'],
+            'slider_nav'   => 'yes',
+            'slider_dots'  => 'yes',
+            'slider_auto'  => 'no',
+            'slider_speed' => '4000',
+            'slider_loop'  => 'yes',
+            'slider_pause' => 'yes',
+            'pagination'   => 'no',
+            'per_page'     => 6,
+        );
+        if ( function_exists( 'rwf_resolve_live_display_atts' ) ) {
+            $live_atts = rwf_resolve_live_display_atts( $live_atts );
+        }
+        echo rwf_render_live_cards( $reviews, $live_atts, 'custom', get_bloginfo( 'name' ) ); // phpcs:ignore WordPress.Security.EscapeOutput
     }
 }
 
