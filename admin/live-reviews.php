@@ -380,12 +380,16 @@ function rwf_render_live_cards( $reviews, $atts, $source_slug, $source_name ) {
         }
         $stars_markup = '<p class="reviewfic-stars">' . $star_html . '<span class="reviewfic-star-score">(' . esc_html( $stars ) . ')</span></p>';
 
-        // Avatar
+        // Avatar — real photo if available, otherwise a generated initials badge
         $avatar_markup = '';
-        if ( $show_avatar && ! empty( $r['avatar'] ) ) {
-            $avatar_markup = '<div class="reviewfic-avatar">'
-                . '<img src="' . esc_url( $r['avatar'] ) . '" alt="' . esc_attr( $r['name'] ) . '" class="reviewfic-avatar-img" loading="lazy">'
-                . '</div>';
+        if ( $show_avatar ) {
+            if ( ! empty( $r['avatar'] ) ) {
+                $avatar_markup = '<div class="reviewfic-avatar">'
+                    . '<img src="' . esc_url( $r['avatar'] ) . '" alt="' . esc_attr( $r['name'] ) . '" class="reviewfic-avatar-img" loading="lazy">'
+                    . '</div>';
+            } else {
+                $avatar_markup = rwf_initials_avatar_markup( $r['name'] );
+            }
         }
 
         // Client meta
@@ -499,6 +503,24 @@ function rwf_render_live_cards( $reviews, $atts, $source_slug, $source_name ) {
     }
 
     return ob_get_clean();
+}
+
+/**
+ * Generate a colored "initials" avatar badge for reviewers with no real
+ * photo URL — used whenever a live source doesn't expose one (currently
+ * WordPress.org reviews; future no-avatar sources get this automatically).
+ * The background color is deterministic per name so the same reviewer
+ * always gets the same color across page loads.
+ */
+function rwf_initials_avatar_markup( $name ) {
+    $palette = array( '#0E9F6E', '#2563EB', '#DB2777', '#D97706', '#7C3AED', '#DC2626', '#0891B2', '#65A30D' );
+    $name    = trim( (string) $name );
+    $initial = $name !== '' ? mb_strtoupper( mb_substr( $name, 0, 1 ) ) : '?';
+    $color   = $palette[ abs( crc32( $name ) ) % count( $palette ) ];
+
+    return '<div class="reviewfic-avatar reviewfic-avatar-initial" style="background:' . esc_attr( $color ) . ';">'
+        . esc_html( $initial )
+        . '</div>';
 }
 
 function rwf_live_error( $msg ) {
@@ -879,6 +901,11 @@ function rwf_wporg_shortcode( $atts ) {
 
             // Content: prefer <description>, strip HTML tags
             $content = trim( strip_tags( html_entity_decode( (string) $item->description, ENT_QUOTES, 'UTF-8' ) ) );
+
+            // WordPress.org's feed prepends forum metadata like "Replies: 0
+            // Rating: 5 stars " directly into the description text — strip it.
+            $content = preg_replace( '/^Replies:\s*\d+\s*Rating:\s*\d+(?:\.\d+)?\s*stars?\s*/i', '', $content );
+            $content = trim( $content );
 
             $pub_date = (string) $item->pubDate;
             $time     = $pub_date

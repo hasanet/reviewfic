@@ -1740,3 +1740,14 @@
 .rwf-t10-footer .reviewfic-stars { margin: 0; }
 .rwf-t10-footer .reviewfic-source-badge { margin-bottom: 0; opacity: .82; }
 .reviewfic-template-10 .reviewfic-star-score { color: #475569; }
+
+/* ── Generated initials avatar (no real photo available) ───────────── */
+.reviewfic-avatar-initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1;
+}
