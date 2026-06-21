@@ -34,9 +34,7 @@ add_action( 'admin_post_rwf_save_api_keys', function () {
     update_option( 'reviewfic_google_api_key', sanitize_text_field( wp_unslash( $_POST['rwf_google_key'] ?? '' ) ) );
     update_option( 'reviewfic_yelp_api_key',   sanitize_text_field( wp_unslash( $_POST['rwf_yelp_key']   ?? '' ) ) );
 
-    // Clear cached responses when keys change
-    global $wpdb;
-    $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_reviewfic_google_%' OR option_name LIKE '_transient_reviewfic_yelp_%'" );
+    rwf_clear_live_review_cache();
 
     wp_safe_redirect( add_query_arg( array(
         'post_type' => 'reviewfic_reviews',
@@ -46,10 +44,44 @@ add_action( 'admin_post_rwf_save_api_keys', function () {
     exit;
 } );
 
+// Standalone "Clear Cache" button — doesn't require re-saving API keys,
+// and covers Google, Yelp, AND WordPress.org (which has no key to re-save).
+add_action( 'admin_post_rwf_clear_live_cache', function () {
+    if ( ! current_user_can( 'manage_options' ) ) wp_die( 'Unauthorized' );
+    check_admin_referer( 'rwf_clear_live_cache' );
+
+    $cleared = rwf_clear_live_review_cache();
+
+    wp_safe_redirect( add_query_arg( array(
+        'post_type'     => 'reviewfic_reviews',
+        'page'          => 'reviewfic-live-reviews',
+        'cache_cleared' => $cleared,
+    ), admin_url( 'edit.php' ) ) );
+    exit;
+} );
+
+/**
+ * Clear every cached live-review response — Google, Yelp, and WordPress.org.
+ * Returns the number of transient rows deleted.
+ */
+function rwf_clear_live_review_cache() {
+    global $wpdb;
+    return (int) $wpdb->query(
+        "DELETE FROM {$wpdb->options}
+         WHERE option_name LIKE '\_transient\_reviewfic\_google\_%'
+            OR option_name LIKE '\_transient\_reviewfic\_yelp\_%'
+            OR option_name LIKE '\_transient\_reviewfic\_wporg\_%'
+            OR option_name LIKE '\_transient\_timeout\_reviewfic\_google\_%'
+            OR option_name LIKE '\_transient\_timeout\_reviewfic\_yelp\_%'
+            OR option_name LIKE '\_transient\_timeout\_reviewfic\_wporg\_%'"
+    );
+}
+
 function rwf_live_reviews_page() {
-    $google_key = get_option( 'reviewfic_google_api_key', '' );
-    $yelp_key   = get_option( 'reviewfic_yelp_api_key',   '' );
-    $saved      = ! empty( $_GET['saved'] );
+    $google_key   = get_option( 'reviewfic_google_api_key', '' );
+    $yelp_key     = get_option( 'reviewfic_yelp_api_key',   '' );
+    $saved        = ! empty( $_GET['saved'] );
+    $cache_cleared = isset( $_GET['cache_cleared'] ) ? intval( $_GET['cache_cleared'] ) : null;
     ?>
     <div class="wrap rwf-ie-wrap">
         <h1 class="wp-heading-inline"><?php esc_html_e( 'Live Reviews', 'reviewfic' ); ?></h1>
@@ -57,6 +89,16 @@ function rwf_live_reviews_page() {
 
         <?php if ( $saved ) : ?>
             <div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'API keys saved.', 'reviewfic' ); ?></p></div>
+        <?php endif; ?>
+
+        <?php if ( $cache_cleared !== null ) : ?>
+            <div class="notice notice-success is-dismissible"><p>
+                <?php echo esc_html( sprintf(
+                    /* translators: %d: number of cached responses cleared */
+                    _n( 'Live review cache cleared (%d cached response removed). Fresh data will be fetched on next page load.', 'Live review cache cleared (%d cached responses removed). Fresh data will be fetched on next page load.', $cache_cleared, 'reviewfic' ),
+                    $cache_cleared
+                ) ); ?>
+            </p></div>
         <?php endif; ?>
 
         <div class="rwf-live-grid">
@@ -103,6 +145,20 @@ function rwf_live_reviews_page() {
 
                     <button type="submit" class="button button-primary rwf-ie-btn">
                         <?php esc_html_e( 'Save API Keys', 'reviewfic' ); ?>
+                    </button>
+                </form>
+
+                <hr style="margin:20px 0;border-color:#f0f0f0;">
+
+                <p class="description" style="margin-bottom:10px;">
+                    <?php esc_html_e( 'Google, Yelp, and WordPress.org responses are cached for 12 hours. If you\'ve just fixed a Place ID, business listing, or plugin slug — or updated the plugin itself — clear the cache to fetch fresh data immediately instead of waiting.', 'reviewfic' ); ?>
+                </p>
+                <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+                    <?php wp_nonce_field( 'rwf_clear_live_cache' ); ?>
+                    <input type="hidden" name="action" value="rwf_clear_live_cache">
+                    <button type="submit" class="button rwf-ie-btn">
+                        <span class="dashicons dashicons-update"></span>
+                        <?php esc_html_e( 'Clear Live Review Cache', 'reviewfic' ); ?>
                     </button>
                 </form>
             </div>
