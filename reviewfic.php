@@ -3,7 +3,7 @@
 Plugin Name: Reviewfic – Testimonial Slider, Testimonial Grid & Customer Reviews
 Plugin URI: https://themefic.com/reviewfic/
 Description: A plugin to create and manage client reviews with custom post types and shortcodes.
-Version: 1.2.46
+Version: 1.2.47
 Author: Themefic
 Author URI: https://themefic.com
 Text Domain: reviewfic
@@ -41,26 +41,70 @@ function reviewfic_seed_default_sources() {
 }
 add_action('admin_init', 'reviewfic_seed_default_sources');
 
-// Enqueue Frontend Scripts and Styles
-function reviewfic_enqueue_styles() {
+// ── Frontend assets: registered only, never auto-enqueued sitewide ─────────
+// Each asset is loaded on-demand by calling the matching reviewfic_load_*()
+// function from inside the actual render path that needs it (the shortcode,
+// the live-reviews renderer, or the review form shortcode). This means a
+// page with zero Reviewfic content loads zero Reviewfic CSS/JS.
+function reviewfic_register_assets() {
     $css_file = plugin_dir_path(__FILE__) . 'assets/css/reviewfic.css';
-    wp_enqueue_style(
+    wp_register_style(
         'reviewfic-style',
         plugin_dir_url(__FILE__) . 'assets/css/reviewfic.css',
         array(),
-        filemtime($css_file)
+        file_exists($css_file) ? filemtime($css_file) : false
     );
 
-    $js_file = plugin_dir_path(__FILE__) . 'assets/js/reviewfic-public.js';
-    wp_enqueue_script(
-        'reviewfic-frontend',
-        plugin_dir_url(__FILE__) . 'assets/js/reviewfic-public.js',
+    $slider_js = plugin_dir_path(__FILE__) . 'assets/js/reviewfic-slider.js';
+    wp_register_script(
+        'reviewfic-slider',
+        plugin_dir_url(__FILE__) . 'assets/js/reviewfic-slider.js',
         array(),
-        filemtime($js_file),
+        file_exists($slider_js) ? filemtime($slider_js) : false,
+        true
+    );
+
+    $form_js = plugin_dir_path(__FILE__) . 'assets/js/reviewfic-form.js';
+    wp_register_script(
+        'reviewfic-frontend', // handle name kept for back-compat with wp_localize_script() calls elsewhere
+        plugin_dir_url(__FILE__) . 'assets/js/reviewfic-form.js',
+        array(),
+        file_exists($form_js) ? filemtime($form_js) : false,
         true
     );
 }
-add_action('wp_enqueue_scripts', 'reviewfic_enqueue_styles');
+add_action('wp_enqueue_scripts', 'reviewfic_register_assets');
+
+/**
+ * Load the display CSS — needed by the [reviewfic] shortcode, every live
+ * review shortcode (Google/Yelp/WooCommerce/WordPress.org), the WooCommerce
+ * reviews tab replacement, and the Tourfic review section replacement.
+ * Safe to call multiple times; wp_enqueue_style() is naturally idempotent.
+ */
+function reviewfic_load_display_assets() {
+    wp_enqueue_style('reviewfic-style');
+}
+
+/** Load the slider carousel JS — only needed when slider="yes" actually renders. */
+function reviewfic_load_slider_assets() {
+    reviewfic_load_display_assets();
+    wp_enqueue_script('reviewfic-slider');
+}
+
+/** Load the review submission form JS (star picker, photo upload, connected-form styling). */
+function reviewfic_load_form_assets() {
+    reviewfic_load_display_assets();
+    wp_enqueue_script('reviewfic-frontend');
+}
+
+// Styles enqueued late (i.e. discovered while rendering content, after
+// wp_head already printed registered styles) need an explicit reprint in
+// the footer or they silently never reach the page. wp_print_styles() is
+// idempotent — it no-ops on a handle already printed in <head> — so this
+// is always safe to call.
+add_action('wp_footer', function () {
+    wp_print_styles('reviewfic-style');
+}, 5);
 
 
 // Enqueue Admin Scripts and Styles

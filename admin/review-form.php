@@ -15,6 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // ── Built-in Review Submission Form ────────────────────────────────────────
 
 function reviewfic_form_shortcode( $atts ) {
+    if ( function_exists( 'reviewfic_load_form_assets' ) ) {
+        reviewfic_load_form_assets();
+    }
+
     $atts = shortcode_atts( array(
         'success_message'  => 'Thank you! Your review has been submitted and is pending approval.',
         'require_approval' => 'yes',
@@ -215,7 +219,10 @@ function reviewfic_cf7_init() {
     if ( ! class_exists( 'WPCF7_ContactForm' ) ) return;
     // CF7 form panel and save are managed from Reviewfic > Integrations
     add_action( 'wpcf7_mail_sent',    'reviewfic_cf7_on_submit' );
-    add_action( 'wp_enqueue_scripts', 'reviewfic_cf7_frontend_scripts' );
+    // Hooked to wp_footer (not wp_enqueue_scripts) because reviewfic-frontend
+    // is now only enqueued on-demand when [reviewfic_form] renders, which
+    // happens during content output, after wp_enqueue_scripts has fired.
+    add_action( 'wp_footer', 'reviewfic_cf7_frontend_scripts', 1 );
 }
 
 function reviewfic_cf7_frontend_scripts() {

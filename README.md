@@ -2,15 +2,15 @@
 
 # ⭐ Reviewfic
 
-### Testimonial Slider, Testimonial Grid & Customer Reviews for WordPress
+### Testimonials, Customer Reviews, Google Reviews & WooCommerce Reviews for WordPress
 
-[![Version](https://img.shields.io/badge/version-1.2.28-brightgreen.svg)](https://github.com/hasanet/reviewfic)
+[![Version](https://img.shields.io/badge/version-1.2.47-brightgreen.svg)](https://github.com/hasanet/reviewfic)
 [![WordPress](https://img.shields.io/badge/WordPress-5.4%2B-blue.svg)](https://wordpress.org)
 [![Tested up to](https://img.shields.io/badge/tested%20up%20to-WP%206.9-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
 [![License](https://img.shields.io/badge/license-GPLv2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 
-Collect, manage, and display customer reviews on any WordPress site — star ratings, reviewer avatars, source badges, sliders, pagination, 5 templates, and a visual shortcode builder. Zero coding required.
+Collect, manage, and display customer reviews on any WordPress site. Pull in live reviews from **Google**, **Yelp**, **WooCommerce**, and **WordPress.org** — no API key needed for the last two — or connect Contact Form 7, WPForms, Fluent Forms, or Gravity Forms. Showcase everything with 10 display templates, sliders, pagination, and full design control. Zero coding required.
 
 👉 **[Official Demo](https://themefic.com/reviewfic/)** &nbsp;|&nbsp; 👉 **[Get Support](https://portal.themefic.com/support/)** &nbsp;|&nbsp; 👉 **[Documentation](https://themefic.com/reviewfic/docs)** &nbsp;|&nbsp; 👉 **[Facebook Group](https://www.facebook.com/groups/themefic)**
 
@@ -26,25 +26,30 @@ Collect, manage, and display customer reviews on any WordPress site — star rat
 |---|---|
 | ⭐ **Star Ratings** | 1–5 stars with half-star precision and a live visual preview in the admin |
 | 👤 **Reviewer Details** | Name, Designation (job title), and Company — shown as "CEO · Acme Corp" |
-| 🖼️ **Reviewer Avatars** | Circular profile photos uploaded via the WordPress media library |
-| 🏷️ **Review Source Badges** | Color-coded badges for Google, Trustpilot, G2, Capterra, Facebook, Yelp, Amazon + any custom platform |
+| 🖼️ **Reviewer Avatars** | Circular profile photos via the media library, with a generated initials-avatar fallback for sources with no photo (e.g. WordPress.org) |
+| 🏷️ **Review Source Badges** | Color-coded badges for Google, Trustpilot, G2, Capterra, Facebook, Yelp, Amazon + any custom platform. Hide entirely with `show_source="no"` |
 | 📂 **Review Sources Taxonomy** | Manage platforms from **Reviewfic → Review Sources** — add, rename, or delete anytime |
 | 🗂️ **Review Categories** | Organise reviews into categories and filter per shortcode |
-| 🎨 **5 Display Templates** | Classic, Quote, Minimal, Dark, Centered — chosen per shortcode config |
-| 🎠 **Slider Mode** | Swipeable carousel with arrows, dots, autoplay, speed, loop, and pause-on-hover |
-| 📄 **Pagination** | Numbered pagination with configurable per-page count and smart ellipsis |
-| 🎨 **Design Options** | Per-shortcode color pickers (background, text, stars, accent) and border radius |
-| ⚙️ **Shortcode Generator** | Visual builder — create named configs, get a permanent `[reviewfic id="X"]` shortcode |
+| 🎨 **10 Display Templates** | Classic, Quote, Minimal, Dark, Centered, Split, Glow, Score, Magazine, Neon Dark |
+| 🎠 **Slider Mode** | Swipeable carousel with arrows, dots, autoplay, speed, loop, and pause-on-hover — works on every live source too |
+| 📄 **Pagination** | Numbered pagination with configurable per-page count and smart ellipsis — works on every live source too |
+| 🎨 **Design Options** | Per-shortcode color pickers, box shadow presets, border radius, and column gap — reusable across live sources via a saved config ID |
+| ⚙️ **Shortcode Generator** | Visual builder — create named configs, get a permanent `[reviewfic id="X"]` shortcode that any live source can reuse |
 | 📐 **Responsive Grid** | 1–4 column layout, collapses to single column on mobile automatically |
 | 📝 **Review Collection Form** | `[reviewfic_form]` — let customers submit reviews directly from any page. Pending approval by default. |
 | 🔗 **Contact Form 7 Integration** | Map CF7 fields to Reviewfic fields via a built-in tab in the CF7 editor. No coding needed. |
 | 🔌 **WPForms / Fluent Forms / Gravity Forms** | Connect any form from these plugins via Reviewfic → Form Integrations. Per-form field mapping, source, and status. |
-| 🔴 **Live Google Reviews** | `[reviewfic_google place_id="..."]` — fetch and display live Google Places reviews. Cached 12h. |
+| 🔴 **Live Google Reviews** | `[reviewfic_google place_id="..."]` — fetch and display live Google Places reviews. Cached 12h. Detailed admin diagnostics on error. |
 | 🟡 **Live Yelp Reviews** | `[reviewfic_yelp business_id="..."]` — fetch and display live Yelp Fusion reviews. Cached 12h. |
+| 🟣 **Live WooCommerce Reviews** | `[reviewfic_woocommerce product_id="..."]` — showcase existing WC product reviews anywhere on the site. No API key needed. |
+| 🔵 **Live WordPress.org Reviews** | `[reviewfic_wporg plugin="..."]` — pull your plugin or theme's live WordPress.org reviews. No API key needed. |
+| ♻️ **One-Click Cache Refresh** | Clear all cached live review data (Google, Yelp, WordPress.org) instantly from the Live Reviews admin page |
 | 📤 **Import / Export** | Export all reviews as CSV or JSON. Import from either format — new sources/categories created automatically. |
-| 🛒 **WooCommerce Integration** | Post-purchase review emails, replace WC reviews tab with Reviewfic templates, auto-tag reviews by product. |
-| ❓ **Get Help** | Dedicated admin page linking to support, feature requests, and documentation. |
-| 🔌 **Our Plugins** | One-click install for other Themefic plugins directly from the WordPress admin. |
+| 🛒 **WooCommerce Integration** | Post-purchase review emails, replace WC reviews tab with any Reviewfic template, auto-tag reviews by product |
+| ✈️ **Tourfic Integration** | Post-booking review emails, replace the listing review section, auto-tag reviews by hotel/tour/apartment name |
+| ⚡ **Built for Speed** | CSS/JS load on-demand only on pages that need them — never sitewide — and JS is split by feature (slider vs. form) |
+| ❓ **Get Help** | Dedicated admin page linking to support, feature requests, and documentation |
+| 🔌 **Our Plugins** | One-click install for other Themefic plugins directly from the WordPress admin |
 | ♿ **Accessible Slider** | Touch swipe, keyboard arrow keys, and ARIA labels |
 | 🔌 **Zero Dependencies** | No jQuery plugins, no external CDN calls on the frontend |
 
@@ -98,7 +103,7 @@ Go to **Reviewfic → Shortcode Generator → Create New Shortcode**. Configure 
 [reviewfic id="21"]
 ```
 
-Paste it into any page, post, or widget. If you later change any option in the generator, every instance of that shortcode updates automatically — no need to edit your pages.
+Paste it into any page, post, or widget. If you later change any option in the generator, every instance of that shortcode updates automatically — no need to edit your pages. The same config ID also works on the live Google, Yelp, WooCommerce, and WordPress.org shortcodes (`id="21"` on any of them), giving every live source the exact same template, slider, pagination, and design.
 
 ---
 
@@ -111,12 +116,17 @@ Paste it into any page, post, or widget. If you later change any option in the g
 | 3 | **Minimal** | No card border — thin accent top line only. Pure typography, editorial feel. |
 | 4 | **Dark** | Dark (`#111827`) card, white text, gold stars, accent-colored avatar ring, subtle corner glow. |
 | 5 | **Centered** | Everything center-aligned — large avatar at top, centered stars, centered italic quote. Ideal for a single featured testimonial. |
+| 6 | **Split** | Two-panel card — coloured left strip (avatar, name, badge) paired with a white content panel (stars, title, content). |
+| 7 | **Glow** | White card with a soft green glow border, large italic quote, avatar + name footer row. |
+| 8 | **Score** | A circular star-score bubble floats in the top-right corner alongside badge, stars, title, and content. |
+| 9 | **Magazine** | No card background — editorial pull-quote style with a large opening quote mark and a two-column byline. |
+| 10 | **Neon Dark** | Deep dark card with a teal-to-purple gradient header strip and a stars + badge footer row. |
 
 ---
 
 ## 🎠 Slider Options
 
-When slider mode is enabled, the following options can be configured per shortcode:
+When slider mode is enabled, the following options can be configured per shortcode — and apply identically whether you're sliding through your own reviews or any live source (Google, Yelp, WooCommerce, WordPress.org):
 
 | Option | Values | Default |
 |---|---|---|
@@ -139,7 +149,7 @@ Slider also supports **touch swipe** on mobile and **keyboard arrow keys** for a
 [reviewfic id="21"]
 ```
 
-Create a config in the Shortcode Generator and use the ID. Edit options anytime without touching the shortcode.
+Create a config in the Shortcode Generator and use the ID. Edit options anytime without touching the shortcode. The same ID works on every live shortcode below too.
 
 ### Collect reviews — submission form
 
@@ -156,6 +166,17 @@ Renders a styled review submission form on any page. Customers fill in their nam
 | `show_source` | `yes` | Show or hide the platform/source dropdown |
 | `redirect` | _(none)_ | URL to redirect to after a successful submission |
 
+### Live reviews — Google, Yelp, WooCommerce, WordPress.org
+
+```
+[reviewfic_google place_id="ChIJ..." id="12" max="5"]
+[reviewfic_yelp business_id="..." id="12" max="3"]
+[reviewfic_woocommerce product_id="123" id="12" max="10"]
+[reviewfic_wporg plugin="your-plugin-slug" id="12" max="5"]
+```
+
+All four accept `id` (saved Shortcode Generator config), `template` (1–10), `columns`, `slider` + its 6 sub-options, `pagination` + `per_page`, `show_avatar`, and `show_source`. See **Design Options** below for the full attribute list available via `id`.
+
 ### Examples
 
 ```
@@ -166,6 +187,14 @@ Renders a styled review submission form on any page. Customers fill in their nam
 [reviewfic_form require_approval="no" redirect="https://example.com/thank-you"]
 
 [reviewfic_form show_source="no" success_message="Thanks! We'll review your submission shortly."]
+
+[reviewfic_google place_id="ChIJN1t_tDeuEmsRUsoyG83frY4" columns="3" template="1"]
+
+[reviewfic_yelp business_id="gary-danko-san-francisco" slider="yes" template="2"]
+
+[reviewfic_woocommerce product_id="123" template="8" show_source="no"]
+
+[reviewfic_wporg plugin="contact-form-7" template="9"]
 ```
 
 ---
@@ -185,8 +214,9 @@ Each shortcode configuration supports independent visual overrides — no CSS re
 | **Card Border Color** | Color of the card's outer border |
 | **Box Shadow** | None / Subtle / Medium / Strong |
 | **Border Radius** | 0–24px slider |
+| **Column Gap** | 0–60px slider |
 
-All values are applied as CSS custom properties on the shortcode wrapper, so multiple shortcodes on the same page are fully independent.
+All values are applied as CSS custom properties on the shortcode wrapper, so multiple shortcodes on the same page are fully independent. Save these settings once in a Shortcode Generator config, then reuse the same `id` across your own reviews and every live source.
 
 ---
 
@@ -204,7 +234,7 @@ Go to **Reviewfic → Import / Export** to bulk-manage reviews.
 
 ## 🛒 WooCommerce Integration
 
-Go to **Reviewfic → WooCommerce** to configure three WooCommerce-specific features.
+Go to **Reviewfic → WooCommerce** to configure four WooCommerce-specific features.
 
 ### 1. Post-Purchase Review Request Email
 
@@ -220,26 +250,52 @@ The email is scheduled via WP-Cron. For single-product orders, the review link i
 
 ### 2. Replace WooCommerce Reviews Tab
 
-When enabled, replaces WooCommerce's default product reviews tab with Reviewfic's Classic template. Existing WC reviews are rendered using Reviewfic's card design. A **Write a Review** button links to your configured landing page.
+When enabled, replaces WooCommerce's default product reviews tab with Reviewfic's templates. Choose template, columns, slider, and avatar/badge visibility directly — or select a full Shortcode Generator config for complete control, including pagination and design.
 
 ### 3. Auto-Tag Reviews by Product
 
 When a customer arrives via the review request email and submits a review via `[reviewfic_form]`, Reviewfic automatically creates or assigns a Reviewfic **Category** named after the product and tags the review. This lets you filter product-specific reviews in any shortcode using `category="product-name"`.
 
+### 4. Native On-Site Reviews Shortcode
+
+```
+[reviewfic_woocommerce product_id="123"]
+```
+
+Display existing WooCommerce reviews anywhere — independent of the tab replacement, no API key needed.
+
 ---
 
-## 🔴 Live Reviews (Google & Yelp)
+## ✈️ Tourfic Integration
 
-Pull reviews directly from external platforms and display them using Reviewfic's templates.
+Go to **Reviewfic → Tourfic** to configure the same three core features for hotel, tour, apartment, and car rental bookings.
+
+| Feature | Notes |
+|---|---|
+| Post-Booking Review Request Email | Same configurable delay and merge-tag email template as WooCommerce |
+| Replace Tourfic Review Section | Works for hotel, tour, and apartment listings. Not available for car rentals — Tourfic embeds that review block directly into its template with no hook to intercept. |
+| Auto-Tag Reviews by Service | Tags reviews with a prefixed category, e.g. `Hotel: Grand Hyatt`, `Tour: Desert Safari` |
+
+Both the tab/section replacement and the request email support the same "Saved Display Config" selector as WooCommerce.
+
+---
+
+## 🔴 Live Reviews — Google, Yelp, WooCommerce & WordPress.org
+
+Pull reviews directly from external platforms — or from data you already have — and display them using Reviewfic's templates.
 
 ### Setup
 
-Go to **Reviewfic → Live Reviews** and enter your API keys:
+Go to **Reviewfic → Live Reviews**:
 
-| Platform | API | Free Tier |
+| Source | API Key Needed | Free Tier / Notes |
 |---|---|---|
-| Google | [Places API](https://developers.google.com/maps/documentation/places/web-service/get-api-key) | $200/month credit (~unlimited for most sites) |
-| Yelp | [Fusion API](https://www.yelp.com/developers/documentation/v3/authentication) | 3 reviews per request |
+| Google | [Places API key](https://developers.google.com/maps/documentation/places/web-service/get-api-key) | Requires billing enabled on the Cloud project; $200/month credit covers most sites |
+| Yelp | [Fusion API key](https://www.yelp.com/developers/documentation/v3/authentication) | Up to 3 review excerpts on the free Base plan |
+| WooCommerce | **None** | Reads your store's existing reviews directly |
+| WordPress.org | **None** | Reads the public review RSS feed for any plugin/theme slug |
+
+All four sources are cached for **12 hours**. Use the **Clear Live Review Cache** button on the same page to force a fresh fetch immediately.
 
 ### Shortcodes
 
@@ -247,13 +303,29 @@ Go to **Reviewfic → Live Reviews** and enter your API keys:
 [reviewfic_google place_id="ChIJN1t_tDeuEmsRUsoyG83frY4" columns="3" template="1" max="5"]
 
 [reviewfic_yelp business_id="gary-danko-san-francisco" columns="3" template="1" max="3"]
+
+[reviewfic_woocommerce product_id="123" columns="3" template="1" max="10"]
+
+[reviewfic_wporg plugin="contact-form-7" columns="3" template="1" max="5"]
 ```
 
-Both shortcodes support all 5 templates, slider mode, columns, `show_avatar`, and design options. Results are **cached for 12 hours** to avoid excessive API calls.
+All four support all 10 templates, full slider sub-options, pagination, columns, `show_avatar`, `show_source`, and the full design color system — either directly via attributes, or all at once via a saved config `id`.
 
 **Finding your IDs:**
-- Google Place ID → [Place ID Finder](https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder)
+- Google Place ID → [Place ID Finder](https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder) — must start with `ChIJ`, not be a Maps URL or business name
 - Yelp Business ID → the slug in your Yelp URL (e.g. `yelp.com/biz/gary-danko-san-francisco`)
+- WordPress.org plugin slug → the slug in the plugin's URL (e.g. `wordpress.org/plugins/contact-form-7` → `contact-form-7`)
+
+### Troubleshooting Google/Yelp errors
+
+Admins see detailed diagnostics instead of a generic error:
+
+| Error | Likely Cause |
+|---|---|
+| `REQUEST_DENIED` | Invalid key, missing API permission, or an HTTP-referrer key restriction (these requests come from your server, not a browser) |
+| `OVER_QUERY_LIMIT` | Quota exceeded, or billing not enabled on the Google Cloud project |
+| `INVALID_REQUEST` / `NOT_FOUND` | Malformed or incorrect Place ID |
+| `OK` with zero reviews | Google's own limitation — Place Details only returns up to 5 algorithmically-chosen reviews, sometimes none |
 
 ---
 
@@ -315,6 +387,18 @@ Known platforms automatically receive their brand colors:
 | Amazon | `#FF9900` Orange |
 | Any custom platform | `#444` Dark grey |
 
+Hide the badge entirely on any shortcode with `show_source="no"` — but keep it visible for live Google/Yelp content, since both platforms require their attribution to stay visible per their display terms.
+
+---
+
+## ⚡ Built for Speed
+
+Reviewfic never adds weight to pages that don't need it:
+
+- CSS and JavaScript are **registered, not auto-enqueued** — the actual load only happens from inside the code path that renders a Reviewfic feature (the shortcode, the live-reviews renderer, or the form shortcode)
+- JavaScript is **split by feature** — `reviewfic-slider.js` and `reviewfic-form.js` load independently, so a static grid never loads form code and a form never loads slider code
+- A page with zero Reviewfic content loads **zero** Reviewfic assets
+
 ---
 
 ## 📁 File Structure
@@ -322,27 +406,32 @@ Known platforms automatically receive their brand colors:
 ```
 reviewfic/
 ├── admin/
-│   ├── assets/img/          # Star rating SVG icons
-│   ├── admin-brand.php      # Admin branding (header bar, button styles)
-│   ├── meta-boxes.php       # Review Details meta box (stars, source, reviewer)
+│   ├── assets/img/              # Star rating SVG icons
+│   ├── templates/
+│   │   └── tourfic-reviews.php  # Tourfic review section replacement template
+│   ├── admin-brand.php          # Admin branding (header bar, button styles)
+│   ├── meta-boxes.php           # Review Details meta box (stars, source, reviewer)
 │   ├── post-types-taxonomy.php  # CPT + taxonomies registration
 │   ├── shortcode-config.php     # Shortcode Generator CPT + meta box + save
-│   ├── review-form.php      # [reviewfic_form] shortcode + CF7 integration
-│   ├── import-export.php    # Import / Export admin page
-│   ├── form-integrations.php # WPForms / Fluent Forms / Gravity Forms
-│   ├── live-reviews.php     # Google Places + Yelp Fusion live reviews
-│   ├── woocommerce.php      # WooCommerce email, tab replacement, auto-tag
-│   └── extra-pages.php      # Get Help + Our Plugins admin pages
+│   ├── shortcode.php            # [reviewfic] shortcode — all 10 templates
+│   ├── review-form.php          # [reviewfic_form] shortcode + CF7 integration
+│   ├── import-export.php        # Import / Export admin page
+│   ├── form-integrations.php    # WPForms / Fluent Forms / Gravity Forms
+│   ├── live-reviews.php         # Google, Yelp, WooCommerce, WordPress.org live reviews
+│   ├── woocommerce.php          # WooCommerce email, tab replacement, auto-tag
+│   ├── tourfic.php              # Tourfic email, section replacement, auto-tag
+│   └── extra-pages.php          # Get Help + Our Plugins admin pages
 ├── assets/
 │   ├── css/
-│   │   ├── reviewfic.css        # Frontend styles (templates, slider, pagination, form)
+│   │   ├── reviewfic.css        # Frontend styles (10 templates, slider, pagination, form)
 │   │   └── reviewfic-admin.css  # Admin styles (meta box, shortcode generator)
 │   └── js/
-│       ├── reviewfic.js         # Admin shortcode generator JS
-│       └── reviewfic-public.js  # Frontend slider + form star picker JS
-├── reviewfic.php            # Plugin bootstrap + enqueue
-├── README.md                # This file
-└── readme.txt               # WordPress.org readme
+│       ├── reviewfic.js          # Admin shortcode generator JS
+│       ├── reviewfic-slider.js   # Frontend carousel logic only
+│       └── reviewfic-form.js     # Star picker, photo upload, connected-form styling
+├── reviewfic.php                # Plugin bootstrap + on-demand asset loading
+├── README.md                    # This file
+└── readme.txt                   # WordPress.org readme
 ```
 
 ---
@@ -370,7 +459,42 @@ The deploy script syncs files to Local by Flywheel and pushes to the `new-update
 
 See [readme.txt](readme.txt) for the full changelog.
 
-**Latest — v1.2.28**
+**Latest — v1.2.47**
+- Improvement: Frontend CSS/JS no longer load sitewide — only on pages where a review, slider, or form actually renders
+- Improvement: Frontend JS split into `reviewfic-slider.js` and `reviewfic-form.js`, each loaded independently
+- Fix: Removed a dead, unreferenced duplicate JS file
+
+**v1.2.46**
+- Fix: WordPress.org review cache could never be cleared
+- New: Clear Live Review Cache button on the Live Reviews page
+
+**v1.2.45**
+- Fix: WordPress.org's review feed metadata ("Replies: 0 Rating: 5 stars") leaking into review content — now stripped
+- New: Generated colored-initials avatar fallback for sources with no photo
+
+**v1.2.44**
+- New: `show_source` attribute to hide the platform/source badge on any shortcode
+
+**v1.2.43**
+- New: Full feature parity for every live review shortcode — all 10 templates, full slider sub-options, pagination, design colors via `id="X"`
+- New: Saved Display Config selector on WooCommerce and Tourfic settings pages
+- Fix: WooCommerce reviews tab silently ignored the saved Columns setting
+
+**v1.2.42**
+- Improvement: Detailed Google Places API error diagnostics for admins
+
+**v1.2.39**
+- New: `[reviewfic_woocommerce]` — native on-site WooCommerce reviews, no API key
+- New: `[reviewfic_wporg]` — live WordPress.org plugin reviews, no API key
+- New: Display Options added to WooCommerce and Tourfic settings pages
+
+**v1.2.38**
+- New: 5 additional display templates — Split, Glow, Score, Magazine, Neon Dark. 10 templates total.
+
+**v1.2.37**
+- New: Tourfic integration — post-booking email, review section replacement, auto-tag by service
+
+**v1.2.28**
 - New: WooCommerce integration — post-purchase review request email
 - New: WooCommerce integration — replace WC reviews tab with Reviewfic templates
 - New: WooCommerce integration — auto-tag reviews by product name

@@ -378,6 +378,14 @@ function rwf_render_live_cards( $reviews, $atts, $source_slug, $source_name ) {
     $columns       = max( 1, min( 4, intval( $atts['columns'] ) ) );
     $known_sources = array('google','trustpilot','g2','capterra','facebook','yelp','amazon');
 
+    // Load only what this specific render needs — never sitewide.
+    // This single call site covers Google, Yelp, WooCommerce on-site,
+    // WordPress.org, the WC reviews tab replacement, and the Tourfic
+    // review section replacement all at once.
+    if ( function_exists( 'reviewfic_load_slider_assets' ) ) {
+        $use_slider ? reviewfic_load_slider_assets() : reviewfic_load_display_assets();
+    }
+
     // ── Pagination: slice the already-fetched array (no DB query here) ──
     $total_items = count( $reviews );
     $total_pages = 1;

@@ -151,8 +151,12 @@ add_action( 'admin_post_rwf_save_integrations', function () {
 
 
 // ── Frontend: pass enabled form IDs to JS for styling ─────────────────────
-
-add_action( 'wp_enqueue_scripts', 'rwf_integrations_frontend_scripts' );
+// Hooked to wp_footer (not wp_enqueue_scripts) because reviewfic-frontend
+// is now only enqueued on-demand when [reviewfic_form] actually renders —
+// which happens during content output, after wp_enqueue_scripts has fired.
+// Priority 1 ensures this runs before wp_print_footer_scripts (priority 20)
+// prints the actual script tag.
+add_action( 'wp_footer', 'rwf_integrations_frontend_scripts', 1 );
 
 function rwf_integrations_frontend_scripts() {
     if ( ! wp_script_is( 'reviewfic-frontend', 'enqueued' ) ) return;
