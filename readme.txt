@@ -3,7 +3,7 @@ Contributors: hasanet, themefic
 Tags: testimonials, reviews, google reviews, star rating, woocommerce reviews
 Requires at least: 5.4
 Tested up to: 7.0
-Stable tag: 1.2.47
+Stable tag: 1.2.48
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -340,15 +340,28 @@ Yes. Go to **Reviewfic → Form Integrations** and select the relevant tab. Enab
 No. Reviewfic only loads its CSS and JavaScript on pages where a review, slider, or form actually renders — never sitewide. JavaScript is also split by feature, so pages only load the specific code they need.
 
 == Screenshots ==
-1. Reviewfic admin — Reviews list with branded interface
-2. Add New Review — star rating, review source, reviewer details (name, designation, company), and avatar upload
-3. Shortcode Generator — visual builder with 10-template picker, slider options, pagination, and design controls
-4. Frontend — Classic and Quote template cards with avatars and source badges
-5. Slider mode — swipeable carousel with dot indicators and navigation arrows
-6. Dark, Centered, Glow, and Neon Dark templates
-7. Live Reviews — Google, Yelp, WooCommerce, and WordPress.org configuration page
+
+1. Add New Review & Live Preview – Review editor with 1–5 star ratings (half-star precision), reviewer details, avatar upload, and live visual star rating preview.
+2. Review Source Badges & Taxonomy – Manage review origin badges for Google, Yelp, Trustpilot, G2, Capterra, Facebook, Amazon, and custom platform tags.
+3. Shortcode Generator: 10 Visual Templates – Builder with thumbnails for all 10 card templates: Classic, Quote, Minimal, Dark, Centered, Split, Glow, Score, Magazine, Neon Dark.
+4. Slider Mode & Responsive Grid – Configure 1–4 column responsive grid layouts or swipeable carousel slider settings (arrows, dots, autoplay, infinite loop, pause on hover).
+5. Numbered Pagination Controls – Enable numbered pagination with previous/next arrows and smart ellipsis for long review collections.
+6. Design Options & Custom Styling – Visual color pickers for card background, text, name, designation, stars, accent, border, box shadow presets, border radius, and column gap.
+7. Frontend Templates (Light Layouts) – Showcase of Classic, Quote, Minimal, Centered, and Split card designs on the frontend.
+8. Frontend Templates (Dark & Accent) – Showcase of Dark, Glow, Score, Magazine, and Neon Dark card layouts with star-score bubbles and gradient headers.
+9. Touch Slider & Speed Optimization – Swipeable review carousel with touch/keyboard support, navigation arrows, dot indicators, and on-demand CSS/JS asset loading.
+10. Responsive Grid & Pagination – 1 to 4 column responsive grid layout with live numbered page navigation that collapses gracefully on mobile devices.
+11. Review Collection Form – On-site submission form (`[reviewfic_form]`) with star rating picker, reviewer details, source dropdown, and drag-and-drop circular photo uploader.
+12. Live Reviews Showcase – Live review cards fetched from Google Places, Yelp, WooCommerce products, and WordPress.org plugins with fallback initial avatars.
+13. Form Integrations Hub – Connect Contact Form 7, WPForms, Fluent Forms, and Gravity Forms to Reviewfic with status, source dropdown, and field mapping.
+14. WooCommerce Integration Settings – Post-purchase review request emails (0–14 day delay), product auto-tagging, and replacing native WooCommerce Product Reviews tab.
+15. Tourfic Integration Settings – Post-booking review request emails, service auto-tagging (Hotels, Tours, Apartments), and Tourfic listing review section replacement.
+16. CSV & JSON Import / Export – One-click bulk export and import tool for CSV and JSON format review migration without database lock-in.
 
 == Changelog ==
+
+= 1.2.48 =
+* Improvement: Overall system stability and performance.
 
 = 1.2.47 =
 * Improvement: Frontend CSS/JS no longer load sitewide — only on pages where a review, slider, or form actually renders.
